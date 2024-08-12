@@ -1,0 +1,104 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Productos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/home">Inicio</a></li>
+                    <li class="breadcrumb-item active">Productos</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{{urlbase}}/productos/create" class="btn btn-info"><i class="fa fa-plus"></i> Nuevo</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table data-table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Foto</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad Alerta Stock</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each productos}}
+                                <tr>
+                                    <td>{{this.nombre}}</td>
+                                    <td><img src="{{urlbase}}/imgs/productos/{{this.foto}}" alt="Foto" class="img-table"></td>
+                                    <td>{{this.descripcion}}</td>
+                                    <td>{{this.cantidad_alerta}}</td>
+                                    <td>{{this.fecha_registro}}</td>
+                                    <td class="btns-opciones">
+                                        <a href="{{urlbase}}/productos/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+    
+                                        <a href="#" data-url="{{urlbase}}/productos/destroy/{{this.id}}" data-toggle="modal" data-target="#modal-eliminar" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{> modal/eliminar}}
+
+{{#section 'scripts'}}
+<script>
+     $('table.data-table').DataTable({
+        responsive: true,
+        order:[
+            [0,'asc']
+        ],
+        columns : [
+            null,
+            null,
+            null,
+            null,
+            null,
+            {width:"10%"},
+        ],
+        scrollCollapse: true,
+        language: lenguaje,
+        pageLength:25
+    });
+
+ 
+    // ELIMINAR
+    $(document).on('click','table tbody tr td.btns-opciones a.eliminar',function(e){
+        e.preventDefault();
+        let producto = $(this).parents('tr').children('td').eq(0).text();
+        $('#mensajeEliminar').html(`¿Está seguro(a) de eliminar el producto <b>${producto}</b>?`);
+        let url = $(this).attr('data-url');
+        console.log($(this).attr('data-url'));
+        $('#formEliminar').prop('action',url);
+    });
+
+    $('#btnEliminar').click(function(){
+        $('#formEliminar').submit();
+    });
+
+</script>
+{{/section}}

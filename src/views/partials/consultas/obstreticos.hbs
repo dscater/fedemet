@@ -1,0 +1,77 @@
+<h3>INFORMACIÓN OBSTRÉTICA</h3>
+<fieldset>
+    <legend>INFORMACIÓN OBSTRÉTICA</legend>
+    <p>(*) Obligatorio</p>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Gestas previas*</label>
+                <input type="number" value="{{consulta.obstretico.previas}}" name="previas" class="form-control required">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Abortos*</label>
+                <input type="number" value="{{consulta.obstretico.abortos}}" name="abortos" class="form-control required">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Vaginales*</label>
+                <input type="number" value="{{consulta.obstretico.vaginales}}" name="vaginales" class="form-control required">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Nacidos vivos*</label>
+                <input type="number" value="{{consulta.obstretico.vivos}}" name="vivos" class="form-control required">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Viven*</label>
+                <input type="number" value="{{consulta.obstretico.viven}}" name="viven" class="form-control required">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Antecedente de gemelares*</label>
+                <select name="gemelares" id="gemelares" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Partos*</label>
+                <input type="number" value="{{consulta.obstretico.partos}}" name="partos" class="form-control required">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Cesareas*</label>
+                <input type="number" value="{{consulta.obstretico.cesareas}}" name="cesareas" class="form-control required">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+         <div class="col-md-3">
+            <div class="form-group">
+                <label>Nacidos muertos*</label>
+                <input type="number" value="{{consulta.obstretico.muertos}}" name="muertos" class="form-control required">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Fecha ultimo embarazo</label>
+                <input type="date" value="{{consulta.obstretico.fin_eAnterior}}" name="fin_eAnterior" class="form-control">
+            </div>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,143 @@
+<h3>HISTORIA ODONTOLÓGICA</h3>
+<fieldset>
+    <legend>INFORMACIÓN ODONTOLÓGICA</legend>
+    <p>(*) Obligatorio</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Hemorragia*</label>
+                <select name="o_hemorragia" id="o_hemorragia" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea name="observacion_hemo" cols="30" rows="2" class="form-control">{{consulta.odontologico.observacion_hemo}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>ATM*</label>
+                <textarea name="atm" cols="30" rows="2" class="form-control required">{{consulta.odontologico.atm}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Ganglios linfáticos*</label>
+                <textarea name="ganglios" cols="30" rows="2" class="form-control required">{{consulta.odontologico.ganglios}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Respirador*</label>
+                <textarea name="respirador" cols="30" rows="2" class="form-control required">{{consulta.odontologico.respirador}}</textarea>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Labios*</label>
+                <textarea name="labios" cols="30" rows="2" class="form-control required">{{consulta.odontologico.labios}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Lengua*</label>
+                <textarea name="lengua" cols="30" rows="2" class="form-control required">{{consulta.odontologico.lengua}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Paladar*</label>
+                <textarea name="paladar" cols="30" rows="2" class="form-control required">{{consulta.odontologico.paladar}}</textarea>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Piso de la boca*</label>
+                <textarea name="piso_boca" cols="30" rows="2" class="form-control required">{{consulta.odontologico.piso_boca}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Mucosa Yugal*</label>
+                <textarea name="mucosa" cols="30" rows="2" class="form-control required">{{consulta.odontologico.mucosa}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Encias*</label>
+                <textarea name="encias" cols="30" rows="2" class="form-control required">{{consulta.odontologico.encias}}</textarea>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza prótesis*</label>
+                <select name="protesis" id="protesis" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza cepillo dental*</label>
+                <select name="cepillo" id="cepillo" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza hilo dental*</label>
+                <select name="hilo" id="hilo" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza enjuague bucal*</label>
+                <select name="enjuague" id="enjuague" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>¿Durante el cepillado le sangran las encias?*</label>
+                <select name="sangrado_encias" id="sangrado_encias" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea name="observaciones" cols="30" rows="2" class="form-control">{{consulta.odontologico.observaciones}}</textarea>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

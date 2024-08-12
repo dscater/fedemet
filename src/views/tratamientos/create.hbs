@@ -1,0 +1,130 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Tratamientos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home')}}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/seguimientos">Seguimientos</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/tratamientos/{{seguimiento.id}}">Tratamientos</a></li>
+                    <li class="breadcrumb-item active">Nuevo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Nuevo tratamiento</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlglobal}}/tratamientos/store" method="POST">
+                        <div class="card-body">
+                            <input type="hidden" name="seguimiento_id" value="{{seguimiento.id}}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Subjetivo*</label>
+                                        <textarea name="subjetivo" id="" cols="30" rows="2" class="form-control" required>{{data.subjetivo}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Objetivo*</label>
+                                        <textarea name="objetivo" id="" cols="30" rows="2" class="form-control" required>{{data.objetivo}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tratamiento*</label>
+                                        <textarea name="tratamiento" id="" cols="30" rows="2" class="form-control" required>{{data.tratamiento}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Diagnostico*</label>
+                                        <textarea name="diagnostico" id="" cols="30" rows="2" class="form-control" required>{{data.diagnostico}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Edad*</label>
+                                        <input type="number" name="edad" value="{{data.edad}}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Peso*</label>
+                                        <input type="number" name="peso" value="{{data.peso}}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>IMC*</label>
+                                        <input type="text" name="imc" value="{{data.imc}}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>P.A.*</label>
+                                        <input type="text" name="pa" value="{{data.pa}}" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>F.C.*</label>
+                                        <input type="text" name="fc" value="{{data.fc}}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>F.R.*</label>
+                                        <input type="text" name="fr" value="{{data.fr}}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Temperatura*</label>
+                                        <input type="text" name="temperatura" value="{{data.temperatura}}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Fecha*</label>
+                                        <input type="date" value="{{fecha}}" name="fecha" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Hora*</label>
+                                        <input type="time" value="{{hora}}" name="hora" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-info"><i class="fa fa-save"></i> GUARDAR</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+

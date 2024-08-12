@@ -1,0 +1,76 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Seguimientos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home')}}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/seguimientos')}}">Seguimientos</a></li>
+                    <li class="breadcrumb-item active">Modificar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Modificar seguimiento</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlglobal}}/seguimientos/update/{{seguimiento.id}}" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Paciente*</label>
+                                        <select name="paciente" id="paciente" class="form-control" required disabled>
+                                            <option value="{{seguimiento.paciente.id}}">
+                                                {{seguimiento.paciente.nombre}} {{seguimiento.paciente.paterno}}
+                                                {{seguimiento.paciente.materno}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Diagnóstico General*</label>
+                                        <textarea name="diagnostico" id="" cols="30" rows="1" class="form-control"
+                                            required>{{seguimiento.diagnostico}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Detalle de Diagnóstico*</label>
+                                        <textarea name="detalle" id="" cols="30" rows="1" class="form-control"
+                                            required>{{seguimiento.detalle}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-info"><i class="fa fa-update"></i> ACTUALIZAR</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{#section 'scripts'}}
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById("paciente").value = "{{seguimiento.paciente_id}}";
+    };
+</script>
+{{/section}}

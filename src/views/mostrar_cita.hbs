@@ -1,0 +1,63 @@
+@extends('layouts.inicio')
+
+@section('css')
+@endsection
+
+@section('content')
+<br>
+<div class="container inicio">
+    
+    <div class="col-md-8 ml-auto mr-auto">
+        <div class="card">
+            <div class="card-header">
+                {{date('d/m/Y')}}
+            </div>
+            <div class="card-body">
+                <h3>CITA PROGRAMADA</h3>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td width="150px">Paciente: </td>
+                            <td>{{$cita->paciente->nombre}} {{$cita->paciente->paterno}} {{$cita->paciente->materno}}</td>
+                        </tr>
+                        <tr>
+                            <td>Especialidad: </td>
+                            <td>{{$cita->especialidad->nombre}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha:</td>
+                            <td>{{date('d/m/Y',strtotime($cita->fecha))}}</td>
+                        </tr>
+                        <tr>
+                            <td>Hora: </td>
+                            <td>{{date('H:i a',strtotime($cita->hora))}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <a href="{{route('inicio')}}" class="btn btn-default">Volver</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@endsection
+
+@section('scripts')
+<script>
+    @if(session('bien'))
+    mensajeNotificacion('{{session('bien')}}','success');
+    @endif
+
+    @if(session('info'))
+    mensajeNotificacion('{{session('info')}}','info');
+    @endif
+
+    @if(session('error'))
+    mensajeNotificacion('{{session('error')}}','error');
+    @endif
+</script>
+
+<script src="{{asset('js/inicio.js')}}"></script>
+@endsection

@@ -1,0 +1,46 @@
+body{
+    background-image: url('../imgs/fondo.jpg')!important;
+    background-size: cover!important;
+    background-position: center!important;
+    background-repeat: no-repeat!important;
+}
+
+.login-box{
+    margin-top: -100px!important;
+    border:solid 3px rgb(77, 241, 1);
+    height: auto;
+    box-shadow: -10px 20px 10px 5px black;   
+    border-radius: 7px;
+}
+
+.card{
+    margin-bottom: 0px;
+}
+
+.login-card-body{
+    font-size: 1.1rem;
+    color:white!important;
+    font-weight: bold;
+    background:#018301!important; 
+    opacity: 0.9;
+}
+
+.input-group-text{
+    color:white!important;
+}
+
+.login-logo{
+    margin-bottom: 0px;
+    background:#fdfdfd!important; 
+    opacity: 0.9;
+}
+
+.login-logo a{
+    color:black!important;
+}
+
+.login-logo img{
+    height: 150px;
+    width: 90%;
+    max-width: 100%;
+}

@@ -1,0 +1,32 @@
+<div class="modal fade" id="modal-faq_nuevo">
+    <div class="modal-dialog">
+        <div class="modal-content bg-default">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar pregunta</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(['route'=>'faqs.store','method'=>'POST']) !!}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label>Pregunta*</label>
+                        <textarea name="pregunta" id="" rows="2" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Respuesta*</label>
+                        <textarea name="respuesta" id="" rows="2" class="form-control" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-info" id="">Agregar</button>
+                {!! Form::close() !!}
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

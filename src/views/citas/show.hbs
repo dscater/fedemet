@@ -1,0 +1,62 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Citas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/citas">Citas</a></li>
+                    <li class="breadcrumb-item active">Ver</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ver cita</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <h3>CITA PROGRAMADA</h3>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td width="150px">Paciente: </td>
+                                    <td>{{cita.paciente.nombre}} {{cita.paciente.paterno}} {{cita.paciente.materno}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Especialidad: </td>
+                                    <td>{{cita.especialidad.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha:</td>
+                                    <td>{{cita.fecha}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Hora: </td>
+                                    <td>{{cita.hora}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Estado: </td>
+                                    <td>{{cita.estado}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>

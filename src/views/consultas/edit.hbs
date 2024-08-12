@@ -1,0 +1,214 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="{{urlglobal}}/css/consultas/create.css">
+{{/section}}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Consultas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home')}}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/consultas')}}">Consultas</a></li>
+                    <li class="breadcrumb-item active">Modificar consulta</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Modificar consulta</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Paciente*</label>
+                                    <input type="text"
+                                        value="{{consulta.paciente.nombre}} {{consulta.paciente.paterno}} {{consulta.paciente.materno}}"
+                                        class="form-control" readonly>
+                                    <input type="hidden" name="select_paciente" id="select_paciente"
+                                        value="{{consulta.paciente.id}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="{{urlglobal}}/consultas/update/{{consulta.id}}" method="POST" id="formWizard">
+                            {{{html}}}
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{#section 'scripts'}}
+<script>
+    var form = $("#formWizard");
+
+    $(document).ready(function () {
+        form.steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            enableAllSteps: true,
+            transitionEffect: "slideLeft",
+            preloadContent: true,
+            showFinishButtonAlways: true,
+            onInit: function (event, currentIndex) {
+                resizeJquerySteps();
+                $("#paciente_id").val("{{consulta.paciente_id}}");
+                $('#hipertension').val('{{consulta.hpPersonal.hipertension}}')
+                $('#tbc').val('{{consulta.hpPersonal.tbc}}')
+                $('#diabetes').val('{{consulta.hpPersonal.diabetes}}')
+                $('#mamaria').val('{{consulta.hpPersonal.mamaria}}')
+                $('#cardiopatias').val('{{consulta.hpPersonal.cardiopatias}}')
+                $('#its').val('{{consulta.hpPersonal.its}}')
+                $('#varices').val('{{consulta.hpPersonal.varices}}')
+                $('#renal').val('{{consulta.hpPersonal.renal}}')
+                $('#hepatopatias').val('{{consulta.hpPersonal.hepatopatias}}')
+                $('#t_genitales').val('{{consulta.hpPersonal.t_genitales}}')
+                $('#gastrointestinal').val('{{consulta.hpPersonal.gastrointestinal}}')
+                $('#chagas').val('{{consulta.hpPersonal.chagas}}')
+
+                $('#agua').val('{{consulta.hnpPersonal.agua}}');
+                $('#alcantarillado').val('{{consulta.hnpPersonal.alcantarillado}}');
+                $('#alcohol').val('{{consulta.hnpPersonal.alcohol}}');
+                $('#fuma').val('{{consulta.hnpPersonal.fuma}}');
+
+                $('#f_hipertension').val('{{consulta.hfpPersonal.f_hipertension}}');
+                $('#f_tbc').val('{{consulta.hfpPersonal.f_tbc}}');
+                $('#f_diabetes').val('{{consulta.hfpPersonal.f_diabetes}}');
+                $('#f_mamaria').val('{{consulta.hfpPersonal.f_mamaria}}');
+                $('#f_cardiopatias').val('{{consulta.hfpPersonal.f_cardiopatias}}');
+                $('#f_its').val('{{consulta.hfpPersonal.f_its}}');
+                $('#f_varices').val('{{consulta.hfpPersonal.f_varices}}');
+                $('#f_renal').val('{{consulta.hfpPersonal.f_renal}}');
+                $('#f_hepatopatias').val('{{consulta.hfpPersonal.f_hepatopatias}}');
+                $('#f_t_genitales').val('{{consulta.hfpPersonal.f_t_genitales}}');
+                $('#f_gastrointestinal').val('{{consulta.hfpPersonal.f_gastrointestinal}}');
+                $('#f_chagas').val('{{consulta.hfpPersonal.f_chagas}}');
+
+                $('#drogas').val('{{consulta.gestacion.drogas}}');
+                $('#violencia').val('{{consulta.gestacion.violencia}}');
+                $('#planeado').val('{{consulta.gestacion.planeado}}');
+                $('#suplemento').val('{{consulta.gestacion.suplemento}}');
+
+                $('#baciloscopia').val('{{consulta.laboratorio.baciloscopia}}')
+                $('#billirrubinas').val('{{consulta.laboratorio.billirrubinas}}')
+                $('#c_simple').val('{{consulta.laboratorio.c_simple}}')
+                $('#c_seriado').val('{{consulta.laboratorio.c_seriado}}')
+                $('#creatinina_orina').val('{{consulta.laboratorio.creatinina_orina}}')
+                $('#creatinina').val('{{consulta.laboratorio.creatinina}}')
+                $('#cultivo').val('{{consulta.laboratorio.cultivo}}')
+                $('#eg_orina').val('{{consulta.laboratorio.eg_orina}}')
+                $('#f_reumatoide').val('{{consulta.laboratorio.f_reumatoide}}')
+                $('#fosfata').val('{{consulta.laboratorio.fosfata}}')
+                $('#frotis').val('{{consulta.laboratorio.frotis}}')
+                $('#grupo_sanguineo').val('{{consulta.laboratorio.grupo_sanguineo}}')
+                $('#glicemia').val('{{consulta.laboratorio.glicemia}}')
+                $('#gota').val('{{consulta.laboratorio.gota}}')
+                $('#hemoglobina').val('{{consulta.laboratorio.hemoglobina}}')
+                $('#hemograma').val('{{consulta.laboratorio.hemograma}}')
+                $('#igg').val('{{consulta.laboratorio.igg}}')
+                $('#moco').val('{{consulta.laboratorio.moco}}')
+                $('#nitrogeno_usu').val('{{consulta.laboratorio.nitrogeno_usu}}')
+                $('#proteinac').val('{{consulta.laboratorio.proteinac}}')
+                $('#proteinuria').val('{{consulta.laboratorio.proteinuria}}')
+                $('#coombs').val('{{consulta.laboratorio.coombs}}')
+                $('#sifilis').val('{{consulta.laboratorio.sifilis}}')
+                $('#coagulacion').val('{{consulta.laboratorio.coagulacion}}')
+                $('#protrombia').val('{{consulta.laboratorio.protrombia}}')
+                $('#tincion').val('{{consulta.laboratorio.tincion}}')
+                $('#transaminasas').val('{{consulta.laboratorio.transaminasas}}')
+                $('#embarazo').val('{{consulta.laboratorio.embarazo}}')
+                $('#reactantes').val('{{consulta.laboratorio.reactantes}}')
+                $('#widal').val('{{consulta.laboratorio.widal}}')
+                $('#rpr').val('{{consulta.laboratorio.rpr}}')
+
+                $('#hemorragia').val('{{consulta.morbilidad.hemorragia}}');
+                $('#transtornos').val('{{consulta.morbilidad.transtornos}}');
+                $('#infecciones').val('{{consulta.morbilidad.infecciones}}');
+                $('#obstetricas').val('{{consulta.morbilidad.obstetricas}}');
+                $('#intervencion').val('{{consulta.morbilidad.intervencion}}');
+
+                $('#gemelares').val('{{consulta.obstretico.gemelares}}');
+
+                $('#o_hemorragia').val('{{consulta.odontologico.o_hemorragia}}')
+                $('#protesis').val('{{consulta.odontologico.protesis}}')
+                $('#cepillo').val('{{consulta.odontologico.cepillo}}')
+                $('#hilo').val('{{consulta.odontologico.hilo}}')
+                $('#enjuague').val('{{consulta.odontologico.enjuague}}')
+                $('#sangrado').val('{{consulta.odontologico.sangrado}}')
+            },
+            onStepChanging: function (event, currentIndex, newIndex) {
+                resizeJquerySteps();
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+                // Forbid next action on "Warning" step if the user is to young
+                if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                    return false;
+                }
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex) {
+                    // To remove error styles
+                    form.find(".body:eq(" + newIndex + ") label.error").remove();
+                    form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+                resizeJquerySteps();
+                // Used to skip the "Warning" step if the user is old enough.
+                if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                    form.steps("next");
+                }
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                if (currentIndex === 2 && priorIndex === 3) {
+                    form.steps("previous");
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                form.validate().settings.ignore = ":disabled";
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+                form_data = form.serialize();
+                form_data += '&paciente_id=' + $('#select_paciente').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: form_data,
+                    dataType: "json",
+                    success: function (response) {
+                        window.location.href = '{{urlglobal}}/consultas';
+                    }
+                });
+            },
+        }).validate({
+            errorPlacement: function errorPlacement(error, element) { element.after(error); },
+            rules: {
+                confirm: {
+                    equalTo: "#password-2"
+                }
+            }
+        });
+
+    });
+</script>
+{{/section}}

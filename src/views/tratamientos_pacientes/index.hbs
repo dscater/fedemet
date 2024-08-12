@@ -1,0 +1,161 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="{{urlglobal}}/css/consultas/create.css">
+{{/section}}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Tratamientos Pacientes</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home">Inicio</a></li>
+                    <li class="breadcrumb-item active">Tratamientos Pacientes</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Seleccionar paciente*</label>
+                                    <select name="select_paciente" id="select_paciente" class="form-control">
+                                        <option value="">Seleccione...</option>
+                                        {{#each pacientes}}
+                                        <option value="{{this.id}}">{{this.nombre}} {{this.paterno}}
+                                            {{this.materno}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+                <h4 class="text-center font-weight-bold">LISTA DE TRATAMIENTOS</h4>
+                <div id="contenedor_tratamientos">
+                    <div class="card">
+                        <div class="card-header bg-gray">
+                            <h3>ESPECIALIDAD</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td width="20px" class="bg-gray">DIAGNOSTICO</td>
+                                        <td>Texto</td>
+                                        <td width="20px" class="bg-gray">DETALLE</td>
+                                        <td>Texto</td>
+                                        <td width="20px" class="bg-gray">FECHA</td>
+                                        <td width="40px">20/02/2022</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 class="text-center text-gray mt-4">LISTA DE TRATAMIENTOS</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-gray">SUBJETIVO</th>
+                                        <th class="text-gray">OBJETIVO</th>
+                                        <th class="text-gray">TRATAMIENTO</th>
+                                        <th class="text-gray">DIAGNOSTICO</th>
+                                        <th class="text-gray">FECHA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>sub</td>
+                                        <td>obj</td>
+                                        <td>trat</td>
+                                        <td>diag</td>
+                                        <td>20/02/2022</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td width="20px" class="bg-gray">DIAGNOSTICO</td>
+                                        <td>Texto</td>
+                                        <td width="20px" class="bg-gray">DETALLE</td>
+                                        <td>Texto</td>
+                                        <td width="20px" class="bg-gray">FECHA</td>
+                                        <td width="40px">20/02/2022</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 class="text-center text-gray mt-4">LISTA DE TRATAMIENTOS</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-gray">SUBJETIVO</th>
+                                        <th class="text-gray">OBJETIVO</th>
+                                        <th class="text-gray">TRATAMIENTO</th>
+                                        <th class="text-gray">DIAGNOSTICO</th>
+                                        <th class="text-gray">FECHA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>sub</td>
+                                        <td>obj</td>
+                                        <td>trat</td>
+                                        <td>diag</td>
+                                        <td>20/02/2022</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+<input type="hidden" id="especialidad_id" value="{{especialidad_id}}">
+<input type="hidden" id="nom_especialidad" value="{{nom_especialidad}}">
+<input type="hidden" id="urlGetTratamientos" value="{{urlglobal}}/tratamientos_pacientes/get/tratamientos">
+{{#section 'scripts'}}
+<script>
+    let contenedor_tratamientos = $('#contenedor_tratamientos');
+    let select_paciente = $('#select_paciente');
+    $(document).ready(function () {
+        obtieneFormluario();
+        select_paciente.change(function () {
+            obtieneFormluario();
+        });
+    });
+
+    function obtieneFormluario() {
+        if (select_paciente.val() != '') {
+            $.ajax({
+                type: "GET",
+                url:$('#urlGetTratamientos').val(),
+                data: {
+                    paciente_id:select_paciente.val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    contenedor_tratamientos.html(response.html);
+                }
+            });
+        } else {
+            contenedor_tratamientos.html('Debe seleccionar un paciente...');
+        }
+    }
+</script>
+{{/section}}

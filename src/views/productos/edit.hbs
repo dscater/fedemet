@@ -1,0 +1,81 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Productos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlbase}}/home')}}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlbase}}/productos/index')}}">Productos</a></li>
+                    <li class="breadcrumb-item active">Modificar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Modificar Producto</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlbase}}/productos/update/{{producto.id}}" method="post" enctype="multipart/form-data" class="formValidate">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nombre*</label>
+                                        <input type="text" name="nombre" value="{{producto.nombre}}" class="form-control required letras" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <textarea name="descripcion" rows="2" class="form-control">{{producto.descripcion}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Cantidad Alerta Stock</label>
+                                        <input type="number" min="0" name="cantidad_alerta" value="{{producto.cantidad_alerta}}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Foto</label>
+                                        <input type="file" name="foto" class="form-control"  >
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-info"><i class="fa fa-update"></i> ACTUALIZAR</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{#section 'scripts'}}
+<script>
+    window.onload = function(){
+        document.getElementById('tipo').value = '{{producto.tipo}}';
+        document.getElementById('ci_exp').value = '{{producto.ci_exp}}';
+    };
+
+    $('.formValidate').validate({
+        errorPlacement: function errorPlacement(error, element) { element.after(error); },
+        rules: {
+        },
+    });
+</script>
+{{/section}}

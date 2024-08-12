@@ -1,0 +1,93 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Citas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/citas">Citas</a></li>
+                    <li class="breadcrumb-item active">Modificar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Modificar cita</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlglobal}}/citas/update/{{cita.id}}" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Paciente</label>
+                                    <select name="paciente_id" id="paciente_id" class="form-control" required>
+                                        <option value="">Seleccione...</option>
+                                        {{#each pacientes}}
+                                        <option value="{{this.id}}">{{this.nombre}} {{this.paterno}} {{this.materno}}
+                                        </option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Fecha*</label>
+                                        <input type="date" name="fecha" id="" value="{{cita.fecha}}" class="form-control"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Hora*</label>
+                                        <select name="hora" id="hora" class="form-control" required>
+                                            <option value="">Seleccione...</option>
+                                            {{#each horas}}
+                                            <option value="{{this}}">{{this}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Estado*</label>
+                                    <select name="estado" id="estado" class="form-control" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="PENDIENTE">PENDIENTE</option>
+                                        <option value="TERMINADO">TERMINADO</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <button class="btn btn-info"><i class="fa fa-update"></i> ACTUALIZAR</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{#section 'scripts'}}
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById("paciente_id").value = "{{cita.paciente_id}}";
+        document.getElementById("hora").value = "{{cita.hora}}";
+        document.getElementById("estado").value = "{{cita.estado}}";
+    };
+</script>
+{{/section}}

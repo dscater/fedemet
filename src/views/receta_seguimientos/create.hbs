@@ -1,0 +1,211 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Recetas Médicas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home')}}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/seguimientos">Seguimientos</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/receta_seguimientos/{{seguimiento.id}}">Recetas Médicas</a></li>
+                    <li class="breadcrumb-item active">Nuevo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Nueva Receta</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlglobal}}/receta_seguimientos/store" method="POST">
+                        <div class="card-body">
+                            <input type="hidden" name="seguimiento_id" value="{{seguimiento.id}}">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <input type="text" name="paciente" placeholder="Nombre del Paciente" class="form-control required" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select name="tipo_receta" id="tipo_receta" class="form-control">
+                                            <option value="">Seleccione...</option>
+                                            <option value="INTERNA">RECETAS INTERNAS</option>
+                                            <option value="EXTERNA">RECETAS EXTERNAS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select id="s_productos" class="form-control">
+                                            <option value="">Seleccioné un producto</option>
+                                            {{#each productos}}
+                                            <option value="{{this.id}}">{{this.nombre}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Cantidad" min="1" id="cantidad_agregar" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button type="button" id="btnAgregaProducto" class="btn btn-success float-right" style="width:100%;"><i class="fa fa-plus"></i> AGREGAR A LA LISTA</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr class="bg-gray">
+                                                <th>#</th>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                                <th width="20px">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="contenedorLista">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea name="descripcion" rows="5" class="form-control required" placeholder="Descripción" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Fecha*</label>
+                                        <input type="date" name="fecha" value="{{fecha}}" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-info" id="btnRegistraForm"><i class="fa fa-save"></i> REGISTRAR RECETA</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <input type="hidden" id="urlValidaStock" value="{{urlglobal}}/productos/valida/stock">
+</section>
+{{#section 'scripts'}}
+<script>
+    let vacio = `<tr class="vacio"><td colspan="4" class="text-center">NO SE AGREGARON PRODUCTOS AÚN</td></tr>`;
+    let fila = `<tr class="fila">
+                <td><span></span> <input type="hidden" name="productos[]"></td>
+                <td><span></span><input type="hidden" name="tipo_recetas[]"></td>
+                <td><span></span><input type="hidden" name="cantidad[]"></td>
+                <td class="accion"><button class="btn btn-danger btn-sm eliminar">Quitar</button></td>
+                </tr>`;
+
+    let btnRegistraForm = $('#btnRegistraForm');
+    let s_productos = $('#s_productos');
+    let cantidad_agregar = $('#cantidad_agregar');
+    let btnAgregaProducto = $('#btnAgregaProducto');
+    let contenedorLista = $('#contenedorLista');
+    $(document).ready(function () {
+        validaLista();
+        btnAgregaProducto.click(agregaProducto);
+
+        contenedorLista.on('click','tr.fila td.accion button',function(){
+            let fila = $(this).parents('tr.fila');
+            if(fila.hasClass('existe')){
+                //QUITAR DE LA BD
+            }else{
+                fila.remove();
+                validaLista();
+            }
+        });
+    });
+
+    function agregaProducto(){
+        if(s_productos.val() != '' && cantidad_agregar.val() != '' && $('#tipo_receta').val() != ''){
+             $.ajax({
+                type: "GET",
+                url:$('#urlValidaStock').val()+'/'+s_productos.val(),
+                data: {
+                    cantidad:cantidad_agregar.val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    if(response.sw || $('#tipo_receta').val() == 'EXTERNA'){
+                        let nueva_fila = $(fila).clone();
+                        nueva_fila.children('td').eq(0).children('input').val(s_productos.val());
+                        nueva_fila.children('td').eq(1).children('span').html(s_productos.children('option:selected').text() + ` <small>(${$('#tipo_receta').val()})</small>`)
+                        nueva_fila.children('td').eq(1).children('input').val($('#tipo_receta').val())
+                        nueva_fila.children('td').eq(2).children('span').text(cantidad_agregar.val())
+                        nueva_fila.children('td').eq(2).children('input').val(cantidad_agregar.val())
+                        contenedorLista.append(nueva_fila);
+                        validaLista();
+                        limpia();
+                    }else{
+                        swal({
+                            title: '¡ATENCIÓN!',
+                            html:true,
+                            text: `El producto <strong>${response.producto.nombre}</strong>, solo cuenta con ${response.producto.stock_actual} unidades.`,
+                            type: 'error',
+                            confirmButtonColor: "#28a745",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false
+                        });
+                    }
+                }
+            });
+        }else{
+            swal({
+                title: '¡ATENCIÓN!',
+                html:true,
+                text: 'Debes seleccionar un producto, indicar una cantidad y seleccionar el tipo de receta.',
+                type: 'info',
+                confirmButtonColor: "#28a745",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false
+            });
+        }
+    }
+
+    function limpia(){
+        s_productos.val('');
+        cantidad_agregar.val('');
+        $('#tipo_receta').val('');
+    }
+
+    function validaLista(){
+        let filas = contenedorLista.children('tr.fila');
+        if(filas.length > 0){
+            contenedorLista.children('tr.vacio').remove();
+            btnRegistraForm.removeAttr('disabled');
+            let contador =1;
+            filas.each(function(){
+                $(this).children('td').eq(0).children('span').text(contador++);
+            });
+        }else{
+            contenedorLista.html(vacio);
+            btnRegistraForm.prop('disabled',true);
+        }
+    }
+
+</script>
+{{/section}}

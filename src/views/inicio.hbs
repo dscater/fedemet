@@ -1,0 +1,52 @@
+@extends('layouts.inicio')
+
+@section('css')
+@endsection
+
+@section('content')
+<br>
+<div class="container inicio">
+    
+    <div class="col-md-8 ml-auto mr-auto">
+        <div class="card bg-cyan">
+            <div class="card-header" id="cabecera_cita">
+                <div class="fecha" id="fecha">
+                    1 de enero del 2019
+                </div>
+                <div class="reloj" id="reloj">
+                    00 : 00 : 00 a.m.
+                </div>
+            </div>
+            <div class="card-body" id="contenedorCita">
+                <div class="contenedor">
+                    <h3>RESERVAR CITA MÉDICA</h3>
+                    <a href="" data-toggle="modal" data-target="#modal-cita_medica" class="btn btn-info"><i class="fa fa-calendar-alt"></i> Reservar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<input type="hidden" id="urlHorarios" value="{{route('especialidads.horarios')}}">
+
+@include('modal.cita')
+@endsection
+
+@section('scripts')
+<script>
+    @if(session('bien'))
+    mensajeNotificacion('{{session('bien')}}','success');
+    @endif
+
+    @if(session('info'))
+    mensajeNotificacion('{{session('info')}}','info');
+    @endif
+
+    @if(session('error'))
+    mensajeNotificacion('{{session('error')}}','error');
+    @endif
+</script>
+
+<script src="{{asset('js/inicio.js')}}"></script>
+@endsection

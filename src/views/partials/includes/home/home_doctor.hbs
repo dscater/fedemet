@@ -1,0 +1,69 @@
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Pacientes</span>
+                <span class="info-box-number">{{pacientes}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-list-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Citas Médicas</span>
+                <span class="info-box-number">{{citas}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+
+</div>
+<!-- /.row -->
+
+<div class="row">
+    <div class="col-md-8 ml-auto mr-auto">
+        <div class="card">
+            <div class="card-header">
+                <h4>CITAS PROXIMAS</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Paciente</th>
+                            <th>Estado</th>
+                            <th width="20%">Acción</th>
+                        </tr>
+                    </thead>
+                    {{#each citas_proximas as |cita|}}
+                    <tr>
+                        <td>{{cita.fecha}}</td>
+                        <td>{{cita.hora}}</td>
+                        <td>{{cita.paciente.nombre}} {{cita.paciente.paterno}} {{cita.paciente.materno}}</td>
+                        <td>{{cita.estado}}</td>
+                        <td class="btns-opciones">
+                            <a href="{{urlglobal}}/citas/show/{{this.id}}" class="evaluar"><i class="fa fa-eye"
+                                    data-toggle="tooltip" data-placement="left" title="Ver"></i></a>
+
+                            <a href="{{urlglobal}}/citas/edit/{{this.id}}" class="modificar"><i class="fa fa-edit"
+                                    data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

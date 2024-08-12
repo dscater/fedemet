@@ -1,0 +1,74 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Seguimientos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/seguimientos">Seguimientos</a></li>
+                    <li class="breadcrumb-item active">Nuevo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Nuevo seguimiento</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlglobal}}/seguimientos/store" method="POST">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Paciente*</label>
+                                        <select name="paciente_id" id="paciente_id" class="form-control" required>
+                                            <option value="">Seleccione...</option>
+                                            {{#each pacientes}}
+                                            <option value="{{this.id}}">{{this.nombre}} {{this.paterno}} {{this.materno}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Diagnóstico General*</label>
+                                        <textarea name="diagnostico" id="" cols="30" rows="1" class="form-control" required>{{data.diagnostico}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Detalle de Diagnóstico*</label>
+                                        <textarea name="detalle" id="" cols="30" rows="1" class="form-control" required>{{data.detalle}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-info"><i class="fa fa-save"></i> GUARDAR</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+{{#section 'scripts'}}
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById("paciente").value = "{{data.paciente_id}}";
+    };
+</script>
+{{/section}}

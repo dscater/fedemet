@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>pacientes</title>
+    <style type="text/css">
+        * {
+            font-family: sans-serif;
+        }
+
+        @page {
+            margin-top: 2cm;
+            margin-bottom: 1cm;
+            margin-left: 2.5cm;
+            margin-right: 1.5cm;
+            border: 5px solid blue;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-top: 20px;
+        }
+
+        table thead tr th,
+        tbody tr td {
+            font-size: 0.5em;
+        }
+
+        .encabezado {
+            width: 100%;
+        }
+
+        .logo img {
+            position: absolute;
+            width: 200px;
+            height: 90px;
+            top: -20px;
+            left: -20px;
+        }
+
+        h2.titulo {
+            width: 450px;
+            margin: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14pt;
+        }
+
+        .texto {
+            width: 250px;
+            text-align: center;
+            margin: auto;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .fecha {
+            width: 250px;
+            text-align: center;
+            margin: auto;
+            margin-top: 15px;
+            font-weight: normal;
+            font-size: 0.85em;
+        }
+
+        .total {
+            text-align: right;
+            padding-right: 15px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table thead {
+            background: rgb(236, 236, 236)
+        }
+
+        table thead tr th {
+            padding: 3px;
+            font-size: 0.6em;
+        }
+
+        table tbody tr td {
+            padding: 5px;
+            font-size: 0.75em;
+            word-wrap: break-word;
+        }
+
+        p {}
+
+        table tbody tr td.franco {
+            background: red;
+            color: white;
+        }
+
+        .centreado {
+            padding-left: 0px;
+            text-align: center;
+        }
+
+        .datos {
+            margin-left: 15px;
+            border-top: solid 1px;
+            border-collapse: collapse;
+            width: 250px;
+        }
+
+        .txt {
+            font-weight: bold;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .txt_center {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .centreado {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .gray {
+            background: rgb(235, 235, 235);
+        }
+
+        .cumplimiento {
+            position: absolute;
+            width: 150px;
+            right: 0px;
+            top: 86px;
+        }
+
+        .img_celda img {
+            width: 45px;
+        }
+
+        .foto {
+            padding: 0px;
+            width: 140px;
+            text-align: center;
+        }
+
+        .foto img {
+            width: 130px;
+        }
+
+        .salto_pagina {
+            page-break-after: always;
+        }
+
+        hr {
+            background: rgb(196, 196, 196);
+            margin-top: 15px;
+            border: solid 1px;
+        }
+    </style>
+</head>
+
+<body>
+    {{#each datos.pacientes as |paciente|}}
+    <div class="encabezado">
+        <div class="logo">
+            <img src="{{../datos.urlbase}}/imgs/{{../datos.razon_social.logo }}">
+        </div>
+        <h2 class="titulo">
+            {{ datos.razon_social.nombre }}
+        </h2>
+        <h4 class="texto">KARDEX DE PACIENTE</h4>
+        <h4 class="fecha">Expedido: {{../datos.fecha}}</h4>
+    </div>
+
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado gray bold">INFORMACIÓN PERSONAL</td>
+            </tr>
+            <tr>
+                <td class="bold" width="18%">Nombre:</td>
+                <td width="40%">{{paciente.nombre}} {{paciente.paterno}} {{paciente.materno}}</td>
+                <td rowspan="4" colspan="2" class="foto"><img src="{{../datos.urlbase}}/imgs/users/{{paciente.foto}}" alt="Foto"></td>
+            </tr>
+            <tr>
+                <td class="bold">C.I.:</td>
+                <td>{{paciente.ci}} {{paciente.ci_exp}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Teléfono - Celular:</td>
+                <td>{{paciente.fono}} - {{paciente.cel}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Correo:</td>
+                <td>{{paciente.correo}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Estado Civil:</td>
+                <td>{{paciente.estado_civil}}</td>
+                <td class="bold" width="18%">Ocupación:</td>
+                <td>{{paciente.ocupacion}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Lugar Nacimiento:</td>
+                <td>{{paciente.lugar_nac}}</td>
+                <td class="bold">Fecha Nacimiento:</td>
+                <td>{{paciente.fecha_nac}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Dirección:</td>
+                <td>{{paciente.dir}}</td>
+                <td class="bold">Género:</td>
+                <td>{{paciente.genero}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Nacionalidad:</td>
+                <td>{{paciente.nacionalidad}}</td>
+                <td class="bold">Fecha Registro:</td>
+                <td>{{paciente.fecha_registro}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Familiar:</td>
+                <td>{{paciente.nombre_familiar}}</td>
+                <td class="bold">Teléfono:</td>
+                <td>{{paciente.fono_familiar}}</td>
+            </tr>
+            <tr>
+                <td class="bold">Correo:</td>
+                <td colspan="3">{{paciente.correo_familiar}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    {{#if paciente.consultas}}
+    {{#each paciente.consultas as |consulta|}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td width="17%" class="bold gray">Especialidad: </td>
+                <td class="bold gray">{{consulta.especialidad.nombre}}</td>
+            </tr>
+            <tr>
+                <td>Motivo Consulta: </td>
+                <td>{{consulta.motivo_consulta}}</td>
+            </tr>
+            <tr>
+                <td>Descripción: </td>
+                <td>{{consulta.descripcion_dolencia}}</td>
+            </tr>
+            <tr>
+                <td>Fecha: </td>
+                <td>{{consulta.fecha_registro}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">ANTECEDENTES PERSONALES PATOLÓGICOS</td>
+            </tr>
+            <tr>
+                <td>Hipertensión arterial:</td>
+                <td>{{consulta.hpPersonal.hipertension}}</td>
+                <td>TBC Pulmonar:</td>
+                <td>{{consulta.hpPersonal.tbc}}</td>
+            </tr>
+            <tr>
+                <td>Diabetes:</td>
+                <td>{{consulta.hpPersonal.diabetes}}</td>
+                <td>Patologia mamaria:</td>
+                <td>{{consulta.hpPersonal.mamaria}}</td>
+            </tr>
+            <tr>
+                <td>Cardiopatías:</td>
+                <td>{{consulta.hpPersonal.cardiopatias}}</td>
+                <td>ITS:</td>
+                <td>{{consulta.hpPersonal.its}}</td>
+            </tr>
+            <tr>
+                <td>Várices:</td>
+                <td>{{consulta.hpPersonal.varices}}</td>
+                <td>Enf. renal:</td>
+                <td>{{consulta.hpPersonal.renal}}</td>
+            </tr>
+            <tr>
+                <td>Hepatopatías:</td>
+                <td>{{consulta.hpPersonal.hepatopatias}}</td>
+                <td>Tumores genitales:</td>
+                <td>{{consulta.hpPersonal.t_genitales}}</td>
+            </tr>
+            <tr>
+                <td>Enf. gastrointestinal:</td>
+                <td>{{consulta.hpPersonal.gastrointestinal}}</td>
+                <td>Chagas:</td>
+                <td>{{consulta.hpPersonal.chagas}}</td>
+            </tr>
+            <tr>
+                <td colspan="4">Alergias/Cirugias/Traumaticos/Medicamentos/Transfusionales/Otros:</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{consulta.hpPersonal.otros}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">ANTECEDENTES PERSONALES NO PATOLOGICOS</td>
+            </tr>
+            <tr>
+                <td>Agua potable:</td>
+                <td>{{consulta.hnpPersonal.agua}}</td>
+                <td>Alcantarillado:</td>
+                <td>{{consulta.hnpPersonal.alcantarillado}}</td>
+            </tr>
+            <tr>
+                <td>Consumo Bebidas Alcoholicas:</td>
+                <td>{{consulta.hnpPersonal.alcohol}}</td>
+                <td>Tanaquicos:</td>
+                <td>{{consulta.hnpPersonal.fuma}}</td>
+            </tr>
+            <tr>
+                <td>Catarsis:</td>
+                <td>{{consulta.hnpPersonal.catarsis}}</td>
+                <td>Diuresis:</td>
+                <td>{{consulta.hnpPersonal.diuresis}}</td>
+            </tr>
+            <tr>
+                <td>Alimentación/Otros:</td>
+                <td colspan="3">{{consulta.hnpPersonal.otros_np}}</td>
+            </tr>
+            <tr>
+                <td>Obsercaciones:</td>
+                <td colspan="3">{{consulta.hnpPersonal.observacion_f}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">ANTECEDENTES FAMILIARES</td>
+            </tr>
+            <tr>
+                <td>Hipertensión arterial:</td>
+                <td>{{consulta.hpfPersonal.f_hipertension}}</td>
+                <td>TBC Pulmonar:</td>
+                <td>{{consulta.hpfPersonal.f_tbc}}</td>
+            </tr>
+            <tr>
+                <td>Diabetes:</td>
+                <td>{{consulta.hpfPersonal.f_diabetes}}</td>
+                <td>Patologia mamaria:</td>
+                <td>{{consulta.hpfPersonal.f_mamaria}}</td>
+            </tr>
+            <tr>
+                <td>Cardiopatías:</td>
+                <td>{{consulta.hpfPersonal.f_cardiopatias}}</td>
+                <td>ITS:</td>
+                <td>{{consulta.hpfPersonal.f_its}}</td>
+            </tr>
+            <tr>
+                <td>Várices:</td>
+                <td>{{consulta.hpfPersonal.f_varices}}</td>
+                <td>Enf. renal:</td>
+                <td>{{consulta.hpfPersonal.f_renal}}</td>
+            </tr>
+            <tr>
+                <td>Hepatopatías:</td>
+                <td>{{consulta.hpfPersonal.f_hepatopatias}}</td>
+                <td>Tumores genitales:</td>
+                <td>{{consulta.hpfPersonal.f_t_genitales}}</td>
+            </tr>
+            <tr>
+                <td>Enf. gastrointestinal:</td>
+                <td>{{consulta.hpfPersonal.f_gastrointestinal}}</td>
+                <td>Chagas:</td>
+                <td>{{consulta.hpfPersonal.f_chagas}}</td>
+            </tr>
+            <tr>
+                <td colspan="4">Alergias/Cirugias/Traumaticos/Medicamentos/Transfusionales/Otros:</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{consulta.hpfPersonal.f_otros}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{#if consulta.examen_fisico}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="2" class="centreado bold gray">EXAMÉN FISICO</td>
+            </tr>
+            <tr>
+                <td>Ex. fisico general. (Conciencia, psiquismo, estado nutricional, fascies):</td>
+                <td>{{consulta.examen_fisico.e_general}}</td>
+            </tr>
+            <tr>
+                <td>Piel y Faneras:</td>
+                <td>{{consulta.examen_fisico.piel}}</td>
+            </tr>
+            <tr>
+                <td>Craneo cara (ojos, oidos, nariz, boca, faringe):</td>
+                <td>{{consulta.examen_fisico.craneo}}</td>
+            </tr>
+            <tr>
+                <td>Cuello y Tiroides:</td>
+                <td>{{consulta.examen_fisico.cuello}}</td>
+            </tr>
+            <tr>
+                <td>Torax, Mamas, Cardiopulmonar:</td>
+                <td>{{consulta.examen_fisico.torax}}</td>
+            </tr>
+            <tr>
+                <td>Abdomen:</td>
+                <td>{{consulta.examen_fisico.abdomen}}</td>
+            </tr>
+            <tr>
+                <td>Genitales, urinario y rectal:</td>
+                <td>{{consulta.examen_fisico.genitales}}</td>
+            </tr>
+            <tr>
+                <td>Columna vertebral y extremidades:</td>
+                <td>{{consulta.examen_fisico.columna}}</td>
+            </tr>
+            <tr>
+                <td>Examen neurológico:</td>
+                <td>{{consulta.examen_fisico.neurologico}}</td>
+            </tr>
+            <tr>
+                <td>Impresión diagnóstica:</td>
+                <td>{{consulta.examen_fisico.impresion}}</td>
+            </tr>
+            <tr>
+                <td>Conducta</td>
+                <td>{{consulta.examen_fisico.conducta}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{/if}}
+
+    {{#if consulta.obstretico}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">EXAMÉN OBSTRETICO</td>
+            </tr>
+            <tr>
+                <td>Gestas previas:</td>
+                <td>{{consulta.obstretico.previas}}</td>
+                <td>Abortos:</td>
+                <td>{{consulta.obstretico.abortos}}</td>
+            </tr>
+            <tr>
+                <td>Vaginales:</td>
+                <td>{{consulta.obstretico.vaginales}}</td>
+                <td>Nacidos vivos:</td>
+                <td>{{consulta.obstretico.vivos}}</td>
+            </tr>
+            <tr>
+                <td>Viven:</td>
+                <td>{{consulta.obstretico.viven}}</td>
+                <td>Antecedente de gemelares:</td>
+                <td>{{consulta.obstretico.gemelares}}</td>
+            </tr>
+            <tr>
+                <td>Partos:</td>
+                <td>{{consulta.obstretico.partos}}</td>
+                <td>Cesareas:</td>
+                <td>{{consulta.obstretico.cesareas}}</td>
+            </tr>
+            <tr>
+                <td>Nacidos muertos:</td>
+                <td>{{consulta.obstretico.muertos}}</td>
+                <td>Fecha ultimo embarazo:</td>
+                <td>{{consulta.obstretico.fin_eAnterior}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{/if}}
+
+    {{#if consulta.gestacion_actual}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">GESTACIÓN ACTUAL</td>
+            </tr>
+            <tr>
+                <td>Fecha Inicio Gestación:</td>
+                <td>{{consulta.gestacion_actual.fecha}}</td>
+                <td>Peso inicial:</td>
+                <td>{{consulta.gestacion_actual.peso}}</td>
+            </tr>
+            <tr>
+                <td>Uso de drogas:</td>
+                <td>{{consulta.gestacion_actual.drogas}}</td>
+                <td>Violencia:</td>
+                <td>{{consulta.gestacion_actual.violencia}}</td>
+            </tr>
+            <tr>
+                <td>Planeado:</td>
+                <td>{{consulta.gestacion_actual.planeado}}</td>
+                <td>Suplementos:</td>
+                <td>{{consulta.gestacion_actual.suplemento}}</td>
+            </tr>
+            <tr>
+                <td>Glucemia en ayunas:</td>
+                <td colspan="3">{{consulta.gestacion_actual.glucemia}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{/if}}
+
+    {{#if consulta.morbilidad}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">CONDICIONES POTENCIALMENTE PELIGROSAS PARA MORBILIDAD</td>
+            </tr>
+            <tr>
+                <td>Hemorragia:</td>
+                <td>{{consulta.morbilidad.hemorragia}}</td>
+                <td>Observaciones:</td>
+                <td>{{consulta.morbilidad.observacion_hemorragia}}</td>
+            </tr>
+            <tr>
+                <td>Transtornos hipertensivos:</td>
+                <td>{{consulta.morbilidad.transtornos}}</td>
+                <td>Observaciones:</td>
+                <td>{{consulta.morbilidad.observacion_transtornos}}</td>
+            </tr>
+            <tr>
+                <td>Infecciones:</td>
+                <td>{{consulta.morbilidad.infecciones}}</td>
+                <td>Observaciones:</td>
+                <td>{{consulta.morbilidad.observacion_infecciones}}</td>
+            </tr>
+            <tr>
+                <td>Complic. Obstétricas:</td>
+                <td>{{consulta.morbilidad.obstetricas}}</td>
+                <td>Observaciones:</td>
+                <td>{{consulta.morbilidad.observacion_obstetricas}}</td>
+            </tr>
+            <tr>
+                <td>Intervenciones:</td>
+                <td>{{consulta.morbilidad.intervencion}}</td>
+                <td>Observaciones:</td>
+                <td>{{consulta.morbilidad.observacion_intervencion}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{/if}}
+
+    {{#if consulta.odontologico}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">INFORMACIÓN ODONTOLÓGICA</td>
+            </tr>
+            <tr>
+                <td>Hemorragia:</td>
+                <td>{{consulta.odontologico.hemorragia}}</td>
+                <td>Observaciones:</td>
+                <td>{{consulta.odontologico.observacion_hemorragia}}</td>
+            </tr>
+            <tr>
+                <td>ATM:</td>
+                <td colspan="3">{{consulta.odontologico.atm}}</td>
+            </tr>
+            <tr>
+                <td>Ganglios linfáticos:</td>
+                <td colspan="3">{{consulta.odontologico.ganglios}}</td>
+            </tr>
+            <tr>
+                <td>Labios:</td>
+                <td colspan="3">{{consulta.odontologico.labios}}</td>
+            </tr>
+            <tr>
+                <td>Lengua:</td>
+                <td colspan="3">{{consulta.odontologico.lengua}}</td>
+            </tr>
+            <tr>
+                <td>Paladar:</td>
+                <td colspan="3">{{consulta.odontologico.paladar}}</td>
+            </tr>
+            <tr>
+                <td>Piso de la boca:</td>
+                <td colspan="3">{{consulta.odontologico.piso_boca}}</td>
+            </tr>
+            <tr>
+                <td>Mucosa Yugal:</td>
+                <td colspan="3">{{consulta.odontologico.mucosa}}</td>
+            </tr>
+            <tr>
+                <td>Encias:</td>
+                <td colspan="3">{{consulta.odontologico.encias}}</td>
+            </tr>
+            <tr>
+                <td>Utiliza prótesis:</td>
+                <td>{{consulta.odontologico.protesis}}</td>
+                <td>Utiliza cepillo dental:</td>
+                <td>{{consulta.odontologico.cepillo}}</td>
+            </tr>
+            <tr>
+                <td>Utiliza hilo dental:</td>
+                <td>{{consulta.odontologico.hilo}}</td>
+                <td>Utiliza enjuague bucal:</td>
+                <td>{{consulta.odontologico.enjuague}}</td>
+            </tr>
+            <tr>
+                <td>¿Durante el cepillado le sangran las encias?:</td>
+                <td colspan="3">{{consulta.odontologico.sangrado_encias}}</td>
+            </tr>
+            <tr>
+                <td>Observaciones:</td>
+                <td colspan="3">{{consulta.odontologico.observaciones}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{/if}}
+
+    {{#if consulta.laboratorio}}
+    <table border="1">
+        <tbody>
+            <tr>
+                <td colspan="4" class="centreado bold gray">INFORMACIÓN LABORATORIOS</td>
+            </tr>
+            <tr>
+                <td>
+                    Baciloscopía:
+                </td>
+                <td>{{consulta.laboratorio.baciloscopia}}</td>
+                <td>
+                    Billirrubinas:
+                </td>
+                <td>{{consulta.laboratorio.billirrubinas}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Comproparasitológico Simple:
+                </td>
+                <td>{{consulta.laboratorio.c_simple}}/td>
+                <td>
+                    Comproparasitológico Seriado:
+                </td>
+                <td>{{consulta.laboratorio.c_seriado}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Creatínina en orina:
+                </td>
+                <td>{{consulta.laboratorio.creatinina_orina}}</td>
+                <td>
+                    Creatínina Sérica:
+                </td>
+                <td>{{consulta.laboratorio.creatinina_serica}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Cultivo p/germenes comunes y antibiolograma:
+                </td>
+                <td>{{consulta.laboratorio.cultivo}}</td>
+                <td>
+                    Examen general de orina:
+                </td>
+                <td>{{consulta.laboratorio.eg_orina}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Factor Reumatoide:
+                </td>
+                <td>{{consulta.laboratorio.f_reumatoide}}</td>
+                <td>
+                    Fosfata alcalina y acida:
+                </td>
+                <td>{{consulta.laboratorio.fosfata}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Frotis tinción Gram:
+                </td>
+                <td>{{consulta.laboratorio.frotis}}</td>
+                <td>
+                    Grupo Sanguíneo y factor Rh:
+                </td>
+                <td>{{consulta.laboratorio.grupo_sanguineo}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Glicemia:
+                </td>
+                <td>{{consulta.laboratorio.glicemia}}</td>
+                <td>
+                    Gota gruesa y frotis sanguineo - tinción:
+                </td>
+                <td>{{consulta.laboratorio.gota}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Hemoglobina y hematocritico:
+                </td>
+                <td>{{consulta.laboratorio.hemoglobina}}</td>
+                <td>
+                    Hemograma completo:
+                </td>
+                <td>{{consulta.laboratorio.hemograma}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Inmunoglobulinas IgG, IgM, IgA:
+                </td>
+                <td>{{consulta.laboratorio.igg}}</td>
+                <td>
+                    Moco fecal:
+                </td>
+                <td>{{consulta.laboratorio.moco}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Nitrogeno ureico sérico y úrea:
+                </td>
+                <td>{{consulta.laboratorio.nitrogeno_usu}}</td>
+                <td>
+                    Proteína C Reactiva - PCR:
+                </td>
+                <td>{{consulta.laboratorio.proteinac}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Proteinuria de 24 horas:
+                </td>
+                <td>{{consulta.laboratorio.proteinuria}}</td>
+                <td>
+                    Prueba de Coombs directa/indirecta:
+                </td>
+                <td>{{consulta.laboratorio.coombs}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Prueba rapida para sifilis:
+                </td>
+                <td>{{consulta.laboratorio.sifilis}}</td>
+                <td>
+                    Tiempo coagulación y tiempo de sangria:
+                </td>
+                <td>{{consulta.laboratorio.coagulacion}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Tiempo de protrombia:
+                </td>
+                <td>{{consulta.laboratorio.protrombia}}</td>
+                <td>
+                    Tinción PAP:
+                </td>
+                <td>{{consulta.laboratorio.tincion}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Transaminasas TGI-TGP:
+                </td>
+                <td>{{consulta.laboratorio.transaminasas}}</td>
+                <td>
+                    Test de embarazo en sangre/HCG:
+                </td>
+                <td>{{consulta.laboratorio.embarazo}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Reactantes de fase aguda (VES, Fibrinogeno y PCR):
+                </td>
+                <td>{{consulta.laboratorio.reactantes}}</td>
+                <td>
+                    Reacción Widal:
+                </td>
+                <td>{{consulta.laboratorio.Widal}}</td>
+            </tr>
+            <tr>
+                <td>
+                    RPR para sifilis - VDRL:
+                </td>
+                <td colspan="3">{{consulta.laboratorio.rpr}}</td>
+            </tr>
+            <tr>
+                <td>Estudios realizados:</td>
+                <td>{{consulta.laboratorio.estudios}}</td>
+            </tr>
+            <tr>
+                <td>Otros estudios realizados:</td>
+                <td>{{consulta.laboratorio.otros_estudios}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{/if}}
+    {{/each}}
+    {{else}}
+    AÚN NO SE REALIZARON CONSULTAS
+    {{/if}}
+    <div class="salto_pagina"></div>
+    {{/each}}
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+{{#section "css"}}
+  <link rel="stylesheet" href="css/login.css" />
+{{/section}}
+
+<!-- BEGIN #loader -->
+<div id="loader" class="app-loader">
+  <span class="spinner"></span>
+</div>
+<!-- END #loader -->
+
+<!-- BEGIN #app -->
+<div id="app" class="app">
+  <!-- BEGIN login -->
+  <div class="login login-v2 fw-bold">
+    <!-- BEGIN login-cover -->
+    <div class="login-cover">
+      <div
+        class="login-cover-img"
+        style="background-image: url(/template/assets/img/login-bg/login-bg-17.jpg)"
+        data-id="login-cover-image"
+      ></div>
+      <div class="login-cover-bg"></div>
+    </div>
+    <!-- END login-cover -->
+    <!-- BEGIN login-container -->
+    <div class="login-container">
+      <div class="w-100 text-center">
+        <img src="imgs/{{razon_social.logo}}" alt="Logo" height="140px" />
+      </div>
+      <!-- BEGIN login-header -->
+      <div class="login-header">
+        <div class="brand">
+          <div class="d-flex align-items-center">
+            <b>{{razon_social.nombre}}</b>
+          </div>
+        </div>
+
+        <div class="icon">
+          <i class="fa fa-lock"></i>
+        </div>
+      </div>
+      <!-- END login-header -->
+
+      <!-- BEGIN login-content -->
+      <div class="login-content">
+        <form action="login" method="POST">
+          <div class="form-floating mb-20px">
+            <input
+              type="text"
+              name="name"
+              class="form-control fs-13px h-45px border-0"
+              placeholder="Usuario"
+              id="name"
+            />
+            <label
+              for="name"
+              class="d-flex align-items-center text-gray-600 fs-13px"
+            >Usuario</label>
+          </div>
+          <div class="form-floating mb-20px">
+            <input
+              type="password"
+              name="password"
+              class="form-control fs-13px h-45px border-0"
+              placeholder="Contraseña"
+            />
+            <label
+              for="name"
+              class="d-flex align-items-center text-gray-600 fs-13px"
+            >Contraseña</label>
+          </div>
+          <div class="w-100">
+            {{#if error}}
+              <span class="invalid-feedback alert alert-danger" style="display:block" role="alert">
+                <strong>{{error}}</strong>
+              </span>
+            {{/if}}
+          </div>
+          <div class="mb-20px">
+            <button
+              type="submit"
+              class="btn btn-theme d-block w-100 h-45px btn-lg"
+            >Ingresar</button>
+          </div>
+        </form>
+      </div>
+      <!-- END login-content -->
+    </div>
+    <!-- END login-container -->
+  </div>
+  <!-- END login -->
+
+  <!-- BEGIN scroll-top-btn -->
+  <a
+    href="javascript:;"
+    class="btn btn-icon btn-circle btn-theme btn-scroll-to-top"
+    data-toggle="scroll-to-top"
+  ><i class="fa fa-angle-up"></i></a>
+  <!-- END scroll-top-btn -->
+</div>
+<!-- END #app -->

@@ -1,0 +1,518 @@
+<h3>INFORMACIÓN</h3>
+<fieldset>
+    <legend>INFORMACIÓN CONSULTA</legend>
+    <p>(*) Obligatorio</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Motivo de la consulta*</label>
+                <textarea name="motivo_consulta" id="" cols="30" rows="3"
+                    class="form-control required">{{consulta.motivo_consulta}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Descripción molestia*</label>
+                <textarea name="descripcion_dolencia" id="" cols="30" rows="3"
+                    class="form-control required">{{consulta.descripcion_dolencia}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hipertensión arterial*</label>
+                <select name="hipertension" id="hipertension" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>TBC Pulmonar*</label>
+                <select name="tbc" id="tbc" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Diabetes*</label>
+                <select name="diabetes" id="diabetes" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Patología mamaria*</label>
+                <select name="mamaria" id="mamaria" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Cardiopatías*</label>
+                <select name="cardiopatias" id="cardiopatias" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>ITS*</label>
+                <select name="its" id="its" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Várices*</label>
+                <select name="varices" id="varices" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Enf. Renal*</label>
+                <select name="renal" id="renal" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hepatopatías*</label>
+                <select name="hepatopatias" id="hepatopatias" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Tumores genitales*</label>
+                <select name="t_genitales" id="t_genitales" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Enf. gastrointestinal*</label>
+                <select name="gastrointestinal" id="gastrointestinal" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Chagas*</label>
+                <select name="chagas" id="chagas" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label>Alergias/cirugías/tramáticos/medicamentos/transfucionales/otros</label>
+            <textarea name="otros" id="otros" cols="30" rows="3"
+                class="form-control">{{consulta.hpPersonal.otros}}</textarea>
+        </div>
+    </div>
+</fieldset>
+
+<h3>NO PATOLOGICA PERSONAL</h3>
+<fieldset>
+    <legend>HISTORIA NO PATOLOGICA PERSONAL</legend>
+    <p>(*) Obligatorio</p>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Agua potable*</label>
+                <select name="agua" id="agua" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Alcantarillado*</label>
+                <select name="alcantarillado" id="alcantarillado" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Consumo de bebidas alcoholicas*</label>
+                <select name="alcohol" id="alcohol" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Catarsis*</label>
+                <input type="text" name="catarsis" id="" value="{{consulta.hnpPersonal.catarsis}}"
+                    class="form-control required">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Diuresis*</label>
+                <input type="text" name="diuresis" id="" value="{{consulta.hnpPersonal.diuresis}}"
+                    class="form-control required">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Tabaquicos*</label>
+                <select name="fuma" id="fuma" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Alimentación/Otros*</label>
+                <textarea name="otros_np" id="" cols="30" rows="3"
+                    class="form-control required">{{consulta.hnpPersonal.otros_np}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea name="observacion_f" id="" cols="30" rows="3"
+                    class="form-control">{{consulta.hnpPersonal.observacion_f}}</textarea>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<h3>PATOLOGICO FAMILIAR</h3>
+<fieldset>
+    <legend>HISTORIA PATOLOGICA FAMILIAR</legend>
+    <p>(*) Obligatorio</p>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hipertensión arterial*</label>
+                <select name="f_hipertension" id="f_hipertension" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>TBC Pulmonar*</label>
+                <select name="f_tbc" id="f_tbc" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Diabetes*</label>
+                <select name="f_diabetes" id="f_diabetes" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Patología mamaria*</label>
+                <select name="f_mamaria" id="f_mamaria" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Cardiopatías*</label>
+                <select name="f_cardiopatias" id="f_cardiopatias" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>ITS*</label>
+                <select name="f_its" id="f_its" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Várices*</label>
+                <select name="f_varices" id="f_varices" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Enf. Renal*</label>
+                <select name="f_renal" id="f_renal" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hepatopatías*</label>
+                <select name="f_hepatopatias" id="f_hepatopatias" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Tumores genitales*</label>
+                <select name="f_t_genitales" id="f_t_genitales" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Enf. gastrointestinal*</label>
+                <select name="f_gastrointestinal" id="f_gastrointestinal" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Chagas*</label>
+                <select name="f_chagas" id="f_chagas" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label>Otros/Observaciones(pariente que padece la patología)</label>
+            <textarea name="f_otros" id="otros" cols="30" rows="3"
+                class="form-control">{{consulta.hfpPersonal.f_otros}}</textarea>
+        </div>
+    </div>
+</fieldset>
+
+<h3>HISTORIA ODONTOLÓGICA</h3>
+<fieldset>
+    <legend>INFORMACIÓN ODONTOLÓGICA</legend>
+    <p>(*) Obligatorio</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Hemorragia*</label>
+                <select name="o_hemorragia" id="o_hemorragia" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea name="observacion_hemo" cols="30" rows="2" class="form-control">{{consulta.odontologico.observacion_hemo}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>ATM*</label>
+                <textarea name="atm" cols="30" rows="2" class="form-control required">{{consulta.odontologico.atm}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Ganglios linfáticos*</label>
+                <textarea name="ganglios" cols="30" rows="2" class="form-control required">{{consulta.odontologico.ganglios}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Respirador*</label>
+                <textarea name="respirador" cols="30" rows="2" class="form-control required">{{consulta.odontologico.respirador}}</textarea>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Labios*</label>
+                <textarea name="labios" cols="30" rows="2" class="form-control required">{{consulta.odontologico.labios}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Lengua*</label>
+                <textarea name="lengua" cols="30" rows="2" class="form-control required">{{consulta.odontologico.lengua}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Paladar*</label>
+                <textarea name="paladar" cols="30" rows="2" class="form-control required">{{consulta.odontologico.paladar}}</textarea>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Piso de la boca*</label>
+                <textarea name="piso_boca" cols="30" rows="2" class="form-control required">{{consulta.odontologico.piso_boca}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Mucosa Yugal*</label>
+                <textarea name="mucosa" cols="30" rows="2" class="form-control required">{{consulta.odontologico.mucosa}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Encias*</label>
+                <textarea name="encias" cols="30" rows="2" class="form-control required">{{consulta.odontologico.encias}}</textarea>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza prótesis*</label>
+                <select name="protesis" id="protesis" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza cepillo dental*</label>
+                <select name="cepillo" id="cepillo" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza hilo dental*</label>
+                <select name="hilo" id="hilo" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Utiliza enjuague bucal*</label>
+                <select name="enjuague" id="enjuague" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>¿Durante el cepillado le sangran las encias?*</label>
+                <select name="sangrado_encias" id="sangrado_encias" class="form-control required">
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea name="observaciones" cols="30" rows="2" class="form-control">{{consulta.odontologico.observaciones}}</textarea>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

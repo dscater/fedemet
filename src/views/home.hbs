@@ -1,0 +1,60 @@
+{{#section 'background-image'}}
+style="background-image:url('{{urlbase}}/imgs/fondo.jpg')"
+{{/section}}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-white">Panel</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Inicio</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        {{#if_equal user.tipo "ADMINISTRADOR"}}
+        {{> includes/home/home_admin}}
+        {{/if_equal}}
+        {{#if_equal user.tipo "AUXILIAR"}}
+        {{> includes/home/home_auxiliar}}
+        {{/if_equal}}
+        {{#if_equal user.tipo "DOCTOR"}}
+        {{> includes/home/home_doctor}}
+        {{/if_equal}}
+        {{#if_equal user.tipo "PACIENTE"}}
+        {{> includes/home/home_paciente}}
+        {{/if_equal}}
+
+    </div>
+    <!--/. container-fluid -->
+</section>
+<!-- /.content -->
+
+{{#section 'scripts'}}
+<script>
+    {{#if notifica}}
+        {{#if muestra_notificacion }}
+         swal({
+            title: '¡ATENCIÓN!',
+            html:true,
+            text: 'Se encontrarón productos con un stock por debajo del permitido.<br/><a href="{{urlbase}}/stock_productos">Ver Stocks</a>',
+            type: 'info',
+            confirmButtonColor: "#28a745",
+            confirmButtonText: "Aceptar",
+            closeOnConfirm: false
+        });
+        {{/if}}
+    {{/if}}
+</script>
+{{/section}}

@@ -1,0 +1,147 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Usuarios</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlbase}}/home">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{urlbase}}/users">Usuarios</a></li>
+                    <li class="breadcrumb-item active">Nuevo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Nuevo Usuario</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form action="{{urlbase}}/users/store" method="POST" enctype="multipart/form-data" class="formValidate" id="formValidate">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nombre*</label>
+                                        <input type="text" name="nombre" value="{{data.nombre}}" class="form-control required letras" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Paterno*</label>
+                                        <input type="text" name="paterno" value="{{data.paterno}}" class="form-control required letras" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Materno</label>
+                                        <input type="text" name="materno" value="{{data.materno}}" class="form-control letras"> </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>C.I.*</label>
+                                        <input type="number" name="ci" value="{{data.ci}}" class="form-control required number" required>
+                                        {{#if error_ci}}
+                                        <span class="invalid-feedback" style="color:red;display:block" role="alert">
+                                            <strong>{{ error_ci }}</strong>
+                                        </span>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Expedido*</label>
+                                        <select name="ci_exp" id="ci_exp" id="" class="form-control required" required> <option value="">Seleccione...</option>
+                                            <option value="LP">LA PAZ</option>
+                                            <option value="CB">COCHABAMBA</option>
+                                            <option value="SC">SANTA CRUZ</option>
+                                            <option value="PT">POTOSI</option>
+                                            <option value="OR">ORURO</option>
+                                            <option value="CH">CHUQUISACA</option>
+                                            <option value="TJ">TARIJA</option>
+                                            <option value="BN">BENI</option>
+                                            <option value="PD">PANDO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Dirección*</label>
+                                        <input type="text" name="dir" value="{{data.dir}}" class="form-control required" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Correo*</label>
+                                        <input type="email" name="email" value="{{data.email}}" class="form-control required email"> </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Teléfono*</label>
+                                        <input type="text" name="fono" value="{{data.fono}}" class="form-control required number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Celular*</label>
+                                        <input type="text" name="cel" value="{{data.cel}}" class="form-control required number" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tipo*</label>
+                                        <select name="tipo" id="tipo" class="form-control required"  >
+                                            <option value="">Seleccione...</option>
+                                            <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                                            <option value="AUXLIAR">AUXLIAR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Foto*</label>
+                                        <input type="file" name="foto" class="form-control required"  >
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-info"><i class="fa fa-save"></i> GUARDAR</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{#section 'scripts'}}
+<script>
+    window.onload = function () {
+        document.getElementById('tipo').value = '{{data.tipo}}';
+        document.getElementById('ci_exp').value = '{{data.ci_exp}}';
+    };
+
+    $('.formValidate').validate({
+        errorPlacement: function errorPlacement(error, element) { element.after(error); },
+        rules: {
+        },
+    });
+
+</script>
+{{/section}}

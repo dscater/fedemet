@@ -1,0 +1,20 @@
+<li class="nav-item">
+    <a href="{{urlbase}}/citas/citas_paciente/{{paciente.id}}" class="nav-link {{#if_equal pagina.actual "citas_paciente"}} active {{/if_equal}}">
+        <i class="nav-icon fas fa-list-alt"></i>
+        <p>Citas Médicas</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{urlbase}}/historial/{{paciente.id}}" class="nav-link {{#if_equal pagina.actual "historial_clinico"}} active {{/if_equal}}">
+        <i class="nav-icon fas fa-list-alt"></i>
+        <p>Historial Clínico</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{urlbase}}/seguimientos/seguimiento_paciente/{{paciente.id}}" class="nav-link {{#if_equal pagina.actual "seguimiento_paciente"}} active {{/if_equal}}">
+        <i class="nav-icon fas fa-list-alt"></i>
+        <p>Seguimiento de Tratamientos</p>
+    </a>
+</li>

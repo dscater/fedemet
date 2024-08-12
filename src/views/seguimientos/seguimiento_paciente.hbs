@@ -1,0 +1,86 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Seguimientos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{urlglobal}}/home')}}">Inicio</a></li>
+                    <li class="breadcrumb-item active">Seguimientos</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="title-header">Lista de Seguimientos</h4>
+                        <a href="{{urlglobal}}/reportes/seguimientos?paciente_id={{paciente.id}}&especialidad=todos" target="_blank" class="btn btn-success"><i class="fa fa-file-pdf"></i> Exportar a PDF</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table data-table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Registro</th>
+                                    <th>Diagnostico General</th>
+                                    <th>Detalle Diagnostico</th>
+                                    <th>Nro. Tratamientos</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each seguimientos}}
+                                <tr>
+                                    <td>{{this.fecha_registro}}</td>
+                                    <td>{{this.diagnostico}}</td>
+                                    <td>{{this.detalle}}</td>
+                                    <td class="nro_info">
+                                        <span class="badge badge-info right" data-toggle="tooltip" title="{{this.tratamientos}} tratamientos realizados">{{this.tratamientos}}</span>
+                                    </td>
+                                    <td class="btns-opciones">
+                                        <a href="{{urlglobal}}/tratamientos/{{this.id}}" class="evaluar"><i class="fa fa-list-alt" data-toggle="tooltip" data-placement="left" title="Tratamientos"></i></a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+{{> modal/eliminar}}
+{{#section 'scripts'}}
+<script>
+
+     $('table.data-table').DataTable({
+        order:[
+            [0,'desc']
+        ],
+        columns : [
+            {width:"5%"},
+            null,
+            null,
+            {width:"10%"},
+            {width:"15%"},
+        ],
+        scrollCollapse: true,
+        language: lenguaje,
+        pageLength:25
+    });
+
+</script>
+{{/section}}
