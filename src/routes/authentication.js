@@ -6,9 +6,9 @@ const passport = require('passport');
 const { isNotLoggedIn } = require('../lib/auth');
 
 router.get('/login',isNotLoggedIn,async (request, response) => {
-    const razon_socials = await pool.query("SELECT * FROM razon_socials");
-    const razon_social = razon_socials[0];
-    response.render('auth/login',{layout:'login',razon_social:razon_social});
+    const configuracions = await pool.query("SELECT * FROM configuracions");
+    const configuracion = configuracions[0];
+    response.render('auth/login',{layout:'login',configuracion:configuracion});
 });
 
 router.post('/logout', (req, res) => {
@@ -17,9 +17,9 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/login', async (req, res, next) => {
-    const razon_socials = await pool.query("SELECT * FROM razon_socials");
-    const razon_social = razon_socials[0];
-    global.razon_social = razon_social;
+    const configuracions = await pool.query("SELECT * FROM configuracions");
+    const configuracion = configuracions[0];
+    global.configuracion = configuracion;
     passport.authenticate('local.login', {
         successRedirect: '/home',
         failureRedirect: '/',

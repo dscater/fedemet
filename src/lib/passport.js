@@ -8,38 +8,14 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done)=>{
-    const users = await pool.query('SELECT * FROM users WHERE name = ?', [username]);
+    const users = await pool.query('SELECT * FROM users WHERE usuario = ?', [username]);
     if(users.length > 0)
     {
         const user = users[0];
         const validation = await helpers.compareHash(password, user.password);
         if(validation)
         {
-            // VERIFICAR SI EL USUARIO ESTA RELACIONADO CON "datos_usuarios" o pacientes
             nombreUsuario = user.name;
-            var datosUsuario = null;
-            var datos_usuarios = [];
-            
-            datos_usuarios = await pool.query("SELECT * FROM datos_usuarios WHERE user_id = ?",[user.id]);
-            if(datos_usuarios.length > 0)
-            {
-                datosUsuario = datos_usuarios[0];
-            }
-            if(datosUsuario)
-            {
-                nombreUsuario = `${datosUsuario.nombre} ${datosUsuario.paterno} ${datosUsuario.materno}`;
-                
-                doctors = await pool.query("SELECT * FROM doctors WHERE datos_usuario_id = ?",[datosUsuario.id]);
-                if(doctors.length > 0)
-                {
-                    doctor = doctors[0];
-                    if(doctor)
-                    {
-                        especialidads = await pool.query("SELECT * FROM especialidads WHERE id = ?",[doctor.especialidad_id]);
-                        especialidad = especialidads[0];
-                    }
-                }
-            }
             done(null, user, req.flash('success','Bienvenido(a) '+ nombreUsuario));
         }
         else{

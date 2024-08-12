@@ -28,28 +28,28 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.get('/', async (req, res) => {
     pagina = {};
-    pagina.actual = 'razon_social';
-    const razon_social = await pool.query("SELECT * FROM razon_socials");
-    const rs = razon_social[0];
-    res.render('razon_social/index', { razon_social: rs, pagina });
+    pagina.actual = 'configuracion';
+    const configuracion = await pool.query("SELECT * FROM configuracions");
+    const rs = configuracion[0];
+    res.render('configuracion/index', { configuracion: rs, pagina });
 });
 
 
 router.get('/edit/:id', async (req, res) => {
     pagina = {};
-    pagina.actual = 'razon_social';
+    pagina.actual = 'configuracion';
     const { id } = req.params;
-    const razon_social = await pool.query("SELECT * FROM razon_socials WHERE id = ?", [id]);
-    const rs = razon_social[0];
-    res.render('razon_social/edit', { pagina: pagina, razon_social: rs });
+    const configuracion = await pool.query("SELECT * FROM configuracions WHERE id = ?", [id]);
+    const rs = configuracion[0];
+    res.render('configuracion/edit', { pagina: pagina, configuracion: rs });
 });
 
 router.post('/update/:id', upload.single('logo'), async (req, res, next) => {
     pagina = {};
-    pagina.actual = 'razon_social';
+    pagina.actual = 'configuracion';
     const { id } = req.params;
-    const razon_social = await pool.query("SELECT * FROM razon_socials WHERE id = ?", [id]);
-    const rs = razon_social[0];
+    const configuracion = await pool.query("SELECT * FROM configuracions WHERE id = ?", [id]);
+    const rs = configuracion[0];
 
     var nom_imagen = rs.logo;
     if (req.file) {
@@ -78,9 +78,9 @@ router.post('/update/:id', upload.single('logo'), async (req, res, next) => {
     registro_update.logo = nom_imagen;
     registro_update.actividad_economica = req.body.actividad_economica.toUpperCase();
 
-    let rs_actualizado = await pool.query("UPDATE razon_socials SET ? WHERE id = ?", [registro_update, rs.id]);
+    let rs_actualizado = await pool.query("UPDATE configuracions SET ? WHERE id = ?", [registro_update, rs.id]);
     req.flash('success', 'Registro modificado con éxito')
-    return res.redirect('/razon_social');
+    return res.redirect('/configuracion');
 
 });
 

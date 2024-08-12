@@ -48,8 +48,8 @@ app.use(passport.session());
 // VARIABLES GLOBALES
 app.use(async (req, res, next) => {
     //OBTENER LOS DATOS DE RAZON SOCIAL
-    const razon_socials = await pool.query("SELECT * FROM razon_socials");
-    const razon_social = razon_socials[0];
+    const configuracions = await pool.query("SELECT * FROM configuracions");
+    const configuracion = configuracions[0];
     var bajos_stock = '';
     var nombreUsuario = '';
     var especialidad = null;
@@ -61,34 +61,7 @@ app.use(async (req, res, next) => {
     let pacientes = null;
     let paciente = null;
     if (req.isAuthenticated()) {
-
-        // VERIFICAR SI EL USUARIO ESTA RELACIONADO CON "datos_usuarios" o pacientes
-        if (req.user.tipo != 'PACIENTE') {
-            nombreUsuario = req.user.name;
-            datos_usuarios = await pool.query("SELECT * FROM datos_usuarios WHERE user_id = ?", [req.user.id]);
-            if (datos_usuarios.length > 0) {
-                datosUsuario = datos_usuarios[0];
-            }
-            if (datosUsuario) {
-                nombreUsuario = `${datosUsuario.nombre} ${datosUsuario.paterno} ${datosUsuario.materno}`;
-
-                doctors = await pool.query("SELECT * FROM doctors WHERE datos_usuario_id = ?", [datosUsuario.id]);
-                if (doctors.length > 0) {
-                    doctor = doctors[0];
-                    if (doctor) {
-                        especialidads = await pool.query("SELECT * FROM especialidads WHERE id = ?", [doctor.especialidad_id]);
-                        especialidad = especialidads[0];
-                    }
-                }
-            }
-        } else {
-            pacientes = await pool.query("SELECT * FROM pacientes WHERE user_id = ?", [req.user.id]);
-            paciente = null;
-            if (pacientes.length > 0) {
-                paciente = pacientes[0];
-            }
-            nombreUsuario = `${paciente.nombre} ${paciente.paterno} ${paciente.materno}`;
-        }
+        nombreUsuario = req.user.usuario;
     }
 
     var http = require('http');
@@ -100,8 +73,8 @@ app.use(async (req, res, next) => {
     app.locals.error = req.flash('error');
     app.locals.error_ci = req.flash('error_ci');
     app.locals.user = req.user;
-    app.locals.razon_social = razon_social;
-    app.locals.datosUsuario = datosUsuario;
+    app.locals.configuracion = configuracion;
+    app.locals.datosUsuario = req.user;
     app.locals.paciente = paciente;
     app.locals.nombreUsuario = nombreUsuario;
     app.locals.urlbase = urlbase;
@@ -119,7 +92,7 @@ app.use('/doctors', require('./routes/doctors'));
 app.use('/especialidads', require('./routes/especialidads'));
 app.use('/horarios', require('./routes/horarios'));
 app.use('/pacientes', require('./routes/pacientes'));
-app.use('/razon_social', require('./routes/razon_social'));
+app.use('/configuracion', require('./routes/configuracion'));
 app.use('/consultas', require('./routes/consultas'));
 app.use('/seguimientos', require('./routes/seguimientos'));
 app.use('/tratamientos', require('./routes/tratamientos'));
