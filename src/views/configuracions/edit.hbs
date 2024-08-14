@@ -1,0 +1,198 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Configuración</a></li>
+  <li class="breadcrumb-item active">Editar</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Configuración <small>Editar</small></h1>
+<!-- END page-header -->
+
+<div class="row">
+
+  <div class="col-md-12">
+    <!-- BEGIN panel -->
+    <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+      <!-- BEGIN panel-heading -->
+      <div class="panel-heading">
+        <h4 class="panel-title">Configuración > información</h4>
+        <div class="panel-heading-btn">
+          <a
+            href="javascript:;"
+            class="btn btn-xs btn-icon btn-default"
+            data-toggle="panel-expand"
+          ><i class="fa fa-expand"></i></a>
+          <a
+            href="javascript:;"
+            class="btn btn-xs btn-icon btn-success"
+            data-toggle="panel-reload"
+          ><i class="fa fa-redo"></i></a>
+          <a
+            href="javascript:;"
+            class="btn btn-xs btn-icon btn-warning"
+            data-toggle="panel-collapse"
+          ><i class="fa fa-minus"></i></a>
+        </div>
+      </div>
+      <!-- END panel-heading -->
+      <!-- BEGIN panel-body -->
+      <div class="panel-body">
+        <form
+          action="{{urlglobal}}/configuracions/update/{{configuracion.id}}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Nombre del
+              sistema*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Nombre del sistema"
+                name="nombre_sistema"
+                value="{{configuracion.nombre_sistema}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Alias</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Alias"
+                name="alias"
+                value="{{configuracion.alias}}"
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Razón Social*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Razón Social"
+                name="razon_social"
+                value="{{configuracion.razon_social}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">NIT*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="NIT"
+                name="nit"
+                value="{{configuracion.nit}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Ciudad*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Ciudad"
+                name="ciudad"
+                value="{{configuracion.ciudad}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Dirección*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Dirección"
+                name="dir"
+                value="{{configuracion.dir}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Teléfono(s)*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Teléfono(s)"
+                name="fono"
+                value="{{configuracion.fono}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Web</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Web"
+                name="web"
+                value="{{configuracion.web}}"
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Actividad*</label>
+            <div class="col-md-10">
+              <input
+                type="text"
+                class="form-control mb-5px"
+                placeholder="Actividad"
+                name="actividad"
+                value="{{configuracion.actividad}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Correo*</label>
+            <div class="col-md-10">
+              <input
+                type="email"
+                class="form-control mb-5px"
+                placeholder="Correo"
+                name="correo"
+                value="{{configuracion.correo}}"
+                required
+              />
+            </div>
+          </div>
+          <div class="row mb-15px">
+            <label class="form-label col-form-label col-md-2">Logo</label>
+            <div class="col-md-10">
+              <input
+                type="file"
+                class="form-control mb-5px"
+                placeholder="Logo"
+                name="logo"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-10 offset-md-2">
+              <button type="submit" class="btn btn-primary w-100px me-5px">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- END panel-body -->
+    </div>
+    <!-- END panel -->
+  </div>
+
+</div>

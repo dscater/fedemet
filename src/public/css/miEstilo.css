@@ -14,6 +14,10 @@
     background-position: center;
 }
 
+.gritter-close::before {
+    content: "X Cerrar"!important;
+}
+
 /* FORMULARIOS */
 
 .nav.nav-tabs>li>a {

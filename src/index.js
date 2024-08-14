@@ -47,7 +47,7 @@ app.use(passport.session());
 
 // VARIABLES GLOBALES
 app.use(async (req, res, next) => {
-    //OBTENER LOS DATOS DE RAZON SOCIAL
+    //OBTENER LOS DATOS DE CONFIGURACION
     const configuracions = await pool.query("SELECT * FROM configuracions");
     const configuracion = configuracions[0];
     var bajos_stock = '';
@@ -92,7 +92,7 @@ app.use('/doctors', require('./routes/doctors'));
 app.use('/especialidads', require('./routes/especialidads'));
 app.use('/horarios', require('./routes/horarios'));
 app.use('/pacientes', require('./routes/pacientes'));
-app.use('/configuracion', require('./routes/configuracion'));
+app.use('/configuracions', require('./routes/configuracions'));
 app.use('/consultas', require('./routes/consultas'));
 app.use('/seguimientos', require('./routes/seguimientos'));
 app.use('/tratamientos', require('./routes/tratamientos'));

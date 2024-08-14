@@ -1,0 +1,73 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item active">Configuración</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Configuración</h1>
+<!-- END page-header -->
+<div class="col-xl-12">
+  <!-- BEGIN panel -->
+  <div class="panel panel-inverse">
+    <!-- BEGIN panel-body -->
+    <div class="panel-body" style="overflow: auto;">
+      <table
+        width="100%"
+        class="table table-striped table-bordered align-middle text-nowrap"
+      >
+        <thead>
+          <tr>
+            <th>Nombre del Sistema</th>
+            <th>Alias</th>
+            <th>Razón social</th>
+            <th>NIT</th>
+            <th>Ciudad</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Web</th>
+            <th>Actividad</th>
+            <th>Correo</th>
+            <th>Logo</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{configuracion.nombre_sistema}}</td>
+            <td>{{configuracion.alias}}</td>
+            <td>{{configuracion.razon_social}}</td>
+            <td>{{configuracion.nit}}</td>
+            <td>{{configuracion.ciudad}}</td>
+            <td>{{configuracion.dir}}</td>
+            <td>{{configuracion.fono}}</td>
+            <td>{{configuracion.web}}</td>
+            <td>{{configuracion.actividad}}</td>
+            <td>{{configuracion.correo}}</td>
+            <td><img
+                src="{{urlglobal}}/imgs/{{configuracion.logo}}"
+                alt="Logo"
+                class="img-table"
+              /></td>
+            <td class="btns-opciones">
+              <a
+                href="{{urlglobal}}/configuracions/edit/{{configuracion.id}}"
+                class="modificar"
+              ><i
+                  class="fa fa-edit"
+                  data-toggle="tooltip"
+                  data-placement="left"
+                  title="Modificar"
+                ></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{{#section "scripts"}}
+  <script>
+  </script>
+{{/section}}
