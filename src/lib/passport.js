@@ -15,7 +15,7 @@ passport.use('local.login', new LocalStrategy({
         const validation = await helpers.compareHash(password, user.password);
         if(validation)
         {
-            nombreUsuario = user.name;
+            nombreUsuario = user.usuario;
             done(null, user, req.flash('success','Bienvenido(a) '+ nombreUsuario));
         }
         else{

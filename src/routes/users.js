@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
     pagina = {};
     pagina.actual = 'users'
 
-    const usuarios = await pool.query("SELECT du.*, u.name as usuario, u.tipo, u.foto, u.id as user_id FROM datos_usuarios du JOIN users u ON u.id = du.user_id WHERE u.estado = 1 AND tipo IN('ADMINISTRADOR','AUXILIAR')");
+    const usuarios = await pool.query("SELECT u.id, u.usuario, u.nombre, u.paterno, u.materno, u.ci, u.ci_exp, u.tipo, u.foto, u.dir, u.fono, u.acceso FROM users u WHERE id != 1");
     res.render('users/index', {
         usuarios: usuarios,
         pagina
@@ -60,7 +60,7 @@ router.post('/store', upload.single('foto'), async (req, res, next) => {
         console.log('SIN ARCHIVOS');
     }
     // VALIDAR EL CI
-    let rows = await pool.query("SELECT * FROM datos_usuarios WHERE ci = ?", [req.body.ci]);
+    let rows = await pool.query("SELECT * FROM users WHERE ci = ?", [req.body.ci]);
     if (rows.length == 0) {
         let name_user = '';
         // OBTENER EL ULTIMO NRO. NOMBRE USUARIO
@@ -105,7 +105,7 @@ router.post('/store', upload.single('foto'), async (req, res, next) => {
         datosUsuario.user_id = nr_user_id;
         datosUsuario.fecha_registro = fechaActual();
 
-        let nr_datos_usuario = await pool.query("INSERT INTO datos_usuarios SET ?", [datosUsuario]);
+        let nr_datos_usuario = await pool.query("INSERT INTO users SET ?", [datosUsuario]);
         req.flash('success', 'Registro éxitoso')
         return res.redirect('/users');
     } else {
@@ -124,7 +124,7 @@ router.get('/edit/:id', async (req, res) => {
     const {
         id
     } = req.params;
-    const usuarios = await pool.query("SELECT du.*, u.name as usuario, u.tipo, u.foto, u.id as user_id FROM datos_usuarios du JOIN users u ON u.id = du.user_id WHERE u.estado = 1 AND du.id = ?", [id]);
+    const usuarios = await pool.query("SELECT du.*, u.usuario, u.tipo, u.foto, u.id as user_id FROM users du JOIN users u ON u.id = du.user_id WHERE du.id = ?", [id]);
     const usuario = usuarios[0];
     res.render('users/edit', {
         pagina: pagina,
@@ -139,7 +139,7 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     const {
         id
     } = req.params;
-    const usuarios = await pool.query("SELECT * FROM datos_usuarios WHERE id = ?", [id]);
+    const usuarios = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
     const usuario = usuarios[0];
     const users = await pool.query("SELECT * FROM users WHERE id = ?", [usuario.user_id]);
     const user = users[0];
@@ -157,7 +157,7 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     }
 
     // VALIDAR EL CI
-    let rows = await pool.query("SELECT * FROM datos_usuarios WHERE ci = ? AND id != ?", [req.body.ci, id]);
+    let rows = await pool.query("SELECT * FROM users WHERE ci = ? AND id != ?", [req.body.ci, id]);
     if (rows.length == 0) {
 
         let name_user = user.name;
@@ -200,7 +200,7 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
         datosUsuario.cel = req.body.cel;
         datosUsuario.fecha_registro = fechaActual();
 
-        let nr_datos_usuario = await pool.query("UPDATE datos_usuarios SET ? WHERE id = ?", [datosUsuario, usuario.id]);
+        let nr_datos_usuario = await pool.query("UPDATE users SET ? WHERE id = ?", [datosUsuario, usuario.id]);
 
         req.flash('success', 'Registro modificado con éxito')
         return res.redirect('/users');

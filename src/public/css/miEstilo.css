@@ -18,6 +18,10 @@
     content: "X Cerrar"!important;
 }
 
+.panel-title.btn-nuevo a{
+    display: inline!important;
+}
+
 /* FORMULARIOS */
 
 .nav.nav-tabs>li>a {
@@ -76,6 +80,7 @@ textarea {
     padding: 0 1em;
 }
 
+.dtr-data a,
 .btns-opciones a {
     margin-right: 1px;
     width: 70px;
@@ -85,10 +90,12 @@ textarea {
     border-radius: 50%;
 }
 
+.dtr-data a i,
 .btns-opciones a i {
     margin-bottom: 4px;
 }
 
+.dtr-data a.eliminar i,
 .btns-opciones a.eliminar i {
     color: white;
     background: black;
@@ -98,6 +105,7 @@ textarea {
     transition: 0.5s;
 }
 
+.dtr-data a.modificar i,
 .btns-opciones a.modificar i {
     color: white;
     background: black;
@@ -107,6 +115,7 @@ textarea {
     transition: 0.5s;
 }
 
+.dtr-data a.guardar i,
 .btns-opciones a.guardar i {
     color: white;
     background: black;
@@ -116,6 +125,7 @@ textarea {
     transition: 0.5s;
 }
 
+.dtr-data a.evaluar i,
 .btns-opciones a.evaluar i {
     color: white;
     background: black;
@@ -125,6 +135,7 @@ textarea {
     transition: 0.5s;
 }
 
+.dtr-data a.ir-evaluacion i,
 .btns-opciones a.ir-evaluacion i {
     color: white;
     background: black;
@@ -134,41 +145,48 @@ textarea {
     transition: 0.5s;
 }
 
+.dtr-data a.ir-evaluacion:disabled i,
 .btns-opciones a.ir-evaluacion:disabled i {
     border: solid 2px rgb(165, 165, 165);
     background: rgb(165, 165, 165);
 }
 
+.dtr-data a.eliminar i:hover,
 .btns-opciones a.eliminar i:hover {
     color: red;
     background: white;
     cursor: pointer;
 }
 
+.dtr-data a.modificar i:hover,
 .btns-opciones a.modificar i:hover {
     color: rgb(248, 190, 0);
     background: white;
     cursor: pointer;
 }
 
+.dtr-data a.guardar i:hover,
 .btns-opciones a.guardar i:hover {
     color: rgb(0, 153, 94);
     background: white;
     cursor: pointer;
 }
 
+.dtr-data a.evaluar i:hover,
 .btns-opciones a.evaluar i:hover {
     color: rgb(3, 136, 197);
     background: white;
     cursor: pointer;
 }
 
+.dtr-data a.ir-evaluacion i:hover,
 .btns-opciones a.ir-evaluacion i:hover {
     color: rgb(49, 240, 113);
     background: white;
     cursor: pointer;
 }
 
+.dtr-data a.evaluar i,
 a.evaluar i {
     color: white;
     background: black;
@@ -178,6 +196,7 @@ a.evaluar i {
     transition: 0.5s;
 }
 
+.dtr-data a.evaluar i:hover,
 a.evaluar i:hover {
     color: rgb(3, 136, 197);
     background: white;

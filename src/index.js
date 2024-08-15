@@ -56,9 +56,6 @@ app.use(async (req, res, next) => {
     var datosUsuario = null;
     var doctor = null;
     var datos_usuarios = [];
-    var doctors = null;
-    var especialidads = null;
-    let pacientes = null;
     let paciente = null;
     if (req.isAuthenticated()) {
         nombreUsuario = req.user.usuario;

@@ -6,6 +6,10 @@ helpers.section = function (name, options) {
     return null;
 };
 
+helpers.checkPhoto = function(foto, options) {
+    return foto ? foto : 'user_default.png';
+};
+
 helpers.if_equal = function (a, b, opts) {
     if (a == b) {
         console.log("FFF");
