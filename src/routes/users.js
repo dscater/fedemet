@@ -62,50 +62,29 @@ router.post('/store', upload.single('foto'), async (req, res, next) => {
     // VALIDAR EL CI
     let rows = await pool.query("SELECT * FROM users WHERE ci = ?", [req.body.ci]);
     if (rows.length == 0) {
-        let name_user = '';
-        // OBTENER EL ULTIMO NRO. NOMBRE USUARIO
-        let rows_users = [];
-        let nro_user = 10001;
-        rows_users = await pool.query("SELECT * FROM users WHERE tipo IN('ADMINISTRADOR') ORDER BY id DESC");
-        if (req.body.tipo == 'AUXILIAR') {
-            nro_user = 20001;
-            rows_users = await pool.query("SELECT * FROM users WHERE tipo IN('AUXILIAR','DOCTOR') ORDER BY id DESC");
-        }
-
-        if (rows_users.length > 0) {
-            let row_user = rows_users[0];
-            if (row_user.name != 'admin') {
-                nro_user = parseInt(row_user.name) + 1;
-            }
-        }
-        name_user = nro_user;
-
+        let name_user = req.body.nombre.trim().charAt(0).toUpperCase()+req.body.paterno.trim().toUpperCase();
         let contrasenia = await helpers.encryptText(req.body.ci);
 
+        let acceso = req.body.acceso && req.body.acceso.trim() !=''?1:0;
+
         let nuevo_user = {
-            name: name_user,
+            usuario: name_user,
             password: contrasenia,
+            nombre: req.body.nombre.toUpperCase(),
+            paterno: req.body.paterno.toUpperCase(),
+            materno: req.body.materno.toUpperCase(),
+            ci: req.body.ci,
+            ci_exp: req.body.ci_exp,
+            dir: req.body.dir.toUpperCase(),
+            correo: req.body.correo,
+            fono: req.body.fono,
+            fecha_registro: fechaActual(),
             tipo: req.body.tipo,
             foto: nom_imagen,
-            estado: 1
+            acceso: acceso
         };
 
         let nr_user = await pool.query("INSERT INTO users SET ?", [nuevo_user]);
-        let nr_user_id = nr_user.insertId;
-        const datosUsuario = {};
-        datosUsuario.nombre = req.body.nombre.toUpperCase();
-        datosUsuario.paterno = req.body.paterno.toUpperCase();
-        datosUsuario.materno = req.body.materno.toUpperCase();
-        datosUsuario.ci = req.body.ci;
-        datosUsuario.ci_exp = req.body.ci_exp;
-        datosUsuario.dir = req.body.dir.toUpperCase();
-        datosUsuario.email = req.body.email;
-        datosUsuario.fono = req.body.fono;
-        datosUsuario.cel = req.body.cel;
-        datosUsuario.user_id = nr_user_id;
-        datosUsuario.fecha_registro = fechaActual();
-
-        let nr_datos_usuario = await pool.query("INSERT INTO users SET ?", [datosUsuario]);
         req.flash('success', 'Registro éxitoso')
         return res.redirect('/users');
     } else {
@@ -124,7 +103,7 @@ router.get('/edit/:id', async (req, res) => {
     const {
         id
     } = req.params;
-    const usuarios = await pool.query("SELECT du.*, u.usuario, u.tipo, u.foto, u.id as user_id FROM users du JOIN users u ON u.id = du.user_id WHERE du.id = ?", [id]);
+    const usuarios = await pool.query("SELECT u.id, u.usuario, u.tipo,u.ci, u.ci_exp,u.correo, u.foto, u.nombre, u.paterno, u.materno, u.dir, u.fono, u.acceso FROM users u WHERE u.id = ?", [id]);
     const usuario = usuarios[0];
     res.render('users/edit', {
         pagina: pagina,
@@ -141,12 +120,10 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     } = req.params;
     const usuarios = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
     const usuario = usuarios[0];
-    const users = await pool.query("SELECT * FROM users WHERE id = ?", [usuario.user_id]);
-    const user = users[0];
-    var nom_imagen = user.foto;
+    var nom_imagen = usuario.foto;
     if (req.file) {
         nom_imagen = req.file.filename;
-        img_antiguo = user.foto;
+        img_antiguo = usuario.foto;
         if(img_antiguo != 'user_default.png'){
             try {
                 fs.unlinkSync('src/public/imgs/users/' + img_antiguo);
@@ -159,55 +136,52 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     // VALIDAR EL CI
     let rows = await pool.query("SELECT * FROM users WHERE ci = ? AND id != ?", [req.body.ci, id]);
     if (rows.length == 0) {
-
-        let name_user = user.name;
-        if (user.tipo != req.body.tipo) {
-            // OBTENER EL ULTIMO NRO. NOMBRE USUARIO
-            let rows_users = [];
-            let nro_user = 10001;
-            rows_users = await pool.query("SELECT * FROM users WHERE tipo IN('ADMINISTRADOR') ORDER BY id DESC");
-            if (req.body.tipo == 'AUXILIAR') {
-                nro_user = 20001;
-                rows_users = await pool.query("SELECT * FROM users WHERE tipo IN('AUXILIAR','DOCTOR') ORDER BY id DESC");
-            }
-
-            if (rows_users.length > 0) {
-                let row_user = rows_users[0];
-                if (row_user.name != 'admin') {
-                    nro_user = parseInt(row_user.name) + 1;
-                }
-            }
-            name_user = nro_user;
-        }
-
-        let user_update = {};
-        user_update.name = name_user;
-        user_update.tipo = req.body.tipo;
-        user_update.foto = nom_imagen;
+        let acceso = req.body.acceso && req.body.acceso.trim() !=''?1:0;
+        let user_update = {
+            nombre: req.body.nombre.toUpperCase(),
+            paterno: req.body.paterno.toUpperCase(),
+            materno: req.body.materno.toUpperCase(),
+            ci: req.body.ci,
+            ci_exp: req.body.ci_exp,
+            dir: req.body.dir.toUpperCase(),
+            correo: req.body.correo,
+            fono: req.body.fono,
+            fecha_registro: fechaActual(),
+            tipo: req.body.tipo,
+            foto: nom_imagen,
+            acceso: acceso
+        };
         console.log(user_update)
 
-        let nr_user = await pool.query("UPDATE users SET ? WHERE id = ?", [user_update, user.id]);
-        let nr_user_id = nr_user.insertId;
-        const datosUsuario = {};
-        datosUsuario.nombre = req.body.nombre.toUpperCase();
-        datosUsuario.paterno = req.body.paterno.toUpperCase();
-        datosUsuario.materno = req.body.materno.toUpperCase();
-        datosUsuario.ci = req.body.ci;
-        datosUsuario.ci_exp = req.body.ci_exp;
-        datosUsuario.dir = req.body.dir.toUpperCase();
-        datosUsuario.email = req.body.email;
-        datosUsuario.fono = req.body.fono;
-        datosUsuario.cel = req.body.cel;
-        datosUsuario.fecha_registro = fechaActual();
-
-        let nr_datos_usuario = await pool.query("UPDATE users SET ? WHERE id = ?", [datosUsuario, usuario.id]);
-
+        let nr_user = await pool.query("UPDATE users SET ? WHERE id = ?", [user_update, usuario.id]);
         req.flash('success', 'Registro modificado con éxito')
         return res.redirect('/users');
     } else {
         req.flash('error_ci', 'Ya existe alguien registrado con ese número de C.I.')
         res.redirect('/users/edit/' + usuario.id);
     }
+});
+
+
+router.post('/update_password/:id', async (req, res, next) => {
+    pagina = {};
+    pagina.actual = 'users';
+
+    const {
+        id
+    } = req.params;
+    const usuarios = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
+    const usuario = usuarios[0];
+    if(usuario){
+        let contrasenia = await helpers.encryptText(req.body.password);
+        let user_update = {
+            password: contrasenia
+        };
+        await pool.query("UPDATE users SET ? WHERE id = ?", [user_update, usuario.id]);
+    }
+
+    req.flash('success', 'Registro modificado con éxito')
+    return res.redirect('/users');
 });
 
 router.post('/destroy/:id', async (req, res, next) => {

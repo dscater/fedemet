@@ -51,11 +51,22 @@
                             <td>{{this.dir}}</td>
                             <td>{{this.fono}}</td>
                             <td>{{this.tipo}}</td>
-                            <td>{{this.acceso}}</td>
+                            <td>
+                                {{#if_equal this.acceso 1}}
+                                <span class="badge bg-success fs-10px">
+                                    HABILITADO
+                                </span>
+                                {{/if_equal}}
+                                {{#if_equal this.acceso 0}}
+                                <span class="badge bg-danger fs-10px">
+                                    DESHABILITADO
+                                </span>
+                                {{/if_equal}}
+                            </td>
                             <td class="btns-opciones">
-                                        <a href="{{urlbase}}/users/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
-    
-                                        <a href="#" data-url="{{urlbase}}/users/destroy/{{this.user_id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
+                                <a href="#" data-url="{{urlbase}}/users/update_password/{{this.id}}" class="password evaluar"><i class="fa fa-key" data-toggle="tooltip" data-placement="left" title="Cambiar Contraseña"></i></a>
+                                <a href="{{urlbase}}/users/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+                                <a href="#" data-url="{{urlbase}}/users/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -67,6 +78,7 @@
     </div>
 </div>
 
+{{> modal/password}}
 {{> modal/eliminar}}
 
 {{#section 'scripts'}}
@@ -84,6 +96,22 @@
 
     $('#btnEliminar').click(function(){
         $('#formEliminar').submit();
+    });
+
+
+    // PASSWORD
+    $(document).on('click','table.tabla_datos a.password',function(e){
+        e.preventDefault();
+        let usuario = $(this).parents('tr').children('td').eq(2).text();
+        $('#mensajePassword').html(`Actualizar contraseña del usuario <b>${usuario}</b>`);
+        let url = $(this).attr('data-url');
+        console.log($(this).attr('data-url'));
+        $('#formPassword').prop('action',url);
+        $("#modal-password").modal("show");
+    });
+
+    $('#btnPassword').click(function(){
+        $('#formPassword').submit();
     });
 
 </script>

@@ -1,147 +1,166 @@
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Usuarios</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{urlbase}}/home">Inicio</a></li>
-                    <li class="breadcrumb-item"><a href="{{urlbase}}/users">Usuarios</a></li>
-                    <li class="breadcrumb-item active">Nuevo</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Usuarios</a></li>
+  <li class="breadcrumb-item active">Nuevo</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Usuarios <small>Nuevo</small></h1>
+<!-- END page-header -->
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Nuevo Usuario</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <form action="{{urlbase}}/users/store" method="POST" enctype="multipart/form-data" class="formValidate" id="formValidate">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Nombre*</label>
-                                        <input type="text" name="nombre" value="{{data.nombre}}" class="form-control required letras" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Paterno*</label>
-                                        <input type="text" name="paterno" value="{{data.paterno}}" class="form-control required letras" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Materno</label>
-                                        <input type="text" name="materno" value="{{data.materno}}" class="form-control letras"> </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>C.I.*</label>
-                                        <input type="number" name="ci" value="{{data.ci}}" class="form-control required number" required>
-                                        {{#if error_ci}}
-                                        <span class="invalid-feedback" style="color:red;display:block" role="alert">
-                                            <strong>{{ error_ci }}</strong>
-                                        </span>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Expedido*</label>
-                                        <select name="ci_exp" id="ci_exp" id="" class="form-control required" required> <option value="">Seleccione...</option>
-                                            <option value="LP">LA PAZ</option>
-                                            <option value="CB">COCHABAMBA</option>
-                                            <option value="SC">SANTA CRUZ</option>
-                                            <option value="PT">POTOSI</option>
-                                            <option value="OR">ORURO</option>
-                                            <option value="CH">CHUQUISACA</option>
-                                            <option value="TJ">TARIJA</option>
-                                            <option value="BN">BENI</option>
-                                            <option value="PD">PANDO</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Dirección*</label>
-                                        <input type="text" name="dir" value="{{data.dir}}" class="form-control required" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Correo*</label>
-                                        <input type="email" name="email" value="{{data.email}}" class="form-control required email"> </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Teléfono*</label>
-                                        <input type="text" name="fono" value="{{data.fono}}" class="form-control required number" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Celular*</label>
-                                        <input type="text" name="cel" value="{{data.cel}}" class="form-control required number" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Tipo*</label>
-                                        <select name="tipo" id="tipo" class="form-control required"  >
-                                            <option value="">Seleccione...</option>
-                                            <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                                            <option value="AUXLIAR">AUXLIAR</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>Foto*</label>
-                                        <input type="file" name="foto" class="form-control required"  >
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-info"><i class="fa fa-save"></i> GUARDAR</button>
-                        </div>
-                    </form>
-                    <!-- /.card-body -->
+<div class="row mb-3">
+    <!-- BEGIN col-6 -->
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-11">
+            <!-- BEGIN panel-heading -->
+            <div class="panel-heading">
+                <h4 class="panel-title">Información</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col -->
+            <!-- END panel-heading -->
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <form action="{{urlbase}}/users/store" method="POST" enctype="multipart/form-data">
+                <div class="row mb-2">
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Nombre*</label>
+                        <input class="form-control" type="text"  name="nombre" value="{{data.nombre}}"  placeholder="Nombre" required/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Paterno*</label>
+                        <input class="form-control" type="text"  name="paterno" value="{{data.paterno}}"  placeholder="Paterno" required/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Materno</label>
+                        <input class="form-control" type="text"  name="materno" value="{{data.materno}}"  placeholder="Materno"/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">C.I.*</label>
+                        <input class="form-control" type="number"  name="ci" value="{{data.ci}}"  placeholder="C.I." required/>
+                        {{#if error_ci}}
+                            <span class="invalid-feedback" style="color:red;display:block" role="alert">
+                                <strong>{{ error_ci }}</strong>
+                            </span>
+                        {{/if}}
+                    </div>
+                    <div class="col-md-2 form-group mb-2">
+                        <label>Expedido*</label>
+                        <select name="ci_exp" id="ci_exp" id="" class="form-select required" required> <option value="">Seleccione...</option>
+                            <option value="LP">LA PAZ</option>
+                            <option value="CB">COCHABAMBA</option>
+                            <option value="SC">SANTA CRUZ</option>
+                            <option value="PT">POTOSI</option>
+                            <option value="OR">ORURO</option>
+                            <option value="CH">CHUQUISACA</option>
+                            <option value="TJ">TARIJA</option>
+                            <option value="BN">BENI</option>
+                            <option value="PD">PANDO</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group mb-2">   
+                        <label class="form-label">Dirección*</label>
+                        <input class="form-control" type="text"  name="dir" value="{{data.dir}}"  placeholder="Dirección"/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Correo</label>
+                        <input class="form-control" type="email"  name="correo" value="{{data.correo}}"  placeholder="Correo"/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Teléfono/Celular*</label>
+                        <input class="form-control" type="text"  name="fono" value="{{data.fono}}"  placeholder="Teléfono/Celular" required/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Tipo*</label>
+                        <select name="tipo" id="tipo" class="form-control required"  >
+                            <option value="">Seleccione...</option>
+                            <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                            <option value="SUPERVISOR">SUPERVISOR</option>
+                            <option value="VENDEDOR">VENDEDOR</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Foto</label>
+                            <input type="file" name="foto" class="form-control required"  >
+                    </div>
+                    <div class="col-md-4 form-group mb-2">
+                        <label for="flexSwitchCheckChecked">Acceso</label>
+                        <input type="checkbox" name="acceso" id="acceso" value="1" data-render="switchery" data-theme="blue" checked />
+                    </div>
+                </div>
+                    <button type="submit" class="btn btn-primary w-100px me-5px">Guardar</button>
+                    <a href="{{urlbase}}/users" type="submit" class="btn btn-default w-100px">Volver</a>
+                </form>
+            </div>
         </div>
-        <!-- /.row -->
+        <!-- END panel -->
     </div>
-</section>
+    <!-- END col-6 -->
+</div>
 
 {{#section 'scripts'}}
 <script>
-    window.onload = function () {
-        document.getElementById('tipo').value = '{{data.tipo}}';
-        document.getElementById('ci_exp').value = '{{data.ci_exp}}';
-    };
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('tipo').value = '{{usuario.tipo}}';
+        document.getElementById('ci_exp').value = '{{usuario.ci_exp}}';
+        let acceso= parseInt('{{usuario.acceso}}');
+        let accesoCheckbox = document.getElementById('acceso');
+        accesoCheckbox.removeAttribute("checked");
+        console.log(acceso);
+        if (acceso === 1) {
+            accesoCheckbox.setAttribute("checked", "");
+            // Alternativamente, también puedes usar:
+            accesoCheckbox.checked = true;
+        } else {
+            accesoCheckbox.removeAttribute("checked");
+            // Alternativamente, también puedes usar:
+            accesoCheckbox.checked = false;
+        }
+        renderSwitcher();
+    });
 
+    var renderSwitcher = function() {
+	if ($("[data-render='switchery']").length !== 0) {
+		$("[data-render='switchery']").each(function() {
+			var themeColor = app.color.success;
+			if ($(this).attr("data-theme")) {
+				switch ($(this).attr("data-theme")) {
+					case "red":
+						themeColor = app.color.red;
+						break;
+					case "blue":
+						themeColor = app.color.blue;
+						break;
+					case "purple":
+						themeColor = app.color.purple;
+						break;
+					case "orange":
+						themeColor = app.color.orange;
+						break;
+					case "black":
+						themeColor = app.color.black;
+						break;
+				}
+			}
+			var switchery = new Switchery(this, {
+				color: themeColor
+			});
+		});
+	}
+
+};
+/*
     $('.formValidate').validate({
         errorPlacement: function errorPlacement(error, element) { element.after(error); },
         rules: {
         },
-    });
+    });*/
 
 </script>
 {{/section}}
