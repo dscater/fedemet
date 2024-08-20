@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const pool = require('../database');
+const historialAccion = require('../lib/historialAccion');
 const helpers = require('../lib/helpers');
 const multer = require('multer');
 const fs = require('fs');
@@ -34,7 +35,7 @@ router.get('/', async (req, res) => {
     pagina = {};
     pagina.actual = 'users'
 
-    const usuarios = await pool.query("SELECT u.id, u.usuario, u.nombre, u.paterno, u.materno, u.ci, u.ci_exp, u.tipo, u.foto, u.dir, u.fono, u.acceso FROM users u WHERE id != 1");
+    const usuarios = await pool.query("SELECT u.id, u.usuario, u.nombre, u.paterno, u.materno, u.ci, u.ci_exp, u.tipo, u.foto, u.dir, u.fono, u.acceso FROM users u WHERE id != 1 AND estado = 1");
     res.render('users/index', {
         usuarios: usuarios,
         pagina
@@ -85,6 +86,7 @@ router.post('/store', upload.single('foto'), async (req, res, next) => {
         };
 
         let nr_user = await pool.query("INSERT INTO users SET ?", [nuevo_user]);
+        await historialAccion.registraAccion(req.user.id,"CREACIÓN","EL USUARIO "+req.user.usuario+" CREO UN USUARIO", nuevo_user,null,"USUARIOS")
         req.flash('success', 'Registro éxitoso')
         return res.redirect('/users');
     } else {
@@ -154,6 +156,8 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
         console.log(user_update)
 
         let nr_user = await pool.query("UPDATE users SET ? WHERE id = ?", [user_update, usuario.id]);
+        
+    await historialAccion.registraAccion(req.user.id,"MODIFICACIÓN","EL USUARIO "+req.user.usuario+" MODIFICO UN USAURIO", usuario,user_update,"USAURIOS")
         req.flash('success', 'Registro modificado con éxito')
         return res.redirect('/users');
     } else {
@@ -188,7 +192,13 @@ router.post('/destroy/:id', async (req, res, next) => {
     const {
         id
     } = req.params;
+
+    const usuarios = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
+    const usuario = usuarios[0];
+
     const result = await pool.query("UPDATE users SET estado = 0 WHERE id = ?", [id]);
+
+    await historialAccion.registraAccion(req.user.id,"ELIMINACIÓN","EL USUARIO "+req.user.usuario+" ELIMINO UN USUARIO", usuario,null,"USUARIOS")
     req.flash('success', 'Registro eliminado con éxito')
     return res.redirect('/users');
 });

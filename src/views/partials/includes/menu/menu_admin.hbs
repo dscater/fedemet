@@ -30,6 +30,23 @@
   </div>
 </div>
 
+<div class="menu-item {{#if_equal pagina.actual "marcas"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/marcas" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-list-alt"></i>
+        </div>
+        <div class="menu-text">Marcas</div>
+    </a>
+</div>
+
+<div class="menu-item {{#if_equal pagina.actual "proveedors"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/proveedors" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-user-friends"></i>
+        </div>
+        <div class="menu-text">Proveedores</div>
+    </a>
+</div>
 
 <div class="menu-item {{#if_equal pagina.actual "users"}} active {{/if_equal}}">
     <a href="{{urlbase}}/users" class="menu-link">

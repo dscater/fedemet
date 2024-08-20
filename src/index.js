@@ -50,13 +50,7 @@ app.use(async (req, res, next) => {
     //OBTENER LOS DATOS DE CONFIGURACION
     const configuracions = await pool.query("SELECT * FROM configuracions");
     const configuracion = configuracions[0];
-    var bajos_stock = '';
     var nombreUsuario = '';
-    var especialidad = null;
-    var datosUsuario = null;
-    var doctor = null;
-    var datos_usuarios = [];
-    let paciente = null;
     if (req.isAuthenticated()) {
         nombreUsuario = req.user.usuario;
     }
@@ -71,12 +65,8 @@ app.use(async (req, res, next) => {
     app.locals.error_ci = req.flash('error_ci');
     app.locals.user = req.user;
     app.locals.configuracion = configuracion;
-    app.locals.datosUsuario = req.user;
-    app.locals.paciente = paciente;
     app.locals.nombreUsuario = nombreUsuario;
     app.locals.urlbase = urlbase;
-    app.locals.doctor = doctor;
-    app.locals.especialidad = especialidad;
     next();
 });
 
@@ -85,21 +75,10 @@ app.use(require('./routes'));
 app.use(require('./routes/authentication'));
 app.use('/home', require('./routes/home'));
 app.use('/users', require('./routes/users'));
-app.use('/doctors', require('./routes/doctors'));
-app.use('/especialidads', require('./routes/especialidads'));
-app.use('/horarios', require('./routes/horarios'));
-app.use('/pacientes', require('./routes/pacientes'));
 app.use('/configuracions', require('./routes/configuracions'));
-app.use('/consultas', require('./routes/consultas'));
-app.use('/seguimientos', require('./routes/seguimientos'));
-app.use('/tratamientos', require('./routes/tratamientos'));
-app.use('/citas', require('./routes/citas'));
-app.use('/historial', require('./routes/historial'));
 app.use('/reportes', require('./routes/reportes'));
-app.use('/productos', require('./routes/productos'));
-app.use('/stock_productos', require('./routes/stock_productos'));
-app.use('/receta_seguimientos', require('./routes/receta_seguimientos'));
-app.use('/tratamientos_pacientes', require('./routes/tratamientos_pacientes'));
+app.use('/proveedors', require('./routes/proveedors'));
+app.use('/marcas', require('./routes/marcas'));
 
 // RUTA DE ARCHIVOS PUBLICOS
 app.use(express.static(path.join(__dirname, 'public')));
