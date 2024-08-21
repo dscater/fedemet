@@ -79,6 +79,7 @@ app.use('/configuracions', require('./routes/configuracions'));
 app.use('/reportes', require('./routes/reportes'));
 app.use('/proveedors', require('./routes/proveedors'));
 app.use('/marcas', require('./routes/marcas'));
+app.use('/productos', require('./routes/productos'));
 
 // RUTA DE ARCHIVOS PUBLICOS
 app.use(express.static(path.join(__dirname, 'public')));

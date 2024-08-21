@@ -30,6 +30,15 @@
   </div>
 </div>
 
+<div class="menu-item {{#if_equal pagina.actual "productos"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/productos" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-list-alt"></i>
+        </div>
+        <div class="menu-text">Productos</div>
+    </a>
+</div>
+
 <div class="menu-item {{#if_equal pagina.actual "marcas"}} active {{/if_equal}}">
     <a href="{{urlbase}}/marcas" class="menu-link">
         <div class="menu-icon">

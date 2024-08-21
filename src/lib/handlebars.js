@@ -7,7 +7,7 @@ helpers.section = function (name, options) {
 };
 
 helpers.checkPhoto = function(foto, options) {
-    return foto ? foto : 'user_default.png';
+    return foto ? foto : 'default.png';
 };
 
 helpers.if_equal = function (a, b, opts) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 20-08-2024 a las 16:34:41
+-- Tiempo de generación: 21-08-2024 a las 21:55:06
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -157,7 +157,15 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (5, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA MARCA', '{\"id\":1,\"nombre\":\"CATEGORÍA 1\",\"descripcion\":null,\"estado\":1}', '{\"nombre\":\"MARCA 1\",\"descripcion\":\"\"}', 'MARCAS', '2024-08-20', '12:34:01'),
 (6, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA MARCA', '{\"id\":3,\"nombre\":\"CATEGORIA 2\",\"descripcion\":null,\"estado\":1}', '{\"nombre\":\"MARCA 2\",\"descripcion\":\"\"}', 'MARCAS', '2024-08-20', '12:34:10'),
 (7, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN NUEVO MARCA', '{\"nombre\":\"MARCA 3\",\"descripcion\":\"DESC MARCA 3\"}', NULL, 'MARCAS', '2024-08-20', '12:34:16'),
-(8, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UNA MARCA', '{\"id\":4,\"nombre\":\"MARCA 3\",\"descripcion\":\"DESC MARCA 3\",\"estado\":1}', NULL, 'MARCAS', '2024-08-20', '12:34:22');
+(8, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UNA MARCA', '{\"id\":4,\"nombre\":\"MARCA 3\",\"descripcion\":\"DESC MARCA 3\",\"estado\":1}', NULL, 'MARCAS', '2024-08-20', '12:34:22'),
+(9, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":1,\"codigo_producto\":\"P001\",\"nro_codigo\":0,\"nombre\":\"PASTILLAS A AB\",\"descripcion\":\"\",\"precio\":20,\"stock_min\":10,\"stock_actual\":0,\"imagen\":null,\"marca_id\":3,\"fecha_registro\":\"2023-04-24T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PASTILLAS A ABC\",\"descripcion\":\"\",\"precio\":\"20\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"3\"}', 'USAURIOS', '2024-08-21', '17:45:11'),
+(10, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":3,\"usuario\":\"ECONDORI\",\"nombre\":\"EDUARDO\",\"paterno\":\"CONDORI\",\"materno\":\"MAMANI\",\"ci\":\"2222\",\"ci_exp\":\"LP\",\"dir\":\"ZONA LOS PEDREGALES\",\"correo\":\"eduardo@gmail.com\",\"fono\":\"77777777\",\"tipo\":\"SUPERVISOR\",\"foto\":\"eduardo1723843153882.jpg\",\"password\":\"$2a$10$NhuMflCFsQvhJ.gx1Nrfw.4wEyFplYs1c1HF1Rh2j2IASDmfUfati\",\"acceso\":1,\"estado\":1,\"fecha_registro\":\"2024-08-16T04:00:00.000Z\"}', '{\"nombre\":\"EDUARDO\",\"paterno\":\"CONDORI\",\"materno\":\"MAMANI\",\"ci\":\"2222\",\"ci_exp\":\"LP\",\"dir\":\"ZONA LOS PEDREGALES\",\"correo\":\"eduardo@gmail.com\",\"fono\":\"77777777\",\"fecha_registro\":\"2024-08-21\",\"tipo\":\"SUPERVISOR\",\"foto\":\"EDUARDO1724276763664.png\",\"acceso\":1}', 'USAURIOS', '2024-08-21', '17:46:03'),
+(11, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":3,\"usuario\":\"ECONDORI\",\"nombre\":\"EDUARDO\",\"paterno\":\"CONDORI\",\"materno\":\"MAMANI\",\"ci\":\"2222\",\"ci_exp\":\"LP\",\"dir\":\"ZONA LOS PEDREGALES\",\"correo\":\"eduardo@gmail.com\",\"fono\":\"77777777\",\"tipo\":\"SUPERVISOR\",\"foto\":\"EDUARDO1724276763664.png\",\"password\":\"$2a$10$NhuMflCFsQvhJ.gx1Nrfw.4wEyFplYs1c1HF1Rh2j2IASDmfUfati\",\"acceso\":1,\"estado\":1,\"fecha_registro\":\"2024-08-21T04:00:00.000Z\"}', '{\"nombre\":\"EDUARDO\",\"paterno\":\"CONDORI\",\"materno\":\"MAMANI\",\"ci\":\"2222\",\"ci_exp\":\"LP\",\"dir\":\"ZONA LOS PEDREGALES\",\"correo\":\"eduardo@gmail.com\",\"fono\":\"77777777\",\"fecha_registro\":\"2024-08-21\",\"tipo\":\"SUPERVISOR\",\"foto\":\"EDUARDO1724276769281.jpg\",\"acceso\":1}', 'USAURIOS', '2024-08-21', '17:46:09'),
+(12, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":1,\"codigo_producto\":\"P001\",\"nro_codigo\":0,\"nombre\":\"PASTILLAS A ABC\",\"descripcion\":\"\",\"precio\":20,\"stock_min\":10,\"stock_actual\":0,\"imagen\":null,\"marca_id\":3,\"fecha_registro\":\"2023-04-24T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PASTILLAS A ABC\",\"descripcion\":\"\",\"precio\":\"20\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"3\",\"imagen\":\"PASTILLAS A ABC1724276932842.png\"}', 'USAURIOS', '2024-08-21', '17:48:52'),
+(13, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UN PRODUCTO', '{\"id\":11,\"codigo_producto\":\"P006\",\"nro_codigo\":0,\"nombre\":\"PRODUCTO #6\",\"descripcion\":\"\",\"precio\":300,\"stock_min\":10,\"stock_actual\":0,\"imagen\":\"\",\"marca_id\":1,\"fecha_registro\":\"2024-03-14T04:00:00.000Z\",\"estado\":1}', NULL, 'PRODUCTOS', '2024-08-21', '17:48:59'),
+(14, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN PRODUCTO', '{\"codigo_producto\":\"PRO.1\",\"nro_codigo\":1,\"nombre\":\"PRODUCTO #7\",\"descripcion\":\"DESC PROD 7\",\"precio\":\"320\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"4\",\"imagen\":\"producto #71724276966673.png\",\"fecha_registro\":\"2024-08-21\"}', NULL, 'PRODUCTOS', '2024-08-21', '17:49:26'),
+(15, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":12,\"codigo_producto\":\"PRO.1\",\"nro_codigo\":1,\"nombre\":\"PRODUCTO #7\",\"descripcion\":\"DESC PROD 7\",\"precio\":320,\"stock_min\":10,\"stock_actual\":0,\"imagen\":\"producto 71724276966673.png\",\"marca_id\":4,\"fecha_registro\":\"2024-08-21T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PRODUCTO #7\",\"descripcion\":\"DESC PROD 7\",\"precio\":\"320\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"4\",\"imagen\":\"1724277225875.png\"}', 'USAURIOS', '2024-08-21', '17:53:45'),
+(16, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN PRODUCTO', '{\"codigo_producto\":\"PRO.2\",\"nro_codigo\":2,\"nombre\":\"PRODUCTO #8\",\"descripcion\":\"\",\"precio\":\"300\",\"stock_min\":\"4\",\"stock_actual\":0,\"marca_id\":\"1\",\"imagen\":\"1724277252368.png\",\"fecha_registro\":\"2024-08-21\"}', NULL, 'PRODUCTOS', '2024-08-21', '17:54:12');
 
 -- --------------------------------------------------------
 
@@ -265,29 +273,32 @@ INSERT INTO `marcas` (`id`, `nombre`, `descripcion`, `estado`) VALUES
 
 CREATE TABLE `productos` (
   `id` bigint UNSIGNED NOT NULL,
-  `codigo_almacen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `codigo_producto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nro_codigo` int NOT NULL,
   `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `precio` decimal(24,2) NOT NULL,
   `stock_min` double NOT NULL,
   `stock_actual` double NOT NULL,
   `imagen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `categoria_id` bigint UNSIGNED NOT NULL,
-  `fecha_registro` date NOT NULL
+  `marca_id` bigint UNSIGNED NOT NULL,
+  `fecha_registro` date NOT NULL,
+  `estado` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `codigo_almacen`, `codigo_producto`, `nombre`, `descripcion`, `precio`, `stock_min`, `stock_actual`, `imagen`, `categoria_id`, `fecha_registro`) VALUES
-(1, 'A001', 'P001', 'PASTILLAS A', '', 20.00, 10, 93, '', 3, '2023-04-24'),
-(2, 'A001', 'P002', 'GEL ANTIBACTERIAL', '', 35.00, 5, 99, NULL, 1, '2023-04-24'),
-(3, 'A001', 'P003', 'PRODUCTO 3', '', 100.00, 10, 169, NULL, 1, '2023-04-24'),
-(7, 'A00111', 'P004', 'PRODUCTO 4', '', 12.00, 12, 86, '1682696496_7.jpg', 1, '2023-04-24'),
-(10, 'A002222', 'P0044', 'PRODUCTO NUEVO P0044', 'DESC', 99.00, 10, 0, '', 3, '2023-05-19'),
-(11, 'A003', 'P006', 'PRODUCTO #6', '', 300.00, 10, 0, '', 1, '2024-03-14');
+INSERT INTO `productos` (`id`, `codigo_producto`, `nro_codigo`, `nombre`, `descripcion`, `precio`, `stock_min`, `stock_actual`, `imagen`, `marca_id`, `fecha_registro`, `estado`) VALUES
+(1, 'P001', 0, 'PASTILLAS A ABC', '', 20.00, 10, 0, 'PASTILLAS A ABC1724276932842.png', 3, '2023-04-24', 1),
+(2, 'P002', 0, 'GEL ANTIBACTERIAL', '', 35.00, 5, 99, NULL, 1, '2023-04-24', 1),
+(3, 'P003', 0, 'PRODUCTO 3', '', 100.00, 10, 169, NULL, 1, '2023-04-24', 1),
+(7, 'P004', 0, 'PRODUCTO 4', '', 12.00, 12, 86, NULL, 1, '2023-04-24', 1),
+(10, 'P0044', 0, 'PRODUCTO NUEVO P0044', 'DESC', 99.00, 10, 0, '', 3, '2023-05-19', 1),
+(11, 'P006', 0, 'PRODUCTO #6', '', 300.00, 10, 0, '', 1, '2024-03-14', 1),
+(12, 'PRO.1', 1, 'PRODUCTO #7', 'DESC PROD 7', 320.00, 10, 0, '1724277225875.png', 4, '2024-08-21', 1),
+(13, 'PRO.2', 2, 'PRODUCTO #8', '', 300.00, 4, 0, '1724277252368.png', 1, '2024-08-21', 1);
 
 -- --------------------------------------------------------
 
@@ -357,7 +368,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('_SetfqH_qWBG1HmWNAcXPPgArnCSlxP5', 1724258075, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}');
+('HpjGfTf4HXF79u4F0U7KFhaNA6uys4Ay', 1724363664, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{}}');
 
 -- --------------------------------------------------------
 
@@ -430,9 +441,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `dir`, `correo`, `fono`, `tipo`, `foto`, `password`, `acceso`, `estado`, `fecha_registro`) VALUES
 (1, 'admin', 'admin', 'admin', NULL, '', '', '', NULL, '', 'ADMINISTRADOR', NULL, '$2y$10$KYjM1KaTVguDQqAW5JO40u0CnJ2BlSxAlDFaYdvEmFceIBNu1StP6', 1, 1, '2023-01-11'),
-(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '1234', 'LP', 'LOS OLIVOS', '', '777777', 'SUPERVISOR', 'user_default.png', '$2a$10$0Kr.30pCwyDD2Ee8aA5xD.XP.M0LwmyBbB/rkFMiWRtSJgxf8NyB2', 1, 1, '2023-04-24'),
-(3, 'ECONDORI', 'EDUARDO', 'CONDORI', 'MAMANI', '2222', 'LP', 'ZONA LOS PEDREGALES', 'eduardo@gmail.com', '77777777', 'SUPERVISOR', 'eduardo1723843153882.jpg', '$2a$10$NhuMflCFsQvhJ.gx1Nrfw.4wEyFplYs1c1HF1Rh2j2IASDmfUfati', 1, 1, '2024-08-16'),
-(4, 'MQUISPE', 'MARIA', 'QUISPE', 'QUISPE', '3333', 'CB', 'ZONA LOS OLIVOS', '', '67676767', 'VENDEDOR', 'user_default.png', '$2a$10$ihA3LU.qKPDk6VQ/uI8AHODpBETgW/8BfU.Y5wf1GlWku.SwQ7Ht.', 1, 1, '2024-08-20');
+(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '1234', 'LP', 'LOS OLIVOS', '', '777777', 'SUPERVISOR', 'default.png', '$2a$10$0Kr.30pCwyDD2Ee8aA5xD.XP.M0LwmyBbB/rkFMiWRtSJgxf8NyB2', 1, 1, '2023-04-24'),
+(3, 'ECONDORI', 'EDUARDO', 'CONDORI', 'MAMANI', '2222', 'LP', 'ZONA LOS PEDREGALES', 'eduardo@gmail.com', '77777777', 'SUPERVISOR', 'EDUARDO1724276769281.jpg', '$2a$10$NhuMflCFsQvhJ.gx1Nrfw.4wEyFplYs1c1HF1Rh2j2IASDmfUfati', 1, 1, '2024-08-21'),
+(4, 'MQUISPE', 'MARIA', 'QUISPE', 'QUISPE', '3333', 'CB', 'ZONA LOS OLIVOS', '', '67676767', 'VENDEDOR', 'default.png', '$2a$10$ihA3LU.qKPDk6VQ/uI8AHODpBETgW/8BfU.Y5wf1GlWku.SwQ7Ht.', 1, 1, '2024-08-20');
 
 -- --------------------------------------------------------
 
@@ -606,7 +617,7 @@ ALTER TABLE `fecha_stocks`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
@@ -630,7 +641,7 @@ ALTER TABLE `marcas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedors`

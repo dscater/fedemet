@@ -1,0 +1,84 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Productos</a></li>
+  <li class="breadcrumb-item active">Nuevo</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Productos <small>Modificar</small></h1>
+<!-- END page-header -->
+
+<div class="row mb-3">
+    <!-- BEGIN col-6 -->
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-11">
+            <!-- BEGIN panel-heading -->
+            <div class="panel-heading">
+                <h4 class="panel-title">Información</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <!-- END panel-heading -->
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <form action="{{urlbase}}/productos/update/{{producto.id}}" method="POST" enctype="multipart/form-data">
+                <div class="row mb-2">
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Nombre Producto*</label>
+                        <input class="form-control" type="text"  name="nombre" value="{{producto.nombre}}"  placeholder="Nombre Producto" required/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Descripción</label>
+                        <input class="form-control" type="text"  name="descripcion" value="{{producto.descripcion}}"  placeholder="Descripción"/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">
+                        <label>Marca*</label>
+                        <select name="marca_id" id="marca_id" class="form-select required" required> <option value="">Seleccione...</option>
+                            {{#each marcas}}
+                            <option value="{{this.id}}">{{this.nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Precio de Venta*</label>
+                        <input class="form-control" type="number" step="0.01"  name="precio" value="{{producto.precio}}"  placeholder="Precio de Venta"/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Stock Mínimo*</label>
+                        <input class="form-control" type="number" step="0.01"  name="stock_min" value="{{producto.stock_min}}"  placeholder="Stock Mínimo"/>
+                    </div>
+                    <div class="col-md-4 form-group mb-2">   
+                        <label class="form-label">Imagen Referencial</label>
+                            <input type="file" name="imagen" class="form-control"  >
+                    </div>
+                </div>
+                    <button type="submit" class="btn btn-primary w-100px me-5px">Guardar</button>
+                    <a href="{{urlbase}}/productos" type="submit" class="btn btn-default w-100px">Volver</a>
+                </form>
+            </div>
+        </div>
+        <!-- END panel -->
+    </div>
+    <!-- END col-6 -->
+</div>
+
+{{#section 'scripts'}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('marca_id').value = '{{producto.marca_id}}';
+    });
+/*
+    $('.formValidate').validate({
+        errorPlacement: function errorPlacement(error, element) { element.after(error); },
+        rules: {
+        },
+    });*/
+
+</script>
+{{/section}}

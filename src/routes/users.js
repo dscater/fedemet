@@ -54,7 +54,7 @@ router.get('/create', (req, res) => {
 router.post('/store', upload.single('foto'), async (req, res, next) => {
     pagina = {};
     pagina.actual = 'users';
-    let nom_imagen = 'user_default.png';
+    let nom_imagen = 'default.png';
     if (req.file) {
         nom_imagen = req.file.filename;
     } else {
@@ -126,7 +126,7 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     if (req.file) {
         nom_imagen = req.file.filename;
         img_antiguo = usuario.foto;
-        if(img_antiguo != 'user_default.png'){
+        if(img_antiguo &&  img_antiguo != 'default.png'){
             try {
                 fs.unlinkSync('src/public/imgs/users/' + img_antiguo);
             } catch (err) {
