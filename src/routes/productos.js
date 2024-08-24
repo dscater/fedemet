@@ -133,7 +133,6 @@ router.post('/update/:id', upload.single('imagen'), async (req, res, next) => {
         descripcion: req.body.descripcion.toUpperCase(),
         precio: req.body.precio,
         stock_min: req.body.stock_min,
-        stock_actual:0,
         marca_id: req.body.marca_id,
         imagen: nom_imagen,
     };

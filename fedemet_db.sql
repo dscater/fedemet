@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 21-08-2024 a las 21:55:06
+-- Tiempo de generación: 24-08-2024 a las 18:10:00
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -125,7 +125,8 @@ INSERT INTO `fecha_stocks` (`id`, `producto_id`, `fecha`, `stock`) VALUES
 (2, 7, '2023-04-28', 86),
 (3, 2, '2023-04-28', 99),
 (4, 3, '2023-04-28', 69),
-(6, 3, '2024-03-14', 169);
+(6, 3, '2024-03-14', 169),
+(7, 1, '2024-08-24', 50);
 
 -- --------------------------------------------------------
 
@@ -165,7 +166,12 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (13, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UN PRODUCTO', '{\"id\":11,\"codigo_producto\":\"P006\",\"nro_codigo\":0,\"nombre\":\"PRODUCTO #6\",\"descripcion\":\"\",\"precio\":300,\"stock_min\":10,\"stock_actual\":0,\"imagen\":\"\",\"marca_id\":1,\"fecha_registro\":\"2024-03-14T04:00:00.000Z\",\"estado\":1}', NULL, 'PRODUCTOS', '2024-08-21', '17:48:59'),
 (14, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN PRODUCTO', '{\"codigo_producto\":\"PRO.1\",\"nro_codigo\":1,\"nombre\":\"PRODUCTO #7\",\"descripcion\":\"DESC PROD 7\",\"precio\":\"320\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"4\",\"imagen\":\"producto #71724276966673.png\",\"fecha_registro\":\"2024-08-21\"}', NULL, 'PRODUCTOS', '2024-08-21', '17:49:26'),
 (15, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":12,\"codigo_producto\":\"PRO.1\",\"nro_codigo\":1,\"nombre\":\"PRODUCTO #7\",\"descripcion\":\"DESC PROD 7\",\"precio\":320,\"stock_min\":10,\"stock_actual\":0,\"imagen\":\"producto 71724276966673.png\",\"marca_id\":4,\"fecha_registro\":\"2024-08-21T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PRODUCTO #7\",\"descripcion\":\"DESC PROD 7\",\"precio\":\"320\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"4\",\"imagen\":\"1724277225875.png\"}', 'USAURIOS', '2024-08-21', '17:53:45'),
-(16, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN PRODUCTO', '{\"codigo_producto\":\"PRO.2\",\"nro_codigo\":2,\"nombre\":\"PRODUCTO #8\",\"descripcion\":\"\",\"precio\":\"300\",\"stock_min\":\"4\",\"stock_actual\":0,\"marca_id\":\"1\",\"imagen\":\"1724277252368.png\",\"fecha_registro\":\"2024-08-21\"}', NULL, 'PRODUCTOS', '2024-08-21', '17:54:12');
+(16, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN PRODUCTO', '{\"codigo_producto\":\"PRO.2\",\"nro_codigo\":2,\"nombre\":\"PRODUCTO #8\",\"descripcion\":\"\",\"precio\":\"300\",\"stock_min\":\"4\",\"stock_actual\":0,\"marca_id\":\"1\",\"imagen\":\"1724277252368.png\",\"fecha_registro\":\"2024-08-21\"}', NULL, 'PRODUCTOS', '2024-08-21', '17:54:12'),
+(17, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN NUEVO TIPO DE SALIDA', '{\"nombre\":\"TIPO SALIDA 3\",\"descripcion\":\"DESC. TIPO SALIDA 3\"}', NULL, 'TIPO DE SALIDAES', '2024-08-24', '12:33:44'),
+(18, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN TIPO DE SALIDA', '{\"id\":4,\"nombre\":\"TIPO SALIDA 3\",\"descripcion\":\"DESC. TIPO SALIDA 3\"}', '{\"nombre\":\"TIPO SALIDA 3ASD\",\"descripcion\":\"DESC. TIPO SALIDA 3\"}', 'TIPO DE SALIDAES', '2024-08-24', '12:33:46'),
+(19, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UN TIPO DE SALIDA', '{\"id\":4,\"nombre\":\"TIPO SALIDA 3ASD\",\"descripcion\":\"DESC. TIPO SALIDA 3\"}', NULL, 'TIPO DE SALIDAES', '2024-08-24', '12:33:50'),
+(20, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN NUEVO INGRESO DE PRODUCTO', '{\"producto_id\":\"1\",\"proveedor_id\":\"1\",\"precio_compra\":\"2300\",\"cantidad\":\"50\",\"tipo_ingreso_id\":\"1\",\"descripcion\":\"INGRESO DE PRUEBA\",\"fecha_registro\":\"2024-08-24\"}', NULL, 'INGRESO DE PRODUCTOS', '2024-08-24', '14:07:57'),
+(21, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UN USAURIO', '{\"id\":1,\"codigo_producto\":\"PRO.1\",\"nro_codigo\":1,\"nombre\":\"PASTILLAS A ABC\",\"descripcion\":\"\",\"precio\":20,\"stock_min\":10,\"stock_actual\":50,\"imagen\":\"PASTILLAS A ABC1724276932842.png\",\"marca_id\":3,\"fecha_registro\":\"2023-04-24T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PRODUCTO #1\",\"descripcion\":\"\",\"precio\":\"20\",\"stock_min\":\"10\",\"stock_actual\":0,\"marca_id\":\"3\",\"imagen\":\"PASTILLAS A ABC1724276932842.png\"}', 'USAURIOS', '2024-08-24', '14:08:10');
 
 -- --------------------------------------------------------
 
@@ -179,9 +185,6 @@ CREATE TABLE `ingreso_productos` (
   `proveedor_id` bigint UNSIGNED NOT NULL,
   `precio_compra` decimal(8,2) NOT NULL,
   `cantidad` double NOT NULL,
-  `lote` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fecha_fabricacion` date NOT NULL,
-  `fecha_caducidad` date NOT NULL,
   `tipo_ingreso_id` bigint UNSIGNED NOT NULL,
   `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `fecha_registro` date NOT NULL
@@ -191,13 +194,14 @@ CREATE TABLE `ingreso_productos` (
 -- Volcado de datos para la tabla `ingreso_productos`
 --
 
-INSERT INTO `ingreso_productos` (`id`, `producto_id`, `proveedor_id`, `precio_compra`, `cantidad`, `lote`, `fecha_fabricacion`, `fecha_caducidad`, `tipo_ingreso_id`, `descripcion`, `fecha_registro`) VALUES
-(1, 1, 1, 20.00, 100, '1', '2023-02-02', '2025-02-02', 1, '', '2023-04-25'),
-(2, 2, 1, 30.00, 100, '2', '2023-04-25', '2024-04-25', 2, '', '2023-04-25'),
-(3, 3, 1, 100.00, 70, '3', '2023-03-03', '2026-03-03', 1, '', '2023-04-25'),
-(4, 1, 1, 20.00, 10, '10', '2023-04-27', '2025-04-27', 1, '', '2023-04-27'),
-(5, 7, 2, 11.00, 90, '322323', '2023-01-01', '2025-01-01', 1, '', '2023-04-28'),
-(7, 3, 1, 30.00, 100, '2022111', '2024-03-03', '2025-02-21', 1, '', '2024-03-14');
+INSERT INTO `ingreso_productos` (`id`, `producto_id`, `proveedor_id`, `precio_compra`, `cantidad`, `tipo_ingreso_id`, `descripcion`, `fecha_registro`) VALUES
+(1, 1, 1, 20.00, 100, 1, '', '2023-04-25'),
+(2, 2, 1, 30.00, 100, 2, '', '2023-04-25'),
+(3, 3, 1, 100.00, 70, 1, '', '2023-04-25'),
+(4, 1, 1, 20.00, 10, 1, '', '2023-04-27'),
+(5, 7, 2, 11.00, 90, 1, '', '2023-04-28'),
+(7, 3, 1, 30.00, 100, 1, '', '2024-03-14'),
+(8, 1, 1, 2300.00, 50, 1, 'INGRESO DE PRUEBA', '2024-08-24');
 
 -- --------------------------------------------------------
 
@@ -241,7 +245,8 @@ INSERT INTO `kardex_productos` (`id`, `lugar`, `tipo_registro`, `registro_id`, `
 (17, NULL, 'VENTA', 9, 7, 'VENTA DE PRODUCTO', 12.00, 'EGRESO', NULL, 4, 86, 12.00, NULL, 48.00, 1032.00, '2023-04-28'),
 (18, NULL, 'VENTA', 10, 2, 'VENTA DE PRODUCTO', 35.00, 'EGRESO', NULL, 1, 99, 35.00, NULL, 35.00, 3465.00, '2023-04-28'),
 (19, NULL, 'VENTA', 11, 3, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 69, 100.00, NULL, 100.00, 6900.00, '2023-04-28'),
-(21, NULL, 'INGRESO', 7, 3, 'INGRESO DE PRODUCTO', 100.00, 'INGRESO', 100, NULL, 169, 100.00, 10000.00, NULL, 16900.00, '2024-03-14');
+(21, NULL, 'INGRESO', 7, 3, 'INGRESO DE PRODUCTO', 100.00, 'INGRESO', 100, NULL, 169, 100.00, 10000.00, NULL, 16900.00, '2024-03-14'),
+(22, NULL, 'INGRESO', 8, 1, 'INGRESO DE PRODUCTO', 20.00, 'INGRESO', 50, NULL, 143, 20.00, 1000.00, NULL, 2860.00, '2024-08-24');
 
 -- --------------------------------------------------------
 
@@ -252,7 +257,7 @@ INSERT INTO `kardex_productos` (`id`, `lugar`, `tipo_registro`, `registro_id`, `
 CREATE TABLE `marcas` (
   `id` bigint UNSIGNED NOT NULL,
   `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcion` varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `estado` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -291,14 +296,14 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo_producto`, `nro_codigo`, `nombre`, `descripcion`, `precio`, `stock_min`, `stock_actual`, `imagen`, `marca_id`, `fecha_registro`, `estado`) VALUES
-(1, 'P001', 0, 'PASTILLAS A ABC', '', 20.00, 10, 0, 'PASTILLAS A ABC1724276932842.png', 3, '2023-04-24', 1),
-(2, 'P002', 0, 'GEL ANTIBACTERIAL', '', 35.00, 5, 99, NULL, 1, '2023-04-24', 1),
-(3, 'P003', 0, 'PRODUCTO 3', '', 100.00, 10, 169, NULL, 1, '2023-04-24', 1),
-(7, 'P004', 0, 'PRODUCTO 4', '', 12.00, 12, 86, NULL, 1, '2023-04-24', 1),
-(10, 'P0044', 0, 'PRODUCTO NUEVO P0044', 'DESC', 99.00, 10, 0, '', 3, '2023-05-19', 1),
-(11, 'P006', 0, 'PRODUCTO #6', '', 300.00, 10, 0, '', 1, '2024-03-14', 1),
-(12, 'PRO.1', 1, 'PRODUCTO #7', 'DESC PROD 7', 320.00, 10, 0, '1724277225875.png', 4, '2024-08-21', 1),
-(13, 'PRO.2', 2, 'PRODUCTO #8', '', 300.00, 4, 0, '1724277252368.png', 1, '2024-08-21', 1);
+(1, 'PRO.1', 1, 'PRODUCTO #1', '', 20.00, 10, 50, 'PASTILLAS A ABC1724276932842.png', 3, '2023-04-24', 1),
+(2, 'PRO.2', 2, 'GEL ANTIBACTERIAL', '', 35.00, 5, 99, NULL, 1, '2023-04-24', 1),
+(3, 'PRO.3', 3, 'PRODUCTO 3', '', 100.00, 10, 169, NULL, 1, '2023-04-24', 1),
+(7, 'PRO.4', 4, 'PRODUCTO 4', '', 12.00, 12, 86, NULL, 1, '2023-04-24', 1),
+(10, 'PRO.5', 5, 'PRODUCTO NUEVO P0044', 'DESC', 99.00, 10, 0, '', 3, '2023-05-19', 1),
+(11, 'PRO.6', 6, 'PRODUCTO #6', '', 300.00, 10, 0, '', 1, '2024-03-14', 1),
+(12, 'PRO.7', 7, 'PRODUCTO #7', 'DESC PROD 7', 320.00, 10, 0, '1724277225875.png', 4, '2024-08-21', 1),
+(13, 'PRO.8', 8, 'PRODUCTO #8', '', 300.00, 4, 0, '1724277252368.png', 1, '2024-08-21', 1);
 
 -- --------------------------------------------------------
 
@@ -368,7 +373,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('HpjGfTf4HXF79u4F0U7KFhaNA6uys4Ay', 1724363664, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{}}');
+('b0XedmHNJA94xDYl9OEHkS70Iy2QwFTW', 1724609352, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}');
 
 -- --------------------------------------------------------
 
@@ -611,25 +616,25 @@ ALTER TABLE `detalle_ventas`
 -- AUTO_INCREMENT de la tabla `fecha_stocks`
 --
 ALTER TABLE `fecha_stocks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -665,7 +670,7 @@ ALTER TABLE `tipo_ingresos`
 -- AUTO_INCREMENT de la tabla `tipo_salidas`
 --
 ALTER TABLE `tipo_salidas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

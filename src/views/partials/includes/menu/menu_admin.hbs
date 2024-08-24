@@ -39,6 +39,38 @@
     </a>
 </div>
 
+<div class="menu-item has-sub">
+  <a href="javascript:;" class="menu-link">
+    <div class="menu-icon">
+      <i class="fa fa-list"></i>
+    </div>
+    <div class="menu-text">Ingresos y Salidas de Productos</div>
+    <div class="menu-caret"></div>
+  </a>
+  <div class="menu-submenu">
+    <div class="menu-item">
+      <a href="{{urlbase}}/ingreso_productos" class="menu-link"><div
+          class="menu-text"
+        >Ingreso de productos</div></a>
+    </div>
+    <div class="menu-item">
+      <a href="index_v2.html" class="menu-link"><div
+          class="menu-text"
+        >Salida de productos</div></a>
+    </div>
+    <div class="menu-item">
+      <a href="{{urlbase}}/tipo_ingresos" class="menu-link"><div
+          class="menu-text"
+        >Tipos de Ingresos</div></a>
+    </div>
+    <div class="menu-item">
+      <a href="{{urlbase}}/tipo_salidas" class="menu-link"><div
+          class="menu-text"
+        >Tipos de Salidas</div></a>
+    </div>
+  </div>
+</div>
+
 <div class="menu-item {{#if_equal pagina.actual "marcas"}} active {{/if_equal}}">
     <a href="{{urlbase}}/marcas" class="menu-link">
         <div class="menu-icon">

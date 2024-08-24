@@ -115,28 +115,6 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
    
 });
 
-
-router.post('/update_password/:id', async (req, res, next) => {
-    pagina = {};
-    pagina.actual = 'proveedors';
-
-    const {
-        id
-    } = req.params;
-    const proveedors = await pool.query("SELECT * FROM proveedors WHERE id = ?", [id]);
-    const proveedor = proveedors[0];
-    if(proveedor){
-        let contrasenia = await helpers.encryptText(req.body.password);
-        let proveedor_update = {
-            password: contrasenia
-        };
-        await pool.query("UPDATE proveedors SET ? WHERE id = ?", [proveedor_update, proveedor.id]);
-    }
-
-    req.flash('success', 'Registro modificado con éxito')
-    return res.redirect('/proveedors');
-});
-
 router.post('/destroy/:id', async (req, res, next) => {
     const {
         id
