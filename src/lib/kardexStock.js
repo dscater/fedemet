@@ -146,92 +146,103 @@ historialAccion.registroEgreso = async (tipo_registro, registro_id = 0, producto
 
 historialAccion.actualizaRegistrosKardex = async (id,producto_id) =>{
     // siguientes
-    const siguientes = await pool.query("SELECT * FROM kardex_productos WHERE producto_id=? AND id >= ?",[producto_id,id]);
-    siguientes.forEach(async (elem) => {
-        let anterior = await pool.query("SELECT * FROM kardex_productos WHERE producto_id=? AND id < ? ORDER BY id DESC",[producto_id,elem.id])[0];
-        let datos_actualizacion = {
-            precio:0,
-            cantidad_ingreso:null,
-            cantidad_salida:null,
-            cantidad_saldo:0,
-            cu:0,
-            monto_ingreso:null,
-            monto_salida:null,
-            monto_saldo:0,
-        };
-
-        let producto = null;
-        let ingreso_producto = null;
-        let salida_producto = null;
-        let detalle_orden = null;
-        switch(elem.tipo_registro){
-            case 'INGRESO':
-                    ingreso_producto = await pool.query("SELECT * FROM ingreso_productos WHERE id =?",[elem.registro_id])[0];
-                    producto = await pool.query("SELECT * FROM productos WHERE id=?",[ingreso_producto.producto_id]) 
-                    monto = parseFloat(ingreso_producto.cantidad) * parseFloat(producto.precio);
-                    if (anterior) {
-                        datos_actualizacion["precio"] = producto.precio;
-                        datos_actualizacion["cantidad_ingreso"] =  ingreso_producto.cantidad;
-                        datos_actualizacion["cantidad_saldo"] = parseFloat(anterior.cantidad_saldo) + parseFloat(ingreso_producto.cantidad);
-                        datos_actualizacion["cu"] = producto.precio;
-                        datos_actualizacion["monto_ingreso"] = monto;
-                        datos_actualizacion["monto_saldo"] = parseFloat(anterior.monto_saldo) + parseFloat(monto);
-                    } else {
-                        datos_actualizacion["precio"] = producto.precio;
-                        datos_actualizacion["cantidad_ingreso"] =  ingreso_producto.cantidad;
-                        datos_actualizacion["cantidad_saldo"] = parseFloat(ingreso_producto.cantidad);
-                        datos_actualizacion["cu"] = producto.precio;
-                        datos_actualizacion["monto_ingreso"] = monto;
-                        datos_actualizacion["monto_saldo"] = monto;
-                    }
-                    break;
-                case 'SALIDA':
-                    salida_producto = await pool.query("SELECT * FROM salida_productos WHERE id =?",[elem.registro_id])[0];
-                    producto = await pool.query("SELECT * FROM productos WHERE id=?",[salida_producto.producto_id]) 
-                    monto = parseFloat(salida_producto.cantidad) * parseFloat(producto.precio);
-
-                    if (anterior) {
-                        datos_actualizacion["precio"] = producto.precio;
-                        datos_actualizacion["cantidad_salida"] =  salida_producto.cantidad;
-                        datos_actualizacion["cantidad_saldo"] = parseFloat(anterior.cantidad_saldo) - parseFloat(salida_producto.cantidad);
-                        datos_actualizacion["cu"] = producto.precio;
-                        datos_actualizacion["monto_salida"] = monto;
-                        datos_actualizacion["monto_saldo"] =  parseFloat(anterior.monto_saldo) - parseFloat(monto);
-                    } else {
-                        datos_actualizacion["precio"] = producto.precio;
-                        datos_actualizacion["cantidad_salida"] =  salida_producto.cantidad;
-                        datos_actualizacion["cantidad_saldo"] = parseFloat(salida_producto.cantidad) * (-1);
-                        datos_actualizacion["cu"] = producto.precio;
-                        datos_actualizacion["monto_salida"] = monto;
-                        datos_actualizacion["monto_saldo"] = monto * (-1);
-                    }
-
-                    break;
-                case 'VENTA':
-                    detalle_orden = await pool.query("SELECT * FROM detalle_ventas WHERE id =?",[elem.registro_id])[0];
-                    monto = parseFloat(detalle_orden.cantidad) * parseFloat(detalle_orden.precio);
-                    if (anterior) {
-                        datos_actualizacion["precio"] = detalle_orden.precio;
-                        datos_actualizacion["cantidad_salida"] =  detalle_orden.cantidad;
-                        datos_actualizacion["cantidad_saldo"] = parseFloat(anterior.cantidad_saldo) - parseFloat(detalle_orden.cantidad);
-                        datos_actualizacion["cu"] = detalle_orden.precio;
-                        datos_actualizacion["monto_salida"] = monto;
-                        datos_actualizacion["monto_saldo"] =  parseFloat(anterior.monto_saldo) - parseFloat(monto);
-                    } else {
-                        datos_actualizacion["precio"] = detalle_orden.precio;
-                        datos_actualizacion["cantidad_salida"] =  detalle_orden.cantidad;
-                        datos_actualizacion["cantidad_saldo"] = parseFloat(detalle_orden.cantidad)* (-1);
-                        datos_actualizacion["cu"] = detalle_orden.precio;
-                        datos_actualizacion["monto_salida"] = monto;
-                        datos_actualizacion["monto_saldo"] = monto * (-1);
-                    }
-                    break;
+    try{
+        const siguientes = await pool.query("SELECT * FROM kardex_productos WHERE producto_id=? AND id >= ?",[producto_id,id]);
+        for(const elem of siguientes) {
+            let anteriores = await pool.query("SELECT * FROM kardex_productos WHERE producto_id=? AND id < ? ORDER BY id DESC",[producto_id,elem.id]);
+            let anterior = anteriores[0];
+            let datos_actualizacion = {
+                precio:0,
+                cantidad_ingreso:null,
+                cantidad_salida:null,
+                cantidad_saldo:0,
+                cu:0,
+                monto_ingreso:null,
+                monto_salida:null,
+                monto_saldo:0,
+            };
+    
+            let producto = null;
+            let ingreso_producto = null;
+            let salida_producto = null;
+            let detalle_orden = null;
+            let resultados = [];
+            switch(elem.tipo_registro){
+                case 'INGRESO':
+                        resultados = await pool.query("SELECT * FROM ingreso_productos WHERE id =?",[elem.registro_id]);
+                        ingreso_producto = resultados[0]
+                        resultados = await pool.query("SELECT * FROM productos WHERE id=?",[ingreso_producto.producto_id]) 
+                        producto = resultados[0]
+                        monto = parseFloat(ingreso_producto.cantidad) * parseFloat(producto.precio);
+                        if (anterior) {
+                            datos_actualizacion["precio"] = producto.precio;
+                            datos_actualizacion["cantidad_ingreso"] =  ingreso_producto.cantidad;
+                            datos_actualizacion["cantidad_saldo"] = parseFloat(anterior.cantidad_saldo) + parseFloat(ingreso_producto.cantidad);
+                            datos_actualizacion["cu"] = producto.precio;
+                            datos_actualizacion["monto_ingreso"] = monto;
+                            datos_actualizacion["monto_saldo"] = parseFloat(anterior.monto_saldo) + parseFloat(monto);
+                        } else {
+                            datos_actualizacion["precio"] = producto.precio;
+                            datos_actualizacion["cantidad_ingreso"] =  ingreso_producto.cantidad;
+                            datos_actualizacion["cantidad_saldo"] = parseFloat(ingreso_producto.cantidad);
+                            datos_actualizacion["cu"] = producto.precio;
+                            datos_actualizacion["monto_ingreso"] = monto;
+                            datos_actualizacion["monto_saldo"] = monto;
+                        }
+                        break;
+                    case 'SALIDA':
+                        resultados = await pool.query("SELECT * FROM salida_productos WHERE id =?",[elem.registro_id]);
+                        salida_producto = resultados[0]
+                        resultados = await pool.query("SELECT * FROM productos WHERE id=?",[salida_producto.producto_id]) 
+                        producto = resultados[0]
+                        monto = parseFloat(salida_producto.cantidad) * parseFloat(producto.precio);
+    
+                        if (anterior) {
+                            datos_actualizacion["precio"] = producto.precio;
+                            datos_actualizacion["cantidad_salida"] =  salida_producto.cantidad;
+                            datos_actualizacion["cantidad_saldo"] = parseFloat(anterior.cantidad_saldo) - parseFloat(salida_producto.cantidad);
+                            datos_actualizacion["cu"] = producto.precio;
+                            datos_actualizacion["monto_salida"] = monto;
+                            datos_actualizacion["monto_saldo"] =  parseFloat(anterior.monto_saldo) - parseFloat(monto);
+                        } else {
+                            datos_actualizacion["precio"] = producto.precio;
+                            datos_actualizacion["cantidad_salida"] =  salida_producto.cantidad;
+                            datos_actualizacion["cantidad_saldo"] = parseFloat(salida_producto.cantidad) * (-1);
+                            datos_actualizacion["cu"] = producto.precio;
+                            datos_actualizacion["monto_salida"] = monto;
+                            datos_actualizacion["monto_saldo"] = monto * (-1);
+                        }
+    
+                        break;
+                    case 'VENTA':
+                        resultados = await pool.query("SELECT * FROM detalle_ventas WHERE id =?",[elem.registro_id]);
+                        detalle_orden = resultados[0]
+                        monto = parseFloat(detalle_orden.cantidad) * parseFloat(detalle_orden.precio);
+                        if (anterior) {
+                            datos_actualizacion["precio"] = detalle_orden.precio;
+                            datos_actualizacion["cantidad_salida"] =  detalle_orden.cantidad;
+                            datos_actualizacion["cantidad_saldo"] = parseFloat(anterior.cantidad_saldo) - parseFloat(detalle_orden.cantidad);
+                            datos_actualizacion["cu"] = detalle_orden.precio;
+                            datos_actualizacion["monto_salida"] = monto;
+                            datos_actualizacion["monto_saldo"] =  parseFloat(anterior.monto_saldo) - parseFloat(monto);
+                        } else {
+                            datos_actualizacion["precio"] = detalle_orden.precio;
+                            datos_actualizacion["cantidad_salida"] =  detalle_orden.cantidad;
+                            datos_actualizacion["cantidad_saldo"] = parseFloat(detalle_orden.cantidad)* (-1);
+                            datos_actualizacion["cu"] = detalle_orden.precio;
+                            datos_actualizacion["monto_salida"] = monto;
+                            datos_actualizacion["monto_saldo"] = monto * (-1);
+                        }
+                        break;
+            }
+    
+            await pool.query("UPDATE kardex_productos SET ? WHERE id = ?",[datos_actualizacion,elem.id])
         }
-
-        await pool.query("UPDATE kardex_productos SET ? WHERE id = ?",[datos_actualizacion,elem.id])
-    })
-
-    return true;
+        return true;
+    }catch(err){
+        console.error('Error en actualizaRegistrosKardex:', err);
+        return false;
+    }
 }
 
 function fechaActual() {

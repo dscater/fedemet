@@ -83,6 +83,8 @@ app.use('/productos', require('./routes/productos'));
 app.use('/tipo_ingresos', require('./routes/tipo_ingresos'));
 app.use('/tipo_salidas', require('./routes/tipo_salidas'));
 app.use('/ingreso_productos', require('./routes/ingreso_productos'));
+app.use('/salida_productos', require('./routes/salida_productos'));
+app.use('/clientes', require('./routes/clientes'));
 
 // RUTA DE ARCHIVOS PUBLICOS
 app.use(express.static(path.join(__dirname, 'public')));

@@ -27,6 +27,7 @@ pool.getConnection((err, connection)=>{
 });
 
 pool.query = promisify(pool.query);//call back a promesas
+pool.getConnection = promisify(pool.getConnection); // promisificar getConnection
 
 module.exports = pool;
 

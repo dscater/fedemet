@@ -54,7 +54,7 @@
         >Ingreso de productos</div></a>
     </div>
     <div class="menu-item">
-      <a href="index_v2.html" class="menu-link"><div
+      <a href="{{urlbase}}/salida_productos" class="menu-link"><div
           class="menu-text"
         >Salida de productos</div></a>
     </div>
@@ -77,6 +77,15 @@
         <i class="fa fa-list-alt"></i>
         </div>
         <div class="menu-text">Marcas</div>
+    </a>
+</div>
+
+<div class="menu-item {{#if_equal pagina.actual "clientes"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/clientes" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-list-alt"></i>
+        </div>
+        <div class="menu-text">Clientes</div>
     </a>
 </div>
 

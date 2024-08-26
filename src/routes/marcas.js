@@ -62,7 +62,7 @@ router.post('/store', upload.single('foto'), async (req, res, next) => {
 
     let nr_marca = await pool.query("INSERT INTO marcas SET ?", [nuevo_marca]);
 
-    await historialAccion.registraAccion(req.user.id,"CREACIÓN","EL USUARIO "+req.user.usuario+" CREO UN NUEVO MARCA", nuevo_marca,null,"MARCAS")
+    await historialAccion.registraAccion(req.user.id,"CREACIÓN","EL USUARIO "+req.user.usuario+" CREO UNA NUEVA MARCA", nuevo_marca,null,"MARCAS")
 
     req.flash('success', 'Registro éxitoso')
     return res.redirect('/marcas');

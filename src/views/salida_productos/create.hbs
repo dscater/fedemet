@@ -1,12 +1,12 @@
 <!-- BEGIN breadcrumb -->
 <ol class="breadcrumb">
   <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-  <li class="breadcrumb-item"><a href="javascript:;">Ingreso de Productos</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Salida de Productos</a></li>
   <li class="breadcrumb-item active">Nuevo</li>
 </ol>
 <!-- END breadcrumb -->
 <!-- BEGIN page-header -->
-<h1 class="page-header">Ingreso de Productos <small>Nuevo</small></h1>
+<h1 class="page-header">Salida de Productos <small>Nuevo</small></h1>
 <!-- END page-header -->
 
 <div class="row mb-3">
@@ -27,7 +27,7 @@
             <!-- END panel-heading -->
             <!-- BEGIN panel-body -->
             <div class="panel-body">
-                <form action="{{urlbase}}/ingreso_productos/store" method="POST" enctype="multipart/form-data">
+                <form action="{{urlbase}}/salida_productos/store" method="POST" enctype="multipart/form-data">
                 <div class="row mb-2">
                     <div class="col-md-4 form-group mb-2">
                         <label>Producto*</label>
@@ -37,26 +37,18 @@
                             {{/each}}
                         </select>
                     </div>
-                    <div class="col-md-4 form-group mb-2">
-                        <label>Proveedor*</label>
-                        <select name="proveedor_id" id="proveedor_id" class="form-select required" required> <option value="">Seleccione...</option>
-                            {{#each proveedors}}
-                            <option value="{{this.id}}">{{this.razon_social}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
                     <div class="col-md-4 form-group mb-2">   
-                        <label class="form-label">Precio de compra*</label>
-                        <input class="form-control" type="number" step="0.01"  name="precio_compra" value="{{data.precio_compra}}"  placeholder="Precio de compra" required/>
+                        <label class="form-label">Fecha de salida*</label>
+                        <input class="form-control" type="date" name="fecha_salida" value="{{data.fecha_salida}}"  placeholder="Fecha de salida" required/>
                     </div>
                     <div class="col-md-4 form-group mb-2">   
                         <label class="form-label">Cantidad*</label>
                         <input class="form-control" type="number" step="0.01"  name="cantidad" value="{{data.cantidad}}"  placeholder="Cantidad" required/>
                     </div>
                     <div class="col-md-4 form-group mb-2">
-                        <label>Tipo de ingreso*</label>
-                        <select name="tipo_ingreso_id" id="tipo_ingreso_id" class="form-select required" required> <option value="">Seleccione...</option>
-                            {{#each tipo_ingresos}}
+                        <label>Tipo de salida*</label>
+                        <select name="tipo_salida_id" id="tipo_salida_id" class="form-select required" required> <option value="">Seleccione...</option>
+                            {{#each tipo_salidas}}
                             <option value="{{this.id}}">{{this.nombre}}</option>
                             {{/each}}
                         </select>
@@ -67,7 +59,7 @@
                     </div>
                 </div>
                     <button type="submit" class="btn btn-primary w-100px me-5px">Guardar</button>
-                    <a href="{{urlbase}}/ingreso_productos" type="submit" class="btn btn-default w-100px">Volver</a>
+                    <a href="{{urlbase}}/salida_productos" type="submit" class="btn btn-default w-100px">Volver</a>
                 </form>
             </div>
         </div>
@@ -80,8 +72,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('producto_id').value = '{{data.producto_id}}';
-        document.getElementById('proveedor_id').value = '{{data.proveedor_id}}';
-        document.getElementById('tipo_ingreso_id').value = '{{data.tipo_ingreso_id}}';
+        document.getElementById('tipo_salida_id').value = '{{data.tipo_salida_id}}';
     });
 </script>
 {{/section}}

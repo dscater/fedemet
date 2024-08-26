@@ -1,11 +1,11 @@
 <!-- BEGIN breadcrumb -->
 <ol class="breadcrumb">
   <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-  <li class="breadcrumb-item active">Ingreso de productos</li>
+  <li class="breadcrumb-item active">Clientes</li>
 </ol>
 <!-- END breadcrumb -->
 <!-- BEGIN page-header -->
-<h1 class="page-header">Ingreso de productos</h1>
+<h1 class="page-header">Clientes</h1>
 <!-- END page-header -->
 
 <div class="row">
@@ -14,7 +14,7 @@
         <div class="panel panel-inverse">
             <!-- BEGIN panel-heading -->
             <div class="panel-heading">
-                <h4 class="panel-title btn-nuevo"><a href="{{urlbase}}/ingreso_productos/create" class="btn btn-primary"><i class="fa fa-plus"></i> Nuevo</a></h4>
+                <h4 class="panel-title btn-nuevo"><a href="{{urlbase}}/clientes/create" class="btn btn-primary"><i class="fa fa-plus"></i> Nuevo</a></h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
@@ -28,31 +28,31 @@
                     <thead>
                         <tr>
                             <th width="1%"></th>
-                            <th class="text-nowrap">Producto</th>
-                            <th class="text-nowrap">Proveedor</th>
-                            <th class="text-nowrap">Precio de compra</th>
-                            <th class="text-nowrap">Cantidad</th>
-                            <th class="text-nowrap">Tipo de Ingreso</th>
-                            <th class="text-nowrap">Descripción</th>
+                            <th class="text-nowrap">Nombre</th>
+                            <th class="text-nowrap">C.I.</th>
+                            <th class="text-nowrap">NIT</th>
+                            <th class="text-nowrap">Teléfono/Celular</th>
+                            <th class="text-nowrap">Correo</th>
+                            <th class="text-nowrap">Dirección</th>
                             <th class="text-nowrap">Fecha de Registro</th>
                             <th class="text-nowrap">Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         
-                        {{#each ingreso_productos}}
+                        {{#each clientes}}
                         <tr class="odd gradeX">
                             <td width="1%" class="fw-bold">{{this.id}}</td>
-                            <td>{{this.p_nombre}}</td>
-                            <td>{{this.razon_social}}</td>
-                            <td>{{this.precio_compra}}</td>
-                            <td>{{this.cantidad}}</td>
-                            <td>{{this.ti_nombre}}</td>
-                            <td>{{this.descripcion}}</td>
+                            <td>{{this.nombre}}</td>
+                            <td>{{this.ci}} {{this.ci_exp}}</td>
+                            <td>{{this.nit}}</td>
+                            <td>{{this.fono}}</td>
+                            <td>{{this.correo}}</td>
+                            <td>{{this.dir}}</td>
                             <td>{{this.fecha_registro}}</td>
                             <td class="btns-opciones">
-                                <a href="{{urlbase}}/ingreso_productos/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
-                                <a href="#" data-url="{{urlbase}}/ingreso_productos/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
+                                <a href="{{urlbase}}/clientes/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+                                <a href="#" data-url="{{urlbase}}/clientes/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -71,8 +71,8 @@
     // ELIMINAR
     $(document).on('click','table.tabla_datos a.eliminar',function(e){
         e.preventDefault();
-        let ingreso_producto = $(this).parents('tr').children('td').eq(1).text();
-        $('#mensajeEliminar').html(`¿Está seguro(a) de eliminar el registro del producto <b>${ingreso_producto}</b>?`);
+        let cliente = $(this).parents('tr').children('td').eq(1).text();
+        $('#mensajeEliminar').html(`¿Está seguro(a) de eliminar al cliente <b>${cliente}</b>?`);
         let url = $(this).attr('data-url');
         console.log($(this).attr('data-url'));
         $('#formEliminar').prop('action',url);
