@@ -1,0 +1,476 @@
+{{#section 'css'}}
+	<link href="{{urlbase}}/template/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet" />
+    <style>
+        /* FACURA */
+        .contenedor_factura {
+            font-size: 0.95em;
+            width: 7cm !important;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .elemento {
+            text-align: center;
+        }
+
+        .elemento.logo img {
+            width: 60%;
+        }
+
+        .separador {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .fono,
+        .lp {
+            font-size: 0.75em;
+        }
+
+        .txt_fo {
+            margin-top: 3px;
+            border-top: solid 1px black;
+        }
+
+        .detalle {
+            border-top: solid 1px black;
+            border-bottom: solid 1px black;
+        }
+
+        .act_eco {
+            font-size: 0.73em;
+        }
+
+        .info1 {
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.75em;
+        }
+
+        .info2 {
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.7em;
+        }
+
+        .izquierda {
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .derecha {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .informacion {
+            padding: 5px;
+            width: 100%;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .cobro {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .cobro table {
+            width: 100%;
+        }
+
+        .centreado {
+            text-align: center;
+        }
+
+        .cobro table tr td {
+            font-size: 0.9em;
+        }
+
+        .literal {
+            font-size: 0.7em;
+        }
+
+        .cod_control,
+        .fecha_emision {
+            font-size: 0.9em;
+        }
+
+        .cobro table {
+            border-collapse: collapse;
+        }
+
+        .cobro table tr.punteado td {
+            border-top: solid 1px black;
+            border-bottom: solid 1px black;
+        }
+
+        .qr img {
+            width: 160px;
+            height: 160px;
+        }
+
+        .total {
+            font-size: 0.9em !important;
+        }
+
+    </style>
+{{/section}}
+
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Ventas</a></li>
+  <li class="breadcrumb-item active">Factura</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Ventas <small>Factura</small></h1>
+<!-- END page-header -->
+
+<div class="row mb-3">
+    <!-- BEGIN col-6 -->
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-11">
+            <!-- BEGIN panel-heading -->
+            <div class="panel-heading">
+                <h4 class="panel-title">Información</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <!-- END panel-heading -->
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <div id="principal">
+                    <div
+                        class="contenedor_factura ml-auto mr-auto"
+                        id="contenedor_imprimir"
+                    >
+                        <div class="elemento logo">
+                        </div>
+                        <div class="elemento nom_empresa">
+                            {{ configuracion.razon_social }}
+                        </div>
+                        <div class="elemento direccion">
+                            Dirección:
+                            {{ configuracion.dir }}
+                        </div>
+                        <div class="elemento direccion">
+                            Teléfonos:
+                            {{ configuracion.fono }}
+                        </div>
+                        <div class="elemento direccion">
+                            La Paz - Bolivia
+                        </div>
+                        <div class="elemento direccion">
+                            FACTURA<br />
+                        </div>
+                        <div class="elemento detalle centreado">
+                            NIT:
+                            {{ configuracion.nit }}
+                            <br />
+                            FACTURA NÚMERO:
+                            {{ nro_factura }}
+                            <br />
+                            AUTORIZACIÓN: 325545855547
+                            <br />
+                        </div>
+
+                        <div class="elemento centreado">
+                            VENTA AL POR MENOR DE PRODUCTOS DE FERRETERÍA Y METAL MECÁNICA
+                        </div>
+                        <div class="elemento detalle izquierda">
+                            Fecha:
+                            {{ venta.fecha_registro }}
+                            &nbsp;&nbsp; Hora:
+                            {{ venta.hora }}
+                            <br />
+                            NOMBRE:
+                            {{ venta.c_nombre }}
+                            <br />
+                            NIT/C.I.: {{ venta.nit }}
+                            <br />
+                            Usu.:
+                            {{ venta.usuario }}
+                            <br />
+                        </div>
+                        <div class="elemento bold">DETALLE</div>
+                        <div class="cobro">
+                            <table>
+                                <tr class="punteado">
+                                    <td class="centreado">
+                                        CANTIDAD
+                                    </td>
+                                    <td class="centreado">
+                                        PRODUCTO
+                                    </td>
+                                    <td class="centreado">
+                                        P/U
+                                    </td>
+                                    <td class="centreado">
+                                        SUBTOTAL
+                                    </td>
+                                </tr>
+                                {{#each detalle_ventas}}
+                                <tr>
+                                    <td class="centreado">
+                                        {{ this.cantidad }}
+                                    </td>
+                                    <td class="izquierda">
+                                        {{
+                                            this.p_nombre
+                                        }}
+                                    </td>
+                                    <td class="centreado">
+                                        {{ this.precio }}
+                                    </td>
+                                    <td class="centreado">
+                                        {{ this.subtotal }}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                                <tr>
+                                    <td
+                                        colspan="3"
+                                        class="bold elemento detalle"
+                                        style="
+                                            text-align: right;
+                                            padding-right: 4px;
+                                        "
+                                    >
+                                        TOTAL
+                                    </td>
+                                    <td
+                                        class="centreado bold detalle"
+                                        style=""
+                                    >
+                                        {{ venta.total }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        colspan="3"
+                                        class="bold elemento"
+                                        style="
+                                            text-align: right;
+                                            padding-right: 4px;
+                                        "
+                                    >
+                                        DESCUENTO %
+                                    </td>
+                                    <td class="centreado bold">
+                                        {{ venta.descuento }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        colspan="3"
+                                        class="bold elemento detalle"
+                                        style="
+                                            text-align: right;
+                                            padding-right: 4px;
+                                        "
+                                    >
+                                        TOTAL FINAL
+                                    </td>
+                                    <td
+                                        class="centreado bold detalle"
+                                    >
+                                        {{ venta.total_final }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="centreado literal">
+                            Son: {{ letras }}
+                        </div>
+                        <div class="elemento">
+                            <img src="{{qrCodeBase64}}" alt="QR" />
+                        </div>
+                        <div class="elemento centreado">
+                            Ley N 453: El proveedor deberá
+                            entregar el producto en las
+                            modalidades y términos ofertados o
+                            convenidos.
+                        </div>
+                        <div class="elemento centreado">
+                            Este documento es la representación
+                            gráfico a un Documento Fiscal
+                            Digital emitido en una modalidad de
+                            facturación en línea.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary me-5px w-100 btn-block" id="btnImprimir">Imprimir</button>
+                        <a href="{{urlbase}}/ventas" type="submit" class="btn btn-default w-100 btn-block">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END panel -->
+    </div>
+    <!-- END col-6 -->
+</div>
+
+{{#section 'scripts'}}
+<script>
+    let btnImprimir = $("#btnImprimir")
+    document.addEventListener('DOMContentLoaded', function() {
+        btnImprimir.click(imrpimirContenedor);
+        {{#if imprimir }}
+            imrpimirContenedor();
+        {{/if}}
+    });
+
+    
+    function imrpimirContenedor() {
+        var divContents = document.getElementById("principal").innerHTML;
+        var a = window.open("", "");
+        a.document.write("<html>");
+        a.document.write("<head>");
+        a.document.write(
+            `
+            <style>
+                @page { margin: 0;}
+                body { width: 7cm !important;}
+
+                #principal{
+                    width: 7cm !important;
+                }
+
+                #contenedor_imprimir {
+                    font-size: 0.95em;
+                    width: 7cm !important;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                    font-family: 'Times New Roman', Times, serif;
+                }
+
+                .elemento {
+                    text-align: center;
+                }
+
+                .elemento.logo img {
+                    width: 60%;
+                }
+
+                .separador {
+                    padding: 0px;
+                    margin: 0px;
+                }
+
+                .fono,
+                .lp {
+                    font-size: 0.75em;
+                }
+
+                .txt_fo {
+                    margin-top: 3px;
+                    border-top: solid 1px black;
+                }
+
+                .detalle {
+                    border-top: solid 1px black;
+                    border-bottom: solid 1px black;
+                }
+
+                .act_eco {
+                    font-size: 0.73em;
+                }
+
+                .info1 {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 0.75em;
+                }
+
+                .info2 {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 0.7em;
+                }
+
+                .izquierda {
+                    text-align: left;
+                    padding-left: 5px;
+                }
+
+                .derecha {
+                    text-align: right;
+                    padding-right: 5px;
+                }
+
+                .informacion {
+                    padding: 5px;
+                    width: 100%;
+                }
+
+                .bold {
+                    font-weight: bold;
+                }
+
+                .cobro {
+                    width: 100%;
+                    padding: 5px;
+                }
+
+                .cobro table {
+                    width: 100%;
+                }
+
+                .centreado {
+                    text-align: center;
+                }
+
+                .cobro table tr td {
+                    font-size: 0.9em;
+                }
+
+                .literal {
+                    font-size: 0.7em;
+                }
+
+                .cod_control,
+                .fecha_emision {
+                    font-size: 0.9em;
+                }
+
+                .cobro table {
+                    border-collapse: collapse;
+                }
+
+                .cobro table tr.punteado td {
+                    border-top: solid 1px black;
+                    border-bottom: solid 1px black;
+                }
+
+                .qr img {
+                    width: 160px;
+                    height: 160px;
+                }
+
+                .total {
+                    font-size: 0.9em !important;
+                }
+            </style>
+            `
+        );
+        a.document.write("</head>");
+        a.document.write("<body >");
+        a.document.write(divContents);
+        a.document.write("</body></html>");
+        a.document.close();
+        a.print();
+    }
+</script>
+{{/section}}

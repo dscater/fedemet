@@ -126,7 +126,7 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     
         let nr_cliente = await pool.query("UPDATE clientes SET ? WHERE id = ?", [cliente_update, cliente.id]);
     
-        await historialAccion.registraAccion(req.user.id,"MODIFICACIÓN","EL USUARIO "+req.user.usuario+" MODIFICO UNA CLIENTE", cliente,cliente_update,"CLIENTES")
+        await historialAccion.registraAccion(req.user.id,"MODIFICACIÓN","EL USUARIO "+req.user.usuario+" MODIFICO UN CLIENTE", cliente,cliente_update,"CLIENTES")
         req.flash('success', 'Registro modificado con éxito')
         return res.redirect('/clientes');
     }
@@ -164,7 +164,7 @@ router.post('/destroy/:id', async (req, res, next) => {
 
     const result = await pool.query("UPDATE clientes SET estado = 0 WHERE id = ?", [id]);
 
-    await historialAccion.registraAccion(req.user.id,"ELIMINACIÓN","EL USUARIO "+req.user.usuario+" ELIMINO UNA CLIENTE", cliente,null,"CLIENTES")
+    await historialAccion.registraAccion(req.user.id,"ELIMINACIÓN","EL USUARIO "+req.user.usuario+" ELIMINO UN CLIENTE", cliente,null,"CLIENTES")
     req.flash('success', 'Registro eliminado con éxito')
     return res.redirect('/clientes');
 });
@@ -184,12 +184,6 @@ function fechaActual() {
         fecha = `${year}-${month}-${day}`;
     }
     return fecha
-}
-
-function nombreUsuario(nombre, paterno) {
-    let nombreUser = nombre.substring(0, 1) + paterno;
-    nombreUser = nombreUser.toUpperCase();
-    return nombreUser;
 }
 
 module.exports = router;

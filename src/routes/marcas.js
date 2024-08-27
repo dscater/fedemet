@@ -160,10 +160,4 @@ function fechaActual() {
     return fecha
 }
 
-function nombreUsuario(nombre, paterno) {
-    let nombreUser = nombre.substring(0, 1) + paterno;
-    nombreUser = nombreUser.toUpperCase();
-    return nombreUser;
-}
-
 module.exports = router;

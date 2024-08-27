@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 26-08-2024 a las 18:19:41
+-- Tiempo de generación: 27-08-2024 a las 18:18:52
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -95,6 +95,18 @@ CREATE TABLE `detalle_ventas` (
   `subtotal` decimal(24,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `detalle_ventas`
+--
+
+INSERT INTO `detalle_ventas` (`id`, `venta_id`, `producto_id`, `cantidad`, `precio`, `subtotal`) VALUES
+(1, 1, 1, 3, 20.00, 60.00),
+(2, 2, 1, 5, 20.00, 100.00),
+(3, 3, 1, 6, 20.00, 120.00),
+(4, 4, 1, 3, 20.00, 60.00),
+(6, 5, 1, 2, 20.00, 40.00),
+(9, 5, 2, 3, 35.00, 105.00);
+
 -- --------------------------------------------------------
 
 --
@@ -113,7 +125,9 @@ CREATE TABLE `fecha_stocks` (
 --
 
 INSERT INTO `fecha_stocks` (`id`, `producto_id`, `fecha`, `stock`) VALUES
-(1, 1, '2024-08-26', 97);
+(1, 1, '2024-08-26', 97),
+(2, 1, '2024-08-27', 78),
+(3, 2, '2024-08-27', 197);
 
 -- --------------------------------------------------------
 
@@ -153,7 +167,17 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (13, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA CLIENTE', '{\"id\":6,\"nombre\":\"ASDASD\",\"ci\":\"123123\",\"ci_exp\":\"LP\",\"nit\":\"12311\",\"fono\":\"123123123\",\"correo\":\"\",\"dir\":\"\",\"fecha_registro\":\"2024-08-26T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"ASDASD\",\"ci\":\"123123\",\"ci_exp\":\"LP\",\"nit\":\"12311\",\"fono\":\"123123123; 65565\",\"correo\":\"\",\"dir\":\"\"}', 'CLIENTES', '2024-08-26', '14:15:16'),
 (14, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA CLIENTE', '{\"id\":1,\"nombre\":\"PEDRO MARTINEZ\",\"ci\":\"231231\",\"ci_exp\":\"LP\",\"nit\":\"\",\"fono\":\"\",\"correo\":null,\"dir\":\"\",\"fecha_registro\":\"2023-04-26T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PEDRO MARTINEZ\",\"ci\":\"231231\",\"ci_exp\":\"LP\",\"nit\":\"34343\",\"fono\":\"\",\"correo\":\"\",\"dir\":\"\"}', 'CLIENTES', '2024-08-26', '14:15:26'),
 (15, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA CLIENTE', '{\"id\":1,\"nombre\":\"PEDRO MARTINEZ\",\"ci\":\"231231\",\"ci_exp\":\"LP\",\"nit\":\"34343\",\"fono\":\"\",\"correo\":\"\",\"dir\":\"\",\"fecha_registro\":\"2023-04-26T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"PEDRO MARTINEZ\",\"ci\":\"231231\",\"ci_exp\":\"LP\",\"nit\":\"34343\",\"fono\":\"56565665\",\"correo\":\"\",\"dir\":\"\"}', 'CLIENTES', '2024-08-26', '14:19:22'),
-(16, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA CLIENTE', '{\"id\":6,\"nombre\":\"ASDASD\",\"ci\":\"123123\",\"ci_exp\":\"LP\",\"nit\":\"12311\",\"fono\":\"123123123; 65565\",\"correo\":\"\",\"dir\":\"\",\"fecha_registro\":\"2024-08-26T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"GONZALO TARQUI\",\"ci\":\"123123\",\"ci_exp\":\"LP\",\"nit\":\"12311\",\"fono\":\"123123123; 65565\",\"correo\":\"\",\"dir\":\"\"}', 'CLIENTES', '2024-08-26', '14:19:34');
+(16, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA CLIENTE', '{\"id\":6,\"nombre\":\"ASDASD\",\"ci\":\"123123\",\"ci_exp\":\"LP\",\"nit\":\"12311\",\"fono\":\"123123123; 65565\",\"correo\":\"\",\"dir\":\"\",\"fecha_registro\":\"2024-08-26T04:00:00.000Z\",\"estado\":1}', '{\"nombre\":\"GONZALO TARQUI\",\"ci\":\"123123\",\"ci_exp\":\"LP\",\"nit\":\"12311\",\"fono\":\"123123123; 65565\",\"correo\":\"\",\"dir\":\"\"}', 'CLIENTES', '2024-08-26', '14:19:34'),
+(17, 1, 'CREACIÓN', 'EL USUARIO admin CREO UNA NUEVA VENTA', '{\"user_id\":1,\"cliente_id\":\"1\",\"nit\":\"34343\",\"total\":\"60\",\"descuento\":\"0\",\"total_final\":\"60.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"11:38:28\"}', NULL, 'VENTAS', '2024-08-27', '11:38:28'),
+(18, 1, 'CREACIÓN', 'EL USUARIO admin CREO UNA NUEVA VENTA', '{\"user_id\":1,\"cliente_id\":\"2\",\"nit\":\"34324111\",\"total\":\"100\",\"descuento\":\"10\",\"total_final\":\"90.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"11:59:09\"}', NULL, 'VENTAS', '2024-08-27', '11:59:09'),
+(19, 1, 'CREACIÓN', 'EL USUARIO admin CREO UNA NUEVA VENTA', '{\"user_id\":1,\"cliente_id\":\"3\",\"nit\":\"11111\",\"total\":\"120\",\"descuento\":\"0\",\"total_final\":\"120.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"12:00:02\"}', NULL, 'VENTAS', '2024-08-27', '12:00:02'),
+(20, 1, 'CREACIÓN', 'EL USUARIO admin CREO UNA NUEVA VENTA', '{\"user_id\":1,\"cliente_id\":\"2\",\"nit\":\"12311\",\"total\":\"60\",\"descuento\":\"5\",\"total_final\":\"57.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"12:00:55\"}', NULL, 'VENTAS', '2024-08-27', '12:00:55'),
+(21, 1, 'CREACIÓN', 'EL USUARIO admin CREO UN NUEVO INGRESO DE PRODUCTO', '{\"producto_id\":\"2\",\"proveedor_id\":\"2\",\"precio_compra\":\"3000\",\"cantidad\":\"200\",\"tipo_ingreso_id\":\"1\",\"descripcion\":\"\",\"fecha_registro\":\"2024-08-27\"}', NULL, 'INGRESO DE PRODUCTOS', '2024-08-27', '12:01:21'),
+(22, 1, 'CREACIÓN', 'EL USUARIO admin CREO UNA NUEVA VENTA', '{\"user_id\":1,\"cliente_id\":\"1\",\"nit\":\"33333\",\"total\":\"145\",\"descuento\":\"0\",\"total_final\":\"145.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"12:13:37\"}', NULL, 'VENTAS', '2024-08-27', '12:13:37'),
+(23, 1, 'CREACIÓN', 'EL USUARIO admin CREO UNA NUEVA VENTA', '{\"user_id\":1,\"cliente_id\":\"1\",\"nit\":\"3\",\"total\":\"40\",\"descuento\":\"0\",\"total_final\":\"40.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"12:14:15\"}', NULL, 'VENTAS', '2024-08-27', '12:14:15'),
+(24, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA VENTA', '{\"id\":5,\"user_id\":1,\"cliente_id\":1,\"nit\":\"33333\",\"total\":145,\"descuento\":0,\"total_final\":145,\"estado\":1,\"fecha_registro\":\"2024-08-27T04:00:00.000Z\",\"hora\":\"12:13:37\"}', '{\"user_id\":1,\"cliente_id\":\"1\",\"nit\":\"33333\",\"total\":\"215\",\"descuento\":\"0\",\"total_final\":\"215.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"12:44:11\"}', 'VENTAS', '2024-08-27', '12:44:11'),
+(25, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICO UNA VENTA', '{\"id\":5,\"user_id\":1,\"cliente_id\":1,\"nit\":\"33333\",\"total\":215,\"descuento\":0,\"total_final\":215,\"estado\":1,\"fecha_registro\":\"2024-08-27T04:00:00.000Z\",\"hora\":\"12:44:11\"}', '{\"user_id\":1,\"cliente_id\":\"1\",\"nit\":\"33333\",\"total\":\"145\",\"descuento\":\"0\",\"total_final\":\"145.00\",\"fecha_registro\":\"2024-08-27\",\"hora\":\"12:46:09\"}', 'VENTAS', '2024-08-27', '12:46:09'),
+(26, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UNA VENTA', '{\"id\":6,\"user_id\":1,\"cliente_id\":1,\"nit\":\"3\",\"total\":40,\"descuento\":0,\"total_final\":40,\"estado\":1,\"fecha_registro\":\"2024-08-27T04:00:00.000Z\",\"hora\":\"12:14:15\"}', NULL, 'VENTAS', '2024-08-27', '12:52:09');
 
 -- --------------------------------------------------------
 
@@ -177,7 +201,8 @@ CREATE TABLE `ingreso_productos` (
 --
 
 INSERT INTO `ingreso_productos` (`id`, `producto_id`, `proveedor_id`, `precio_compra`, `cantidad`, `tipo_ingreso_id`, `descripcion`, `fecha_registro`) VALUES
-(2, 1, 4, 6000.00, 100, 2, '', '2024-08-26');
+(2, 1, 4, 6000.00, 100, 2, '', '2024-08-26'),
+(3, 2, 2, 3000.00, 200, 1, '', '2024-08-27');
 
 -- --------------------------------------------------------
 
@@ -210,7 +235,14 @@ CREATE TABLE `kardex_productos` (
 
 INSERT INTO `kardex_productos` (`id`, `lugar`, `tipo_registro`, `registro_id`, `producto_id`, `detalle`, `precio`, `tipo_is`, `cantidad_ingreso`, `cantidad_salida`, `cantidad_saldo`, `cu`, `monto_ingreso`, `monto_salida`, `monto_saldo`, `fecha`) VALUES
 (2, NULL, 'INGRESO', 2, 1, 'INGRESO DE PRODUCTO', 20.00, 'INGRESO', 100, NULL, 100, 20.00, 2000.00, NULL, 2000.00, '2024-08-26'),
-(4, NULL, 'SALIDA', 2, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', NULL, 3, 97, 20.00, NULL, 60.00, 1940.00, '2024-08-26');
+(4, NULL, 'SALIDA', 2, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', NULL, 3, 97, 20.00, NULL, 60.00, 1940.00, '2024-08-26'),
+(5, NULL, 'VENTA', 1, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', 3, NULL, 94, 20.00, 60.00, NULL, 1880.00, '2024-08-27'),
+(6, NULL, 'VENTA', 2, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', 5, NULL, 89, 20.00, 100.00, NULL, 1780.00, '2024-08-27'),
+(7, NULL, 'VENTA', 3, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', 6, NULL, 83, 20.00, 120.00, NULL, 1660.00, '2024-08-27'),
+(8, NULL, 'VENTA', 4, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', 3, NULL, 80, 20.00, 60.00, NULL, 1600.00, '2024-08-27'),
+(9, NULL, 'INGRESO', 3, 2, 'VALOR INICIAL', 35.00, 'INGRESO', 200, NULL, 200, 35.00, 7000.00, NULL, 7000.00, '2024-08-27'),
+(11, NULL, 'VENTA', 6, 1, 'SALIDA DE PRODUCTO', 20.00, 'EGRESO', NULL, 2, 78, 20.00, NULL, 40.00, 1560.00, '2024-08-27'),
+(14, NULL, 'VENTA', 9, 2, 'SALIDA DE PRODUCTO', 35.00, 'EGRESO', 3, NULL, 197, 35.00, 105.00, NULL, 6895.00, '2024-08-27');
 
 -- --------------------------------------------------------
 
@@ -260,8 +292,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo_producto`, `nro_codigo`, `nombre`, `descripcion`, `precio`, `stock_min`, `stock_actual`, `imagen`, `marca_id`, `fecha_registro`, `estado`) VALUES
-(1, 'PRO.1', 1, 'PRODUCTO #1', '', 20.00, 10, 97, 'PASTILLAS A ABC1724276932842.png', 3, '2023-04-24', 1),
-(2, 'PRO.2', 2, 'GEL ANTIBACTERIAL', '', 35.00, 5, 0, NULL, 1, '2023-04-24', 1),
+(1, 'PRO.1', 1, 'PRODUCTO #1', '', 20.00, 10, 78, 'PASTILLAS A ABC1724276932842.png', 3, '2023-04-24', 1),
+(2, 'PRO.2', 2, 'GEL ANTIBACTERIAL', '', 35.00, 5, 197, NULL, 1, '2023-04-24', 1),
 (3, 'PRO.3', 3, 'PRODUCTO 3', '', 100.00, 10, 0, NULL, 1, '2023-04-24', 1),
 (7, 'PRO.4', 4, 'PRODUCTO 4', '', 12.00, 12, 0, NULL, 1, '2023-04-24', 1),
 (10, 'PRO.5', 5, 'PRODUCTO NUEVO P0044', 'DESC', 99.00, 10, 0, '', 3, '2023-05-19', 1),
@@ -337,8 +369,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('5Hg2z1JzvajcCnc12FCwWCtR7cqW22s0', 1724769850, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}'),
-('MHjdnfEIf2bHoBEVET6NwhtZwSD7AXdM', 1724782775, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{\"error_fono\":[\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\"]},\"passport\":{\"user\":1}}');
+('6kReBBeQS0OQe93OhUHSejK5sUm2-Zqv', 1724869091, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}'),
+('MHjdnfEIf2bHoBEVET6NwhtZwSD7AXdM', 1724782775, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{\"error_fono\":[\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\"]},\"passport\":{\"user\":1}}'),
+('tVTfmbGBfk-si09bHSe2YYRbWRrWy4lV', 1724861432, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}'),
+('yiuCP9K5zBHFeK0ZUJbX4du-HF7DGKB3', 1724861475, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}');
 
 -- --------------------------------------------------------
 
@@ -429,9 +463,21 @@ CREATE TABLE `ventas` (
   `total` decimal(24,2) NOT NULL,
   `descuento` double(8,2) NOT NULL,
   `total_final` decimal(24,2) NOT NULL,
-  `estado` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fecha_registro` date NOT NULL
+  `estado` int NOT NULL DEFAULT '1',
+  `fecha_registro` date NOT NULL,
+  `hora` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id`, `user_id`, `cliente_id`, `nit`, `total`, `descuento`, `total_final`, `estado`, `fecha_registro`, `hora`) VALUES
+(1, 1, 1, '34343', 60.00, 0.00, 60.00, 1, '2024-08-27', '11:38:28'),
+(2, 1, 2, '34324111', 100.00, 10.00, 90.00, 1, '2024-08-27', '11:59:09'),
+(3, 1, 3, '11111', 120.00, 0.00, 120.00, 1, '2024-08-27', '12:00:02'),
+(4, 1, 2, '12311', 60.00, 5.00, 57.00, 1, '2024-08-27', '12:00:55'),
+(5, 1, 1, '33333', 145.00, 0.00, 145.00, 1, '2024-08-27', '12:46:09');
 
 --
 -- Índices para tablas volcadas
@@ -564,31 +610,31 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `fecha_stocks`
 --
 ALTER TABLE `fecha_stocks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -636,7 +682,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

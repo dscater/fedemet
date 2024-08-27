@@ -8,7 +8,7 @@
   </a>
   <div class="menu-submenu">
     <div class="menu-item">
-      <a href="index.html" class="menu-link"><div
+      <a href="{{urlbase}}/analisis/inventario" class="menu-link"><div
           class="menu-text"
         >Inventario</div></a>
     </div>
@@ -28,6 +28,15 @@
         >Clientes</div></a>
     </div>
   </div>
+</div>
+
+<div class="menu-item {{#if_equal pagina.actual "ventas"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/ventas" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-list-alt"></i>
+        </div>
+        <div class="menu-text">Ventas</div>
+    </a>
 </div>
 
 <div class="menu-item {{#if_equal pagina.actual "productos"}} active {{/if_equal}}">

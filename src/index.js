@@ -60,6 +60,7 @@ app.use(async (req, res, next) => {
 
     const urlbase = 'http://' + hostname;
 
+    app.locals.imprimir = req.flash('imprimir');
     app.locals.success = req.flash('success');
     app.locals.error = req.flash('error');
     app.locals.error_ci = req.flash('error_ci');
@@ -85,6 +86,8 @@ app.use('/tipo_salidas', require('./routes/tipo_salidas'));
 app.use('/ingreso_productos', require('./routes/ingreso_productos'));
 app.use('/salida_productos', require('./routes/salida_productos'));
 app.use('/clientes', require('./routes/clientes'));
+app.use('/ventas', require('./routes/ventas'));
+app.use('/analisis', require('./routes/analisis'));
 
 // RUTA DE ARCHIVOS PUBLICOS
 app.use(express.static(path.join(__dirname, 'public')));

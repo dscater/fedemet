@@ -23,10 +23,6 @@
 
 
     <!-- SweetAlert2 -->
-    <link rel="stylesheet"
-        href="{{urlbase}}/template/AdminLTE-3.0.5/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-    <!-- Toastr -->
-    <link rel="stylesheet" href="{{urlbase}}/template/AdminLTE-3.0.5/plugins/toastr/toastr.min.css">
 
     <!-- Sweet Alert Css -->
     <link href="{{ urlbase}}/sweetalert/sweetalert.css" rel="stylesheet" />
@@ -50,7 +46,8 @@
 		<div id="header" class="app-header" data-bs-theme="dark">
 			<!-- BEGIN navbar-header -->
 			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><i class="fab fa-facebook-square fa-lg"></i> <b>Color</b> Admin <small>social</small></a>
+				<a href="/" class="navbar-brand">
+				<img src="{{urlbase}}/imgs/{{configuracion.logo}}" alt=""> &nbsp;{{configuracion.alias}}</a>
 				<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>

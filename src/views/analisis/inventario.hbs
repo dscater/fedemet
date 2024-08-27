@@ -1,0 +1,532 @@
+{{#section 'css'}}
+<style link="{{urlbase}}/Highcharts-11.4.7/code/css/highcharts.css"></style>
+{{/section}}
+
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="{{urlbase}}/analisis">Análisis de Predicciones</a></li>
+  <li class="breadcrumb-item active">Inventario</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Análisis de Predicciones > Inventario</h1>
+<!-- END page-header -->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse">
+            <!-- BEGIN panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <!-- END panel-heading -->
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Stock actual de cada producto</h4>
+                                <div class="row">
+                                    <div
+                                        class="col-md-12"
+                                        id="container1"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Stock de producto por fechas</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Fecha inicio</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_ini1"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Fecha fin</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_fin1"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro1"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                            >
+                                                <label>Producto</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="producto1"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each productos}}
+                                                    <option
+                                                        value="{{this.id}}"
+                                                    >{{this.codigo_producto}} | {{this.nombre}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container2"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Predicción de stock</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Año</label>
+                                                <input
+                                                    type="number"
+                                                    id="anio2"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Mes</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="mes2"
+                                                >
+                                                    {{#each listMeses}}
+                                                    <option
+                                                        value="{{this.key}}"
+                                                    >{{this.label}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro2"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Producto</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="producto2"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each productos}}
+                                                    <option
+                                                        value="{{this.id}}"
+                                                    >{{this.codigo_producto}} | {{this.nombre}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container3"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END panel-body -->
+        </div>
+        <!-- END panel -->
+    </div>
+</div>
+
+{{#section 'scripts'}}
+<script src="{{urlbase}}/Highcharts-11.4.7/code/highcharts.js"></script>
+<script> 
+    let fecha_ini1 = $("#fecha_ini1");
+    let fecha_fin1 = $("#fecha_fin1");
+    let filtro1 = $("#filtro1");
+    let producto1 = $("#producto1");
+
+    let anio2 = $("#anio2");
+    let mes2 = $("#mes2");
+    let filtro2 = $("#filtro2");
+    let producto2 = $("#producto2");
+
+    document.addEventListener('DOMContentLoaded', function() {
+        producto1.parents(".col-md-3").hide();
+        producto2.parents(".col-md-3").hide();
+
+        fechaActual();
+        grafico1();
+        grafico2();
+        grafico3();
+
+        //filtros grafico 2
+        fecha_ini1.on("keyup change",grafico2);
+        fecha_fin1.on("keyup change",grafico2);
+        filtro1.on("change",function(){
+            producto1.parents(".col-md-3").hide();
+            if($(this).val()!='TODOS'){
+                producto1.parents(".col-md-3").show();
+            }
+            grafico2();
+        });
+        producto1.on("change",grafico2);
+
+
+        //filtros grafico 3
+        anio2.on("keyup change",grafico3);
+        mes2.on("keyup change",grafico3);
+        filtro2.on("change",function(){
+            producto2.parents(".col-md-3").hide();
+            if($(this).val()!='TODOS'){
+                producto2.parents(".col-md-3").show();
+            }
+            grafico3();
+        });
+        producto2.on("change",grafico3);
+
+    });
+    function grafico1(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/stock_productos1",
+            dataType: "json",
+            success: function (response) {
+                Highcharts.chart("container1", {
+                chart: {
+                    type: "column",
+                },
+                title: {
+                    text: "STOCK ACTUAL DE PRODUCTOS",
+                },
+                subtitle: {
+                    text: "",
+                },
+                xAxis: {
+                    type: "category",
+                    // crosshair: true,
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: "10px",
+                            fontFamily: "Verdana, sans-serif",
+                        },
+                    },
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: "TOTAL",
+                    },
+                },
+                legend: {
+                    enabled: true,
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: "{point.y:.2f}",
+                        },
+                    },
+                },
+                tooltip: {
+                    headerFormat:
+                        '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                    pointFormat:
+                        '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: true,
+                    useHTML: true,
+                },
+
+                series: [
+                    {
+                        name: "Stock actual",
+                        colorByPoint: true,
+                        data: response.datos,
+                        dataLabels: {
+                            rotation: 0,
+                            color: "#000000",
+                            format: "{point.y:.2f}", // one decimal
+                            y: 0, // 10 pixels down from the top
+                            style: {
+                                fontSize: "10px",
+                                fontFamily: "Verdana, sans-serif",
+                            },
+                        },
+                    },
+                ],
+            });
+            },
+            error:function(err){
+                console.log(err)
+                /*  swal({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error interno en el sistema',
+                    buttons: {
+                        confirm: {
+                            text: 'Aceptar',
+                            value: true,
+                            visible: true,
+                            className: 'btn btn-primary',
+                            closeModal: true
+                        }
+                    }
+                });*/
+            }
+        });
+    }
+    
+    function grafico2(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/stock_productos2",
+            data:{
+                filtro: filtro1.val(),
+                fecha_ini: fecha_ini1.val(),
+                fecha_fin: fecha_fin1.val(),
+                producto: producto1.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                let fecha_entero = new Date(
+                    fecha_ini1.val()
+                ).getTime();
+
+                Highcharts.chart("container2", {
+                    title: {
+                        text: "STOCK DE PRODUCTOS POR FECHAS",
+                    },
+                    subtitle: {
+                        text: "",
+                    },
+                    xAxis: {
+                        type: "datetime",
+                        // crosshair: true,
+                        labels: {
+                            rotation: -75,
+                            style: {
+                                fontSize: "10px",
+                                fontFamily: "Verdana, sans-serif",
+                            },
+                        },
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "TOTAL",
+                        },
+                    },
+                    legend: {
+                        layout: "vertical",
+                        align: "right",
+                        verticalAlign: "middle",
+                    },
+
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: false,
+                                format: "{point.y:.2f}",
+                            },
+                            pointStart: fecha_entero,
+                            pointInterval: 24 * 3600 * 1000,
+                        },
+                    },
+                    tooltip: {
+                        headerFormat:
+                            '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                        pointFormat:
+                            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                        footerFormat: "</table>",
+                        shared: true,
+                        useHTML: true,
+                    },
+
+                    series: response.datos,
+                });
+            },
+            error:function(err){
+                console.log(err)
+                /*  swal({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error interno en el sistema',
+                    buttons: {
+                        confirm: {
+                            text: 'Aceptar',
+                            value: true,
+                            visible: true,
+                            className: 'btn btn-primary',
+                            closeModal: true
+                        }
+                    }
+                });*/
+            }
+        });
+    }
+  function grafico3(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/stock_productos3",
+            data:{
+                filtro: filtro2.val(),
+                anio: anio2.val(),
+                mes: mes2.val(),
+                producto: producto2.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                
+                Highcharts.chart("container3", {
+                    chart: {
+                        type: "column",
+                    },
+                    title: {
+                        text:
+                            "PREDICCIÓN DE STOCK PRODUCTOS PARA " +
+                            response.mes_anio,
+                    },
+                    subtitle: {
+                        text: "",
+                    },
+                    xAxis: {
+                        type: "category",
+                        // crosshair: true,
+                        labels: {
+                            rotation: -45,
+                            style: {
+                                fontSize: "10px",
+                                fontFamily: "Verdana, sans-serif",
+                            },
+                        },
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "TOTAL",
+                        },
+                    },
+                    legend: {
+                        enabled: true,
+                    },
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                format: "{point.y:.2f}",
+                            },
+                        },
+                    },
+                    tooltip: {
+                        headerFormat:
+                            '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                        pointFormat:
+                            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                        footerFormat: "</table>",
+                        shared: true,
+                        useHTML: true,
+                    },
+
+                    series: [
+                        {
+                            name: "Stock actual",
+                            colorByPoint: true,
+                            data: response.datos,
+                            dataLabels: {
+                                rotation: 0,
+                                color: "#000000",
+                                format: "{point.y:.2f}", // one decimal
+                                y: 0, // 10 pixels down from the top
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                    ],
+                });
+             },
+            error:function(err){
+                console.log(err)
+                /*  swal({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error interno en el sistema',
+                    buttons: {
+                        confirm: {
+                            text: 'Aceptar',
+                            value: true,
+                            visible: true,
+                            className: 'btn btn-primary',
+                            closeModal: true
+                        }
+                    }
+                });*/
+            }
+        });
+    }
+
+    function fechaActual() {
+        let date = new Date()
+
+        let day = date.getDate()
+        let month = date.getMonth() + 1
+        let year = date.getFullYear()
+
+        let fecha = '';
+        if (month < 10) {
+            fecha = `${year}-0${month}-${day}`;
+        } else {
+            fecha = `${year}-${month}-${day}`;
+        }
+        fecha_ini1.val(fecha);
+        fecha_fin1.val(fecha);
+        anio2.val(year)
+        return fecha
+    }
+
+</script>
+{{/section}}

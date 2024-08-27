@@ -1,0 +1,336 @@
+{{#section 'css'}}
+    <style>
+        .form_ventas .text-right{
+            text-align: right;
+            padding-right: 8px;
+        }
+
+        .form_ventas .btns_save{
+            display: flex;
+            justify-content: end;
+        }
+
+        .form_ventas table tfoot tr td,
+        .form_ventas table tbody tr td{
+            padding: 0px;
+            vertical-align: middle;
+        }
+
+        .form_ventas table tfoot tr td input{
+            border-radius: 0px;
+        }
+    </style>
+{{/section}}
+
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Ventas</a></li>
+  <li class="breadcrumb-item active">Editar</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Ventas <small>Editar</small></h1>
+<!-- END page-header -->
+
+<div class="row mb-3">
+    <!-- BEGIN col-6 -->
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-11">
+            <!-- BEGIN panel-heading -->
+            <div class="panel-heading">
+                <h4 class="panel-title">Información</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <!-- END panel-heading -->
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <form action="{{urlbase}}/ventas/update/{{venta.id}}" method="POST" enctype="multipart/form-data" class="form_ventas">
+                    <div class="row mb-2">
+                        <div class="col-md-8 form-group mb-2">
+                            <label>Cliente*</label>
+                            <select name="cliente_id" id="cliente_id" class="form-select required" required> <option value="">Seleccione...</option>
+                                {{#each clientes}}
+                                <option value="{{this.id}}">{{this.nombre}} | {{this.ci}} {{this.ci_exp}} | {{this.nit}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group mb-2">   
+                            <label class="form-label">Nit*</label>
+                            <input class="form-control" type="number"  name="nit" id="nit" value="{{venta.nit}}" placeholder="Nit" required/>
+                        </div>
+                        <div class="col-md-6 form-group mb-2">
+                            <label>Producto*</label>
+                            <select name="producto_id" id="producto_id" class="form-select"> 
+                                <option value="">Seleccione...</option>
+                                {{#each productos}}
+                                <option value="{{this.id}}">{{this.codigo_producto}} | {{this.nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group mb-2">   
+                            <label class="form-label">Cantidad*</label>
+                            <input class="form-control" type="number" step="0.01" name="cantidad" id="cantidad" placeholder="Cantidad"/>
+                        </div>
+                        <div class="col-md-3 form-group mb-2">   
+                            <button type="button" class="btn btn-danger btn-block w-100 mt-4" id="btnAgregarProducto"><i class="fa fa-plus"></i> Agregar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="w-100 text-center">Detalle de Venta</h4>
+                        </div>
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>P/U</th>
+                                        <th>Subtotal</th>
+                                        <th width="2%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contenedor_productos">
+                                    {{#each detalle_ventas}}
+                                    <tr class="fila_producto existe" data-id="{{this.id}}">
+                                        <td class="text-center">#</td>
+                                        <td class="text-center">
+                                            <span>{{this.p_nombre}}</span>
+                                            <input type="hidden" value="{{this.p_id}}" name="e_id_productos[]"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span>{{this.cantidad}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span>{{this.precio}}</span>
+                                        </td>
+                                        <td class="text-right">
+                                            <span>{{this.subtotal}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn_quitar btn btn-danger"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-right">Descuento %</td>
+                                        <td><input type="number" name="descuento" id="descuento" value="{{venta.descuento}}" class="form-control text-right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-right">Total final</td>
+                                        <td><input type="number" name="total_final" id="total_final" value="{{venta.total_final}}" class="form-control text-right" readonly>
+                                        <input type="hidden" name="total" id="total" value="{{venta.total}}"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="contenedor_eliminados"></div>
+                        <div class="col-12 btns_save">
+                            <button type="submit" class="btn btn-primary w-100px me-5px" id="btnSubmit" disabled>Guardar</button>
+                            <a href="{{urlbase}}/ventas" type="submit" class="btn btn-default w-100px">Volver</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END panel -->
+    </div>
+    <!-- END col-6 -->
+</div>
+
+{{#section 'scripts'}}
+<script>
+    let eliminado = `<input type="hidden" name="eliminados[]" value="">`;
+    let fila_producto = `<tr class="fila_producto">
+                            <td class="text-center">#</td>
+                            <td class="text-center">
+                                <span></span>
+                                <input type="hidden" value="" name="id_productos[]"/>
+                            </td>
+                            <td class="text-center">
+                                <span></span>
+                                <input type="hidden" value="" name="cantidades[]"/>
+                            </td>
+                            <td class="text-center">
+                                <span></span>
+                                <input type="hidden" value="" name="precios[]"/>
+                            </td>
+                            <td class="text-right">
+                                <span></span>
+                                <input type="hidden" value="" name="subtotales[]"/>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn_quitar btn btn-danger"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+    let fila_vacio = `<tr class="fila_vacio"><td colspan="6" class="text-center">Sin productos...</td></tr>`;
+    let contenedor_productos = $("#contenedor_productos");
+    let producto_id = $("#producto_id");
+    let cantidad = $("#cantidad");
+    let btnAgregarProducto = $("#btnAgregarProducto")
+    let descuento =$("#descuento")
+    let total =$("#total")
+    let total_final =$("#total_final")
+    let btnSubmit = $("#btnSubmit");
+    document.addEventListener('DOMContentLoaded', function() {
+        $("#cliente_id").val("{{venta.cliente_id}}");
+
+        contarProductos();
+
+        contenedor_productos.on("click",".btn_quitar",function(){
+            let fila = $(this).parents(".fila_producto");
+            if(fila.hasClass("existe")){
+                let nuevo_eliminado = $(eliminado).clone()
+                nuevo_eliminado.val(fila.attr("data-id"));
+                $("#contenedor_eliminados").append(nuevo_eliminado);
+            }
+            fila.remove();
+            contarProductos();
+        })
+
+        descuento.on("change keyup",function(){
+            if($(this).val()!='' && parseFloat($(this).val()) <= 100){
+                let nuevo_total = parseFloat(total.val()) * ((100 - parseFloat($(this).val())) / 100);
+                total_final.val(nuevo_total.toFixed(2))
+            }else{
+                contarProductos();
+            }
+        })
+
+    cantidad.on("keyup",function(e){
+        console.log(e);
+    })
+
+        btnAgregarProducto.click(function(){
+            agregarProducto();
+        });
+    });
+
+    function agregarProducto(){
+        console.log("AA")
+        if(producto_id.val() != '' && cantidad.val()!=''){
+        console.log("BB")
+            $.ajax({
+                type: "GET",
+                url: "/productos/getProducto/"+producto_id.val(),
+                data: {
+                    cantidad:cantidad.val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    let nueva_fila = $(fila_producto).clone();
+                    //producto
+                    nueva_fila.children("td").eq(1).children("span").text(`${response.producto.codigo_producto} | ${response.producto.nombre}`);
+                    nueva_fila.children("td").eq(1).children("input").val(`${response.producto.id}`);
+                    //cantidad
+                    nueva_fila.children("td").eq(2).children("span").text(`${cantidad.val()}`);
+                    nueva_fila.children("td").eq(2).children("input").val(`${cantidad.val()}`);
+                    //p/u
+                    nueva_fila.children("td").eq(3).children("span").text(`${response.producto.precio}`);
+                    nueva_fila.children("td").eq(3).children("input").val(`${response.producto.precio}`);
+                    //subtotal
+                    let subtotal = parseFloat(cantidad.val()) * parseFloat(response.producto.precio);
+                    nueva_fila.children("td").eq(4).children("span").text(`${subtotal.toFixed(2)}`);
+                    nueva_fila.children("td").eq(4).children("input").val(`${subtotal.toFixed(2)}`);
+
+                    contenedor_productos.append(nueva_fila);
+
+                    limpiarProductoCantidad();
+
+                    contarProductos();
+                },
+                error:function(err){
+                    console.log(err)
+                    if(err.responseJSON.error){
+                        swal({
+                            icon: 'error',
+                            title: 'Error',
+                            text: err.responseJSON.error,
+                            buttons: {
+                                confirm: {
+                                    text: 'Aceptar',
+                                    value: true,
+                                    visible: true,
+                                    className: 'btn btn-primary',
+                                    closeModal: true
+                                }
+                            }
+                        });
+                    }else{
+                        swal({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error interno en el sistema',
+                            buttons: {
+                                confirm: {
+                                    text: 'Aceptar',
+                                    value: true,
+                                    visible: true,
+                                    className: 'btn btn-primary',
+                                    closeModal: true
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }else{
+            swal({
+                icon: 'error',
+                title: 'Error',
+                text: 'Debes seleccionar un producto e indicar una cantidad',
+                buttons: {
+                    confirm: {
+                        text: 'Aceptar',
+                        value: true,
+                        visible: true,
+                        className: 'btn btn-primary',
+                        closeModal: true
+                    }
+                }
+            });
+        }
+
+    }
+
+    function contarProductos(){
+        let fila_productos = contenedor_productos.children(".fila_producto");
+        if(fila_productos.length > 0){
+            contenedor_productos.children(".fila_vacio").remove();
+            let contador = 1;
+            let suma_total = 0;
+            fila_productos.each(function(){
+                $(this).children("td").eq(0).text(contador);
+                suma_total += parseFloat($(this).children("td").eq(4).children("span").text());
+                contador++;
+            })
+            total_final.val(suma_total.toFixed(2));
+            total.val(suma_total);
+            btnSubmit.removeAttr("disabled")
+        } else{
+            total.val(0);
+            total_final.val(0)
+            contenedor_productos.html(fila_vacio)
+            btnSubmit.prop("disabled",true)
+        }
+    }
+
+    function limpiarProductoCantidad(){
+        producto_id.val("");
+        cantidad.val("");
+    }
+</script>
+{{/section}}

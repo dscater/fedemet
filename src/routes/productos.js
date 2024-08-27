@@ -106,6 +106,34 @@ router.get('/edit/:id', async (req, res) => {
     });
 });
 
+router.get('/getProducto/:id', async (req, res) => {
+    const {
+        id
+    } = req.params;
+    const {cantidad} =req.query;
+    try {
+        const productos = await pool.query("SELECT * FROM productos WHERE id = ?", [id]);
+        const producto = productos[0];
+        
+        // Verificar si es una petición AJAX
+        if (req.xhr) {
+            // Responder con JSON
+            if(producto.stock_actual < parseFloat(cantidad)){
+                return res.status(400).json({ error: `El stock actual del producto ${producto.codigo_producto}|${producto.nombre} es de ${producto.stock_actual}, insuficiente para la cantidad solicitada` });
+            }
+            return res.json({ producto });
+        } else{
+            return res.status(404).json({ error: 'Producto no encontrado.' });
+        }
+
+        return res.status(500).json({ error: 'Error al obtener el producto.' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Error al obtener el producto.' });
+    }
+});
+
 router.post('/update/:id', upload.single('imagen'), async (req, res, next) => {
     pagina = {};
     pagina.actual = 'productos';
