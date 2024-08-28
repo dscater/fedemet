@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 27-08-2024 a las 18:18:52
+-- Tiempo de generación: 28-08-2024 a las 19:22:04
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -371,6 +371,7 @@ CREATE TABLE `sessions` (
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
 ('6kReBBeQS0OQe93OhUHSejK5sUm2-Zqv', 1724869091, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}'),
 ('MHjdnfEIf2bHoBEVET6NwhtZwSD7AXdM', 1724782775, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{\"error_fono\":[\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\",\"Debes ingresar al menos un número de teléfono\"]},\"passport\":{\"user\":1}}'),
+('Z1CXzkus1UGT7j7KgD9Aa-IfIInQP-Z1', 1724959316, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}'),
 ('tVTfmbGBfk-si09bHSe2YYRbWRrWy4lV', 1724861432, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}'),
 ('yiuCP9K5zBHFeK0ZUJbX4du-HF7DGKB3', 1724861475, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"passport\":{\"user\":1}}');
 

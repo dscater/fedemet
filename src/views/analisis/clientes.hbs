@@ -1,0 +1,928 @@
+{{#section 'css'}}
+<style link="{{urlbase}}/Highcharts-11.4.7/code/css/highcharts.css"></style>
+{{/section}}
+
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="{{urlbase}}/analisis">Análisis de Predicciones</a></li>
+  <li class="breadcrumb-item active">Clientes</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Análisis de Predicciones > Clientes</h1>
+<!-- END page-header -->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse">
+            <!-- BEGIN panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <!-- END panel-heading -->
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Cantidades compradas por clientes</h4>
+                                <div class="row">
+                                    <div
+                                        class="col-md-12"
+                                        id="container1"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Monto por clientes</h4>
+                                <div class="row">
+                                    <div
+                                        class="col-md-12"
+                                        id="container2"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Cantidades compradas por clientes</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Fecha inicio</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_ini1"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Fecha fin</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_fin1"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro1"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                            >
+                                                <label>Producto</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="producto1"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each productos}}
+                                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container3"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Monto por clientes</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Fecha inicio</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_ini2"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Fecha fin</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_fin2"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro2"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                            >
+                                                <label>Producto</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="producto2"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each productos}}
+                                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container4"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Predicción cantidades compradas por clientes</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Año</label>
+                                                <input
+                                                    type="number"
+                                                    id="anio3"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Mes</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="mes3"
+                                                >
+                                                    {{#each listMeses}}
+                                                    <option value="{{this.key}}">{{this.label}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro3"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                            >
+                                                <label>Producto</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="producto3"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each productos}}
+                                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container5"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Predicción monto por clientes</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Año</label>
+                                                <input
+                                                    type="number"
+                                                    id="anio4"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Mes</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="mes4"
+                                                >
+                                                    {{#each listMeses}}
+                                                    <option value="{{this.key}}">{{this.label}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro4"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                            >
+                                                <label>Producto</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="producto4"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each productos}}
+                                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container6"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END panel-body -->
+        </div>
+        <!-- END panel -->
+    </div>
+</div>
+
+{{#section 'scripts'}}
+<script src="{{urlbase}}/Highcharts-11.4.7/code/highcharts.js"></script>
+<script> 
+    let fecha_ini1 = $("#fecha_ini1");
+    let fecha_fin1 = $("#fecha_fin1");
+    let filtro1 = $("#filtro1");
+    let producto1 = $("#producto1");
+
+    let fecha_ini2 = $("#fecha_ini2");
+    let fecha_fin2 = $("#fecha_fin2");
+    let filtro2 = $("#filtro2");
+    let producto2 = $("#producto2");
+
+    let anio3 = $("#anio3");
+    let mes3 = $("#mes3");
+    let filtro3 = $("#filtro3");
+    let producto3 = $("#producto3");
+
+    let anio4 = $("#anio4");
+    let mes4 = $("#mes4");
+    let filtro4 = $("#filtro4");
+    let producto4 = $("#producto4");
+
+    document.addEventListener('DOMContentLoaded', function() {
+        producto1.parents(".col-md-3").hide();
+        producto2.parents(".col-md-3").hide();
+        producto3.parents(".col-md-3").hide();
+        producto4.parents(".col-md-3").hide();
+        fechaActual();
+        grafico1();
+        grafico2();
+        grafico3();
+        grafico4();
+        grafico5();
+        grafico6();
+
+        //filtros grafico 3
+        fecha_ini1.on("keyup change",grafico3);
+        fecha_fin1.on("keyup change",grafico3);
+        filtro1.on("change",function(){
+            producto1.parents(".col-md-3").hide();
+            if($(this).val()!='TODOS'){
+                producto1.parents(".col-md-3").show();
+            }
+            grafico3();
+        });
+        producto1.on("change",grafico3);
+        //filtros grafico 4
+        fecha_ini2.on("keyup change",grafico4);
+        fecha_fin2.on("keyup change",grafico4);
+        filtro2.on("change",function(){
+            producto2.parents(".col-md-3").hide();
+            if($(this).val()!='TODOS'){
+                producto2.parents(".col-md-3").show();
+            }
+            grafico4();
+        });
+        producto2.on("change",grafico4);
+
+
+        //filtros grafico 5
+        anio3.on("keyup change",grafico5);
+        mes3.on("keyup change",grafico5);
+        filtro3.on("change",function(){
+            producto3.parents(".col-md-3").hide();
+            if($(this).val()!='TODOS'){
+                producto3.parents(".col-md-3").show();
+            }
+            grafico5();
+        });
+        producto3.on("change",grafico5);
+
+          //filtros grafico 6
+        anio4.on("keyup change",grafico6);
+        mes4.on("keyup change",grafico6);
+        filtro4.on("change",function(){
+            producto4.parents(".col-md-3").hide();
+            if($(this).val()!='TODOS'){
+                producto4.parents(".col-md-3").show();
+            }
+            grafico6();
+        });
+        producto4.on("change",grafico6);
+
+    });
+    function grafico1(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/clientes1",
+            dataType: "json",
+            success: function (response) {
+                
+                    Highcharts.chart("container1", {
+                        chart: {
+                            type: "bar",
+                        },
+                        title: {
+                            text: "CANTIDAD VENDIDA POR PRODUCTOS",
+                        },
+                        subtitle: {
+                            text: "",
+                        },
+                        xAxis: {
+                            type: "category",
+                            // crosshair: true,
+                            labels: {
+                                rotation: 0,
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "TOTAL CANTIDAD",
+                            },
+                        },
+                        legend: {
+                            enabled: true,
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y:.2f}",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            headerFormat:
+                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                            pointFormat:
+                                '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                            footerFormat: "</table>",
+                            shared: true,
+                            useHTML: true,
+                        },
+
+                        series: [
+                            {
+                                name: "Total",
+                                colorByPoint: true,
+                                data: response.datos,
+                                dataLabels: {
+                                    rotation: 0,
+                                    color: "#000000",
+                                    format: "{point.y:.2f}", // one decimal
+                                    y: 0, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: "10px",
+                                        fontFamily: "Verdana, sans-serif",
+                                    },
+                                },
+                            },
+                        ],
+                    });
+            },
+            error:function(err){
+                console.log(err)
+            }
+        });
+    }
+    
+    function grafico2(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/clientes2",
+            dataType: "json",
+            success: function (response) {
+                
+                    Highcharts.chart("container2", {
+                        chart: {
+                            type: "column",
+                        },
+                        title: {
+                            text: "INGRESOS POR PRODUCTOS",
+                        },
+                        subtitle: {
+                            text: "",
+                        },
+                        xAxis: {
+                            type: "category",
+                            // crosshair: true,
+                            labels: {
+                                rotation: -45,
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "TOTAL INGRESOS",
+                            },
+                        },
+                        legend: {
+                            enabled: true,
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y:.2f}",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            headerFormat:
+                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                            pointFormat:
+                                '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                            footerFormat: "</table>",
+                            shared: true,
+                            useHTML: true,
+                        },
+
+                        series: [
+                            {
+                                name: "Total",
+                                colorByPoint: true,
+                                data: response.datos,
+                                dataLabels: {
+                                    rotation: 0,
+                                    color: "#000000",
+                                    format: "{point.y:.2f}", // one decimal
+                                    y: 0, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: "10px",
+                                        fontFamily: "Verdana, sans-serif",
+                                    },
+                                },
+                            },
+                        ],
+                    });
+            },
+            error:function(err){
+                console.log(err)
+            }
+        });
+    }
+    
+    function grafico3(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/clientes3",
+            data:{
+                filtro: filtro1.val(),
+                fecha_ini: fecha_ini1.val(),
+                fecha_fin: fecha_fin1.val(),
+                producto: producto1.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                
+                    Highcharts.chart("container3", {
+                        chart: {
+                            type: "bar",
+                        },
+                        title: {
+                            text: "CANTIDAD VENDIDAD POR PRODUCTOS",
+                        },
+                        subtitle: {
+                            text: "",
+                        },
+                        xAxis: {
+                            type: "category",
+                            // crosshair: true,
+                            labels: {
+                                rotation: 0,
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "TOTAL CANTIDAD",
+                            },
+                        },
+                        legend: {
+                            // layout: "vertical",
+                        },
+
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y:.2f}",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            headerFormat:
+                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                            pointFormat:
+                                '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                            footerFormat: "</table>",
+                            shared: true,
+                            useHTML: true,
+                        },
+
+                        series: [
+                            {
+                                name: "Total",
+                                colorByPoint: true,
+                                data: response.datos,
+                                dataLabels: {
+                                    rotation: 0,
+                                    color: "#000000",
+                                    format: "{point.y:.2f}", // one decimal
+                                    y: 0, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: "10px",
+                                        fontFamily: "Verdana, sans-serif",
+                                    },
+                                },
+                            },
+                        ],
+                    });
+            },
+            error:function(err){
+                console.log(err)
+            }
+        });
+    }
+    function grafico4(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/clientes4",
+            data:{
+                filtro: filtro2.val(),
+                fecha_ini: fecha_ini2.val(),
+                fecha_fin: fecha_fin2.val(),
+                producto: producto2.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+
+                    Highcharts.chart("container4", {
+                        chart: {
+                            type: "column",
+                        },
+                        title: {
+                            text: "INGRESO POR PRODUCTOS",
+                        },
+                        subtitle: {
+                            text: "",
+                        },
+                        xAxis: {
+                            type: "category",
+                            // crosshair: true,
+                            labels: {
+                                rotation: -75,
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "TOTAL INGRESOS",
+                            },
+                        },
+                        legend: {
+                            // layout: "vertical",
+                        },
+
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y:.2f}",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            headerFormat:
+                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                            pointFormat:
+                                '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                            footerFormat: "</table>",
+                            shared: true,
+                            useHTML: true,
+                        },
+
+                        series: [
+                            {
+                                name: "Total",
+                                colorByPoint: true,
+                                data: response.datos,
+                                dataLabels: {
+                                    rotation: 0,
+                                    color: "#000000",
+                                    format: "{point.y:.2f}", // one decimal
+                                    y: 0, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: "10px",
+                                        fontFamily: "Verdana, sans-serif",
+                                    },
+                                },
+                            },
+                        ],
+                    });
+            },
+            error:function(err){
+                console.log(err)
+            }
+        });
+    }
+
+    function grafico5(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/clientes5",
+            data:{
+                anio: anio3.val(),
+                mes: mes3.val(),
+                filtro: filtro3.val(),
+                producto: producto3.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                    Highcharts.chart("container5", {
+                        chart: {
+                            type: "bar",
+                        },
+                        title: {
+                            text:
+                                "CANTIDAD VENDIDAD POR PRODUCTOS PARA " +
+                                response.mes_anio,
+                        },
+                        subtitle: {
+                            text: "",
+                        },
+                        xAxis: {
+                            type: "category",
+                            // crosshair: true,
+                            labels: {
+                                rotation: 0,
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "TOTAL",
+                            },
+                        },
+                        legend: {
+                            enabled: true,
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y:.2f}",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            headerFormat:
+                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                            pointFormat:
+                                '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                            footerFormat: "</table>",
+                            shared: true,
+                            useHTML: true,
+                        },
+
+                        series: [
+                            {
+                                name: "Total",
+                                colorByPoint: true,
+                                data: response.datos,
+                                dataLabels: {
+                                    rotation: 0,
+                                    color: "#000000",
+                                    format: "{point.y:.2f}", // one decimal
+                                    y: 0, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: "10px",
+                                        fontFamily: "Verdana, sans-serif",
+                                    },
+                                },
+                            },
+                        ],
+                    });
+            },
+            error:function(err){
+                console.log(err)
+            }
+        });
+    }
+    function grafico6(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/clientes6",
+            data:{
+                anio: anio4.val(),
+                mes: mes4.val(),
+                filtro: filtro4.val(),
+                producto: producto4.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                    Highcharts.chart("container6", {
+                        chart: {
+                            type: "column",
+                        },
+                        title: {
+                            text:
+                                "INGRESOS POR PRODUCTOS PARA " +
+                                response.mes_anio,
+                        },
+                        subtitle: {
+                            text: "",
+                        },
+                        xAxis: {
+                            type: "category",
+                            // crosshair: true,
+                            labels: {
+                                rotation: -45,
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "TOTAL INGRESOS",
+                            },
+                        },
+                        legend: {
+                            enabled: true,
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: "{point.y:.2f}",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            headerFormat:
+                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                            pointFormat:
+                                '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                            footerFormat: "</table>",
+                            shared: true,
+                            useHTML: true,
+                        },
+
+                        series: [
+                            {
+                                name: "Total",
+                                colorByPoint: true,
+                                data: response.datos,
+                                dataLabels: {
+                                    rotation: 0,
+                                    color: "#000000",
+                                    format: "{point.y:.2f}", // one decimal
+                                    y: 0, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: "10px",
+                                        fontFamily: "Verdana, sans-serif",
+                                    },
+                                },
+                            },
+                        ],
+                    });
+            },
+            error:function(err){
+                console.log(err)
+            }
+        });
+    }
+
+    function fechaActual() {
+        let date = new Date()
+
+        let day = date.getDate()
+        let month = date.getMonth() + 1
+        let year = date.getFullYear()
+
+        let fecha = '';
+        if (month < 10) {
+            fecha = `${year}-0${month}-${day}`;
+        } else {
+            fecha = `${year}-${month}-${day}`;
+        }
+        fecha_ini1.val(fecha);
+        fecha_fin1.val(fecha);
+        fecha_ini2.val(fecha);
+        fecha_fin2.val(fecha);
+        anio3.val(year)
+        mes3.val(month < 10 ? '0' + month:month);
+        anio4.val(year)
+        mes4.val(month < 10 ? '0' + month:month);
+        return fecha
+    }
+
+</script>
+{{/section}}

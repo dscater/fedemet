@@ -6,11 +6,11 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
   <li class="breadcrumb-item"><a href="{{urlbase}}/analisis">Análisis de Predicciones</a></li>
-  <li class="breadcrumb-item active">Inventario</li>
+  <li class="breadcrumb-item active">Proveedores</li>
 </ol>
 <!-- END breadcrumb -->
 <!-- BEGIN page-header -->
-<h1 class="page-header">Análisis de Predicciones > Inventario</h1>
+<h1 class="page-header">Análisis de Predicciones > Proveedores</h1>
 <!-- END page-header -->
 
 <div class="row">
@@ -27,12 +27,12 @@
             </div>
             <!-- END panel-heading -->
             <!-- BEGIN panel-body -->
-            <div class="panel-body">
+            <div class="panel-body">   
                 <div class="row">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Stock actual de cada producto</h4>
+                                <h4>Cantidad proveída por proveedor</h4>
                                 <div class="row">
                                     <div
                                         class="col-md-12"
@@ -42,28 +42,33 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Stock de producto por fechas</h4>
+                                <h4>
+                                    Cantidad proveída por proveedor
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label>Fecha inicio</label>
+                                                <label>Año</label>
                                                 <input
-                                                    type="date"
-                                                    id="fecha_ini1"
+                                                    type="number"
+                                                    id="anio1"
                                                     class="form-control"
                                                 />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Fecha fin</label>
-                                                <input
-                                                    type="date"
-                                                    id="fecha_fin1"
-                                                    class="form-control"
-                                                />
+                                                <label>Mes</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="mes1"
+                                                >
+                                                    {{#each listMeses}}
+                                                    <option value="{{this.key}}">{{this.label}}</option>
+                                                    {{/each}}
+                                                </select>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Seleccione</label>
@@ -72,84 +77,18 @@
                                                     id="filtro1"
                                                 >
                                                     <option value="TODOS">TODOS</option>
-                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
+                                                    <option value="POR PROVEEDOR">POR PROVEEDOR</option>
                                                 </select>
                                             </div>
-                                            <div
-                                                class="col-md-3"
-                                            >
-                                                <label>Producto</label>
+                                            <div class="col-md-3">
+                                                <label>Proveedor</label>
                                                 <select
                                                     class="form-select"
-                                                    id="producto1"
+                                                    id="proveedor1"
                                                 >
                                                     <option value="TODOS">TODOS</option>
-                                                    {{#each productos}}
-                                                    <option
-                                                        value="{{this.id}}"
-                                                    >{{this.codigo_producto}} | {{this.nombre}}</option>
-                                                    {{/each}}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="col-md-12"
-                                        id="container2"
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4>Predicción de stock</h4>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Año</label>
-                                                <input
-                                                    type="number"
-                                                    id="anio2"
-                                                    class="form-control"
-                                                />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Mes</label>
-                                                <select
-                                                    class="form-select"
-                                                    id="mes2"
-                                                >
-                                                    {{#each listMeses}}
-                                                    <option
-                                                        value="{{this.key}}"
-                                                    >{{this.label}}</option>
-                                                    {{/each}}
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Seleccione</label>
-                                                <select
-                                                    class="form-select"
-                                                    id="filtro2"
-                                                >
-                                                    <option value="TODOS">TODOS</option>
-                                                    <option value="POR PRODUCTO">POR PRODUCTO</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Producto</label>
-                                                <select
-                                                    class="form-select"
-                                                    id="producto2"
-                                                >
-                                                    <option value="TODOS">TODOS</option>
-                                                    {{#each productos}}
-                                                    <option
-                                                        value="{{this.id}}"
-                                                    >{{this.codigo_producto}} | {{this.nombre}}</option>
+                                                    {{#each proveedors}}
+                                                    <option value="{{this.id}}">{{this.razon_social}}</option>
                                                     {{/each}}
                                                 </select>
                                             </div>
@@ -163,8 +102,67 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>
+                                    Cantidad proveída por proveedor en un rango
+                                    de fechas
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Fecha inicio</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_ini2"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Fecha fin</label>
+                                                <input
+                                                    type="date"
+                                                    id="fecha_fin2"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="filtro2"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    <option value="POR PROVEEDOR">POR PROVEEDOR</option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                            >
+                                                <label>Proveedor</label>
+                                                <select
+                                                    class="form-select"
+                                                    id="proveedor2"
+                                                >
+                                                    <option value="TODOS">TODOS</option>
+                                                    {{#each proveedors}}
+                                                    <option value="{{this.id}}">{{this.razon_social}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container2"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
             <!-- END panel-body -->
         </div>
@@ -175,19 +173,19 @@
 {{#section 'scripts'}}
 <script src="{{urlbase}}/Highcharts-11.4.7/code/highcharts.js"></script>
 <script> 
-    let fecha_ini1 = $("#fecha_ini1");
-    let fecha_fin1 = $("#fecha_fin1");
+    let anio1 = $("#anio1");
+    let mes1 = $("#mes1");
     let filtro1 = $("#filtro1");
-    let producto1 = $("#producto1");
+    let proveedor1 = $("#proveedor1");
 
-    let anio2 = $("#anio2");
-    let mes2 = $("#mes2");
+    let fecha_ini2 = $("#fecha_ini2");
+    let fecha_fin2 = $("#fecha_fin2");
     let filtro2 = $("#filtro2");
-    let producto2 = $("#producto2");
+    let proveedor2 = $("#proveedor2");
 
     document.addEventListener('DOMContentLoaded', function() {
-        producto1.parents(".col-md-3").hide();
-        producto2.parents(".col-md-3").hide();
+        proveedor1.parents(".col-md-3").hide();
+        proveedor2.parents(".col-md-3").hide();
 
         fechaActual();
         grafico1();
@@ -195,154 +193,52 @@
         grafico3();
 
         //filtros grafico 2
-        fecha_ini1.on("keyup change",grafico2);
-        fecha_fin1.on("keyup change",grafico2);
+        anio1.on("keyup change",grafico2);
+        mes1.on("change",grafico2);
         filtro1.on("change",function(){
-            producto1.parents(".col-md-3").hide();
+            proveedor1.parents(".col-md-3").hide();
             if($(this).val()!='TODOS'){
-                producto1.parents(".col-md-3").show();
+                proveedor1.parents(".col-md-3").show();
             }
             grafico2();
         });
-        producto1.on("change",grafico2);
+        proveedor1.on("change",grafico2);
 
 
         //filtros grafico 3
-        anio2.on("keyup change",grafico3);
-        mes2.on("keyup change",grafico3);
+        fecha_ini2.on("keyup change",grafico3);
+        fecha_fin2.on("keyup change",grafico3);
         filtro2.on("change",function(){
-            producto2.parents(".col-md-3").hide();
+            proveedor2.parents(".col-md-3").hide();
             if($(this).val()!='TODOS'){
-                producto2.parents(".col-md-3").show();
+                proveedor2.parents(".col-md-3").show();
             }
             grafico3();
         });
-        producto2.on("change",grafico3);
+        proveedor2.on("change",grafico3);
 
     });
     function grafico1(){
         $.ajax({
             type: "GET",
-            url: "/analisis/stock_productos1",
+            url: "/analisis/proveedors1",
             dataType: "json",
             success: function (response) {
                 Highcharts.chart("container1", {
-                chart: {
-                    type: "column",
-                },
-                title: {
-                    text: "STOCK ACTUAL DE PRODUCTOS",
-                },
-                subtitle: {
-                    text: "",
-                },
-                xAxis: {
-                    type: "category",
-                    // crosshair: true,
-                    labels: {
-                        rotation: -45,
-                        style: {
-                            fontSize: "10px",
-                            fontFamily: "Verdana, sans-serif",
-                        },
+                    chart: {
+                        type: "column",
                     },
-                },
-                yAxis: {
-                    min: 0,
                     title: {
-                        text: "TOTAL",
-                    },
-                },
-                legend: {
-                    enabled: true,
-                },
-                plotOptions: {
-                    series: {
-                        borderWidth: 0,
-                        dataLabels: {
-                            enabled: true,
-                            format: "{point.y:.2f}",
-                        },
-                    },
-                },
-                tooltip: {
-                    headerFormat:
-                        '<span style="font-size:10px"><b>{point.key}</b></span><table>',
-                    pointFormat:
-                        '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
-                    footerFormat: "</table>",
-                    shared: true,
-                    useHTML: true,
-                },
-
-                series: [
-                    {
-                        name: "Stock actual",
-                        colorByPoint: true,
-                        data: response.datos,
-                        dataLabels: {
-                            rotation: 0,
-                            color: "#000000",
-                            format: "{point.y:.2f}", // one decimal
-                            y: 0, // 10 pixels down from the top
-                            style: {
-                                fontSize: "10px",
-                                fontFamily: "Verdana, sans-serif",
-                            },
-                        },
-                    },
-                ],
-            });
-            },
-            error:function(err){
-                console.log(err)
-                /*  swal({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error interno en el sistema',
-                    buttons: {
-                        confirm: {
-                            text: 'Aceptar',
-                            value: true,
-                            visible: true,
-                            className: 'btn btn-primary',
-                            closeModal: true
-                        }
-                    }
-                });*/
-            }
-        });
-    }
-    
-    function grafico2(){
-        $.ajax({
-            type: "GET",
-            url: "/analisis/stock_productos2",
-            data:{
-                filtro: filtro1.val(),
-                fecha_ini: fecha_ini1.val(),
-                fecha_fin: fecha_fin1.val(),
-                producto: producto1.val(),
-            },
-            dataType: "json",
-            success: function (response) {
-                let fecha_entero = new Date(
-                    fecha_ini1.val()
-                ).getTime();
-
-                Highcharts.chart("container2", {
-                    title: {
-                        text: "STOCK DE PRODUCTOS POR FECHAS",
+                        text: "CANTIDAD PROVEÍDA POR PROVEEDORS",
                     },
                     subtitle: {
                         text: "",
                     },
                     xAxis: {
-                        type: "datetime",
+                        type: "category",
                         // crosshair: true,
                         labels: {
-                            rotation: -75,
+                            rotation: -45,
                             style: {
                                 fontSize: "10px",
                                 fontFamily: "Verdana, sans-serif",
@@ -356,20 +252,15 @@
                         },
                     },
                     legend: {
-                        layout: "vertical",
-                        align: "right",
-                        verticalAlign: "middle",
+                        enabled: true,
                     },
-
                     plotOptions: {
                         series: {
                             borderWidth: 0,
                             dataLabels: {
-                                enabled: false,
+                                enabled: true,
                                 format: "{point.y:.2f}",
                             },
-                            pointStart: fecha_entero,
-                            pointInterval: 24 * 3600 * 1000,
                         },
                     },
                     tooltip: {
@@ -383,48 +274,50 @@
                         useHTML: true,
                     },
 
-                    series: response.datos,
+                    series: [
+                        {
+                            name: "Cantidad proveída",
+                            colorByPoint: true,
+                            data: response.datos,
+                            dataLabels: {
+                                rotation: 0,
+                                color: "#000000",
+                                format: "{point.y:.2f}", // one decimal
+                                y: 0, // 10 pixels down from the top
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                    ],
                 });
             },
             error:function(err){
                 console.log(err)
-                /*  swal({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error interno en el sistema',
-                    buttons: {
-                        confirm: {
-                            text: 'Aceptar',
-                            value: true,
-                            visible: true,
-                            className: 'btn btn-primary',
-                            closeModal: true
-                        }
-                    }
-                });*/
             }
         });
     }
-  function grafico3(){
+    
+    function grafico2(){
         $.ajax({
             type: "GET",
-            url: "/analisis/stock_productos3",
+            url: "/analisis/proveedors2",
             data:{
-                filtro: filtro2.val(),
-                anio: anio2.val(),
-                mes: mes2.val(),
-                producto: producto2.val(),
+                anio: anio1.val(),
+                mes: mes1.val(),
+                filtro: filtro1.val(),
+                proveedor: proveedor1.val(),
             },
             dataType: "json",
             success: function (response) {
-                
                 Highcharts.chart("container3", {
                     chart: {
                         type: "column",
                     },
                     title: {
                         text:
-                            "PREDICCIÓN DE STOCK PRODUCTOS PARA " +
+                            "PREDICCIÓN CANTIDAD PROVEÍDA POR PROVEEDOR PARA " +
                             response.mes_anio,
                     },
                     subtitle: {
@@ -472,7 +365,7 @@
 
                     series: [
                         {
-                            name: "Stock actual",
+                            name: "Cantidad proveída",
                             colorByPoint: true,
                             data: response.datos,
                             dataLabels: {
@@ -488,23 +381,99 @@
                         },
                     ],
                 });
-             },
+            },
             error:function(err){
                 console.log(err)
-                /*  swal({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error interno en el sistema',
-                    buttons: {
-                        confirm: {
-                            text: 'Aceptar',
-                            value: true,
-                            visible: true,
-                            className: 'btn btn-primary',
-                            closeModal: true
-                        }
-                    }
-                });*/
+            }
+        });
+    }
+    function grafico3(){
+        $.ajax({
+            type: "GET",
+            url: "/analisis/proveedors3",
+            data:{
+                filtro: filtro2.val(),
+                fecha_ini: fecha_ini2.val(),
+                fecha_fin: fecha_fin2.val(),
+                proveedor: proveedor2.val(),
+            },
+            dataType: "json",
+            success: function (response) {
+                Highcharts.chart("container2", {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: "pie",
+                    },
+                    title: {
+                        text: "CANTIDAD PROVEÍDA POR PROVEEDORES",
+                    },
+                    subtitle: {
+                        text: "",
+                    },
+                    xAxis: {
+                        type: "category",
+                        // crosshair: true,
+                        labels: {
+                            rotation: -45,
+                            style: {
+                                fontSize: "10px",
+                                fontFamily: "Verdana, sans-serif",
+                            },
+                        },
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "TOTAL",
+                        },
+                    },
+                    legend: {
+                        enabled: true,
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: "pointer",
+                            dataLabels: {
+                                enabled: false,
+                            },
+                            showInLegend: true,
+                        },
+                    },
+                    tooltip: {
+                        headerFormat:
+                            '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                        pointFormat:
+                            '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                        footerFormat: "</table>",
+                        shared: true,
+                        useHTML: true,
+                    },
+
+                    series: [
+                        {
+                            name: "Cantidad proveída",
+                            colorByPoint: true,
+                            data: response.datos,
+                            dataLabels: {
+                                rotation: 0,
+                                color: "#000000",
+                                format: "{point.y:.2f}", // one decimal
+                                y: 0, // 10 pixels down from the top
+                                style: {
+                                    fontSize: "10px",
+                                    fontFamily: "Verdana, sans-serif",
+                                },
+                            },
+                        },
+                    ],
+                });
+            },
+            error:function(err){
+                console.log(err)
             }
         });
     }
@@ -522,10 +491,10 @@
         } else {
             fecha = `${year}-${month}-${day}`;
         }
-        fecha_ini1.val(fecha);
-        fecha_fin1.val(fecha);
-        anio2.val(year)
-        mes2.val(month < 10 ? '0' + month:month);
+        anio1.val(year);
+        mes1.val(month < 10 ? '0' + month:month);
+        fecha_ini2.val(fecha)
+        fecha_fin2.val(fecha)
         return fecha
     }
 
