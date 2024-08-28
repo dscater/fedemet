@@ -1,0 +1,95 @@
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item"><a href="javascript:;">Reportes</a></li>
+  <li class="breadcrumb-item active">Kardex de Productos</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Reportes <small>Kardex de Productos</small></h1>
+<!-- END page-header -->
+
+<div class="row mb-3">
+    <!-- BEGIN col-6 -->
+    <div class="col-md-12">
+        <!-- BEGIN panel -->
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-11">
+            <!-- BEGIN panel-body -->
+            <div class="panel-body">
+                <form action="{{urlbase}}/reportes/pdf/kardex_productos" method="GET" target="_blank" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4 mx-auto">
+                            <h4 class="w-100 text-center">Kardex de Productos</h4>
+                            <div class="form-grou mb-3">
+                                <label for="">Selecionar</label>
+                                <select name="filtro" id="filtro" class="form-select" required>
+                                    <option value="todos">Todos</option>
+                                    <option value="producto">Por producto</option>
+                                    <option value="marca">Por marca</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Seleccionar producto</label>
+                                <select name="producto" id="producto" class="form-select">
+                                    <option value="todos">Todos</option>
+                                    {{#each productos}}
+                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Seleccionar marca</label>
+                                <select name="marca" id="marca" class="form-select">
+                                    <option value="todos">Todos</option>
+                                    {{#each marcas}}
+                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6 form-group">
+                                    <label>Fecha inicio</label>
+                                    <input type="date" name="fecha_ini" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Fecha fin</label>
+                                    <input type="date" name="fecha_fin" class="form-control" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 me-5px">Generar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END panel -->
+    </div>
+    <!-- END col-6 -->
+</div>
+
+{{#section 'scripts'}}
+<script>
+    let filtro = $("#filtro");
+    let producto = $("#producto");
+    let marca = $("#marca");
+    document.addEventListener('DOMContentLoaded', function() {
+        producto.parents(".form-group").hide();
+        marca.parents(".form-group").hide();
+
+        filtro.change(function(){
+            let value = $(this).val();
+            producto.removeAttr("required");
+            
+            if(value == 'producto'){
+                producto.parents(".form-group").show();
+                producto.prop("required","true")
+            }
+            
+            if(value == 'marca'){
+                marca.parents(".form-group").show();
+                marca.prop("required","true")
+            }
+        })
+    });
+</script>
+{{/section}}

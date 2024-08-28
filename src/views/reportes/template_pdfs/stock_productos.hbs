@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>RecetaMedica</title>
+    <title>Stock de Productos</title>
     <style type="text/css">
         * {
             font-family: sans-serif;
@@ -12,7 +12,7 @@
         @page {
             margin-top: 2cm;
             margin-bottom: 1cm;
-            margin-left: 1.5cm;
+            margin-left: 1cm;
             margin-right: 1cm;
             border: 5px solid blue;
         }
@@ -24,16 +24,19 @@
             margin-top: 20px;
         }
 
+        table thead tr th,
+        tbody tr td {
+            font-size: 0.63em;
+        }
+
         .encabezado {
             width: 100%;
         }
 
         .logo img {
             position: absolute;
-            width: 200px;
             height: 90px;
-            top: -20px;
-            left: -20px;
+            z-index: 10000;
         }
 
         h2.titulo {
@@ -70,8 +73,7 @@
         }
 
         table {
-            width: 70%;
-            margin: auto;
+            width: 100%;
         }
 
         table thead {
@@ -80,10 +82,12 @@
 
         table thead tr th {
             padding: 3px;
+            font-size: 0.7em;
         }
 
         table tbody tr td {
             padding: 3px;
+            font-size: 0.55em;
             word-wrap: break-word;
         }
 
@@ -153,37 +157,38 @@
             width: 11.7in;
             height: 8.2in;
         }
-
-        .bold{
-            font-weight: bold;
-        }
     </style>
 </head>
 
 <body>
     <div class="encabezado">
         <div class="logo">
-            <img src="{{datos.urlbase}}/imgs/{{datos.razon_social.logo }}">
+            <img src="{{datos.urlbase}}/imgs/{{datos.configuracion.logo }}">
         </div>
         <h2 class="titulo">
-            {{ datos.razon_social.nombre }}
+            {{ datos.configuracion.razon_social }}
         </h2>
-        <h4 class="texto">RECETA MÉDICA</h4>
-        {{!-- <h4 class="fecha">Expedido: {{datos.fecha}}</h4> --}}
+        <h4 class="texto">STOCK DE PRODUCTOS</h4>
+        <h4 class="fecha">Expedido: {{datos.fecha}}</h4>
     </div>
-    <p><span class="bold">NOMBRE DEL PACIENTE:</span> {{datos.receta_seguimiento.paciente}}</p>
-    <p class="bold">MEDICAMENTOS: </p>
-    <table>
-        <tbody>
-            {{#each datos.recetas}}
-            <tr>
-                <td>{{this.producto}} <small style="font-size: 0.55em;">({{this.tipo}})</small> - <b>CANTIDAD: </b>{{this.cantidad}}</td>
+    <table border="1">
+        <thead>
+            <tr class="green">
+                <th class="bold" width="5%">N°</th>
+                <th class="bold">PRODUCTO</th>
+                <th class="bold" width="15%">STOCK ACTUAL</th>
             </tr>
+        </thead>
+        <tbody>
+            {{#each datos.productos}}
+                <tr>
+                    <td class="centreado">{{contador @index}}</td>
+                    <td class="iquierda">{{ this.nombre }}</td>
+                    <td class="centreado">{{ this.stock_actual }}</td>
+                </tr>
             {{/each}}
         </tbody>
     </table>
-    <p class="bold">DESCRIPCIÓN: </p>
-    <p>{{datos.receta_seguimiento.descripcion}}</p>
-    <p><span class="bold">FECHA:</span> {{datos.receta_seguimiento.fecha}}</p>
+
 </body>
 </html>

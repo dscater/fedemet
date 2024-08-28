@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios</title>
+    <style type="text/css">
+        * {
+            font-family: sans-serif;
+        }
+
+        @page {
+            margin-top: 2cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+            border: 5px solid blue;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-top: 20px;
+        }
+
+        table thead tr th,
+        tbody tr td {
+            font-size: 0.63em;
+        }
+
+        .encabezado {
+            width: 100%;
+        }
+
+        .logo img {
+            position: absolute;
+            height: 90px;
+            z-index: 10000;
+        }
+
+        h2.titulo {
+            width: 450px;
+            margin: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14pt;
+        }
+
+        .texto {
+            width: 250px;
+            text-align: center;
+            margin: auto;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .fecha {
+            width: 250px;
+            text-align: center;
+            margin: auto;
+            margin-top: 15px;
+            font-weight: normal;
+            font-size: 0.85em;
+        }
+
+        .total {
+            text-align: right;
+            padding-right: 15px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table thead {
+            background: rgb(236, 236, 236)
+        }
+
+        table thead tr th {
+            padding: 3px;
+            font-size: 0.7em;
+        }
+
+        table tbody tr td {
+            padding: 3px;
+            font-size: 0.55em;
+            word-wrap: break-word;
+        }
+
+        table tbody tr td.franco {
+            background: red;
+            color: white;
+        }
+
+        .centreado {
+            padding-left: 0px;
+            text-align: center;
+        }
+
+        .datos {
+            margin-left: 15px;
+            border-top: solid 1px;
+            border-collapse: collapse;
+            width: 250px;
+        }
+
+        .txt {
+            font-weight: bold;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .txt_center {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .cumplimiento {
+            position: absolute;
+            width: 150px;
+            right: 0px;
+            top: 86px;
+        }
+
+        .p_cump {
+            color: red;
+            font-size: 1.2em;
+        }
+
+        .b_top {
+            border-top: solid 1px black;
+        }
+
+        .gray {
+            background: rgb(202, 202, 202);
+        }
+
+        .txt_rojo {}
+
+        .img_celda img {
+            width: 35px;
+        }
+
+        .salto_pagina {
+            page-break-after: always;
+        }
+
+        .nueva_pagina {
+            page-break-after: always;
+        }
+
+        .page.landscape {
+            width: 11.7in;
+            height: 8.2in;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="encabezado">
+        <div class="logo">
+            <img src="{{datos.urlbase}}/imgs/{{datos.configuracion.logo }}">
+        </div>
+        <h2 class="titulo">
+            {{ datos.configuracion.razon_social }}
+        </h2>
+        <h4 class="texto">LISTA DE USUARIOS</h4>
+        <h4 class="fecha">Expedido: {{datos.fecha}}</h4>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th width="7%">Foto</th>
+                <th width="8%">Usuario</th>
+                <th>Nombre(s) y apellidos</th>
+                <th width="10%">C.I.</th>
+                <th width="10%">Celular</th>
+                <th>E-mail</th>
+                <th>Dirección</th>
+                <th width="12%">Tipo</th>
+                <th width="8%">Fecha Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each datos.usuarios}}
+            <tr>
+                <td class="img_celda"><img src="{{../datos.urlbase}}/imgs/users/{{this.foto}}" alt="Foto"></td>
+                <td>{{this.usuario}}</td>
+                <td>{{this.nombre}} {{this.paterno}} {{this.materno}}</td>
+                <td>{{this.ci}} {{this.ci_exp}}</td>
+                <td>{{this.cel}}</td>
+                <td>{{this.correo}}</td>
+                <td>{{this.dir}}</td>
+                <td>{{this.tipo}}</td>
+                <td>{{this.fecha_registro}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</body>
+</html>
