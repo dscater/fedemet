@@ -52,7 +52,7 @@ app.use(async (req, res, next) => {
     const configuracion = configuracions[0];
     var nombreUsuario = '';
     if (req.isAuthenticated()) {
-        nombreUsuario = req.user.usuario;
+        nombreUsuario = req.user.nombre+' '+req.user.paterno+' '+(req.user.materno?req.user.materno:'');
     }
 
     var http = require('http');

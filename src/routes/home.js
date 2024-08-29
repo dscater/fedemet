@@ -11,41 +11,24 @@ router.get('/', isLoggedIn, async (req, res) => {
     pagina.actual = 'home'
 
     // VALORES
-    let usuarios = await pool.query("SELECT COUNT(*) as cantidad FROM users WHERE tipo IN ('ADMINISTRADOR')");
+    let usuarios = await pool.query("SELECT COUNT(*) as cantidad FROM users WHERE id != 1 AND estado = 1");
     usuarios = usuarios[0].cantidad;
 
-    let doctors = 0;
+    let ventas = await pool.query("SELECT COUNT(*) as cantidad FROM ventas WHERE estado = 1");
+    ventas = ventas[0].cantidad;
 
-    let especialidads = 0;
+    let productos = await pool.query("SELECT COUNT(*) as cantidad FROM productos WHERE estado = 1");
+    productos = productos[0].cantidad;
 
-    let tipo_usuario = req.user.tipo;
-
-    let pacientes = 0;
-
-    let citas = 0;
-    let citas_proximas = [];
-
-    consultas = 0;
-    lista_citas = null;
-
-
-    pacientes = 0;
-
-    let notifica = false;
-    let muestra_notificacion = false;
+    let clientes = await pool.query("SELECT COUNT(*) as cantidad FROM clientes WHERE estado = 1");
+    clientes = clientes[0].cantidad;
 
     res.render('home', {
         pagina,
-        usuarios: usuarios,
-        doctors: doctors,
-        especialidads: especialidads,
-        pacientes: pacientes,
-        citas: citas,
-        citas_proximas: citas_proximas,
-        consultas: consultas,
-        notifica: notifica,
-        notifica:notifica,
-        muestra_notificacion:muestra_notificacion,
+        usuarios,
+        ventas,
+        productos,
+        clientes
     });
 });
 module.exports = router;

@@ -1,0 +1,44 @@
+<div class="menu-item {{#if_equal pagina.actual "ventas"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/ventas" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-list-alt"></i>
+        </div>
+        <div class="menu-text">Ventas</div>
+    </a>
+</div>
+
+<div class="menu-item {{#if_equal pagina.actual "clientes"}} active {{/if_equal}}">
+    <a href="{{urlbase}}/clientes" class="menu-link">
+        <div class="menu-icon">
+        <i class="fa fa-list-alt"></i>
+        </div>
+        <div class="menu-text">Clientes</div>
+    </a>
+</div>
+
+<div class="menu-item has-sub">
+  <a href="javascript:;" class="menu-link">
+    <div class="menu-icon">
+      <i class="fa fa-file-pdf"></i>
+    </div>
+    <div class="menu-text">Reportes</div>
+    <div class="menu-caret"></div>
+  </a>
+  <div class="menu-submenu">
+    <div class="menu-item">
+      <a href="{{urlbase}}/reportes/stock_productos" class="menu-link"><div
+          class="menu-text"
+        >Stock de Productos</div></a>
+    </div>
+    <div class="menu-item">
+      <a href="{{urlbase}}/reportes/kardex_productos" class="menu-link"><div
+          class="menu-text"
+        >Kardex de Productos</div></a>
+    </div>
+    <div class="menu-item">
+      <a href="{{urlbase}}/reportes/ventas" class="menu-link"><div
+          class="menu-text"
+        >Ventas</div></a>
+    </div>
+  </div>
+</div>

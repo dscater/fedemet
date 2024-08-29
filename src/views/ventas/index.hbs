@@ -51,9 +51,14 @@
                             <td>{{this.total_final}}</td>
                             <td>{{this.fecha_registro}}</td>
                             <td class="btns-opciones">
-                                <a href="{{urlbase}}/ventas/ticket/{{this.id}}" class="evaluar"><i class="fa fa-print" data-toggle="tooltip" data-placement="left" title="Imprimir"></i></a>
-                                <a href="{{urlbase}}/ventas/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+                                <a href="{{../urlbase}}/ventas/ticket/{{this.id}}" class="evaluar"><i class="fa fa-print" data-toggle="tooltip" data-placement="left" title="Imprimir"></i></a>
+                                <a href="{{../urlbase}}/ventas/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+                                {{#if_equal ../user.tipo 'ADMINISTRADOR'}}
                                 <a href="#" data-url="{{urlbase}}/ventas/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
+                                {{/if_equal}}
+                                {{#if_equal ../user.tipo 'SUPERVISOR'}}
+                                <a href="#" data-url="{{urlbase}}/ventas/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
+                                {{/if_equal}}
                         </tr>
                         {{/each}}
                     </tbody>

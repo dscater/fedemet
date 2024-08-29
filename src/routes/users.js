@@ -166,7 +166,6 @@ router.post('/update/:id', upload.single('foto'), async (req, res, next) => {
     }
 });
 
-
 router.post('/update_password/:id', async (req, res, next) => {
     pagina = {};
     pagina.actual = 'users';
@@ -245,6 +244,50 @@ router.post('/cuenta_update/:id', async (req, res) => {
     }
     return res.redirect('/users/config/' + usuario.id);
 });
+
+router.post('/update_foto/:id', upload.single('foto'), async (req, res, next) => {
+    pagina = {};
+    pagina.actual = 'users';
+
+    const {
+        id
+    } = req.params;
+    const usuarios = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
+    const usuario = usuarios[0];
+    console.log(usuario)
+    var nom_imagen = usuario.foto;
+    if (req.file && usuario) {
+    nom_imagen = req.file.filename;
+        img_antiguo = usuario.foto;
+            try {
+                if(img_antiguo &&  img_antiguo != 'default.png'){
+                    fs.unlinkSync('src/public/imgs/users/' + img_antiguo);
+                }
+                // Verificar si es una petición AJAX
+                if (req.xhr) {
+                    // Responder con JSON
+                    console.log("CCCCCCCCC")
+
+                    let user_update = {
+                        foto: nom_imagen,
+                    };
+                    console.log(user_update)
+            
+                    let nr_user = await pool.query("UPDATE users SET ? WHERE id = ?", [user_update, usuario.id]);
+
+                    return res.json({ sw:true });
+                } else{
+                    return res.redirect('/');
+                }
+
+            } catch (err) {
+                console.error('Algo salio mal', err);
+                return res.json({ sw:false });
+            }
+    }
+});
+
+
 
 function fechaActual() {
     let date = new Date()

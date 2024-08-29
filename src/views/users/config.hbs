@@ -14,14 +14,17 @@
 
     .archivos {
         position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
+    .archivos form,
     .archivos input[type="file"] {
-        position: absolute;
         top: 0;
         z-index: 100;
         position: absolute;
         opacity: 0;
+        margin: auto;
     }
 
     .subir {
@@ -30,10 +33,11 @@
         align-items: center;
         width: 100%;
         padding: 10px;
-        background: #f55d3e;
+        background: #195ef1;
         color: #fff;
         border: 0px solid #fff;
         z-index: 100;
+        cursor: pointer;
     }
 
     .subir span {
@@ -48,7 +52,7 @@
     .subir:hover {
         cursor: pointer;
         color: #fff;
-        background: #F44336;
+        background: #3678f4;
     }
 
 
@@ -83,118 +87,87 @@
     }
 </style>
 {{/section}}
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Perfil Usuario</h1>
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+  <li class="breadcrumb-item active">Perfil de usuario</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Perfil de usuario</h1>
+<!-- END page-header -->
+
+<div class="row clearfix">
+    <div class="col-xs-12 col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="image-area">
+                    <img id="imagen_p" src="{{urlbase}}/imgs/users/{{checkPhoto user.foto}}" alt="Imagen de perfil"
+                        width="128px" height="128px" />
+                </div>
+                <div class="content-area">
+                    <div class="col-md-12">
+                        <div class="w-100 archivos mb-2">
+                            <span id="info"></span>
+                            <label for="foto" class="subir">
+                                <span>Cambiar foto de perfil</span>
+                            </label>
+                            <form id="formfoto">
+                            <input type="file" name="foto" id="foto" accept="image/*" onchange='cambiar()'>
+                            </form>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="cancelar" style="display: none">Cancelar</button>
+                    <button class="btn btn-primary" id="guardar_img" style="display: none">Guardar
+                        cambios</button>
+                    <h3>Usuario: {{ user.usuario }}</h3>
+                    <p>Tipo: {{ user.tipo }}</p>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{urlbase}}/home">Inicio</a></li>
-                    <li class="breadcrumb-item active">Perfil Usuario</li>
-                </ol>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-8">
+        <div class="card">
+            <div class="card-body">
+                <form action="{{urlbase}}/users/cuenta_update/{{user.id}}" class="form-horizontal" id="form_val" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="OldPassword" class="col-sm-3 control-label">Antigua contraseña</label>
+                            <input type="password" class="form-control" id="OldPassword" name="oldPassword" placeholder="Antigua contraseña" required>
+                            {{#if contra_error}}
+                            <span class="invalid-feedback" role="alert">
+                                <strong>La contraseña no coincide.</strong>
+                            </span>
+                            {{/if}}
+                        </div>
+                        <div class="col-md-12">
+                            <label for="NewPassword" class="col-sm-3 control-label">Nueva contraseña</label>
+                            <input type="password" class="form-control" id="NewPassword" name="newPassword" placeholder="Nueva contraseña" minlength="6"
+                                    required>
+                            {{#if contra_error}}
+                            <span class="invalid-feedback" role="alert">
+                                <strong>Las contraseñas no coinciden. Intenten nuevamente.</strong>
+                            </span>
+                            {{/if}}
+                        </div>
+                        <div class="col-md-12">
+                            <label for="NewPasswordConfirm" class="col-sm-3 control-label">Nueva contraseña
+                                (Confirmar)</label>
+                            <input type="password" class="form-control" id="NewPasswordConfirm"
+                                name="password_confirm" placeholder="Nueva contraseña (Confirmar)"
+                                required>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<section class="content">
-    <div class="container-fluid">
-        <div class="row clearfix">
-            <div class="col-xs-12 col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="image-area">
-                            <img id="imagen_p" src="{{urlbase}}/imgs/users/{{user.foto}}" alt="Imagen de perfil"
-                                width="128px" height="128px" />
-                        </div>
-                        <div class="content-area">
-                            <div class="col-md-12">
-                                <div class="form-line archivos">
-                                    <span id="info"></span>
-                                    {{!-- <label for="foto" class="subir">
-                                        <span>Cambiar foto de perfil</span>
-                                    </label>
-                                    <input type="file" name="foto" id="foto" accept="image/*" onchange='cambiar()'> --}}
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" id="cancelar" style="display: none">Cancelar</button>
-                            <button class="btn btn-primary" id="guardar_img" style="display: none">Guardar
-                                cambios</button>
-                            <h3>Usuario: {{ user.name }}</h3>
-                            <p>Tipo: {{ user.tipo }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <form action="{{urlbase}}/users/cuenta_update/{{user.id}}" class="form-horizontal" id="form_val" method="post">
-                                <div class="form-group">
-                                    <label for="OldPassword" class="col-sm-3 control-label">Antigua contraseña</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="password" class="form-control" id="OldPassword"
-                                                    name="oldPassword" placeholder="Antigua contraseña" required>
-                                            </div>
-                                            {{#if contra_error}}
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>La contraseña no coincide.</strong>
-                                            </span>
-                                            {{/if}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="NewPassword" class="col-sm-3 control-label">Nueva contraseña</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="password" class="form-control" id="NewPassword"
-                                                    name="newPassword" placeholder="Nueva contraseña" minlength="6"
-                                                    required>
-                                            </div>
-                                            {{#if contra_error}}
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>Las contraseñas no coinciden. Intenten nuevamente.</strong>
-                                            </span>
-                                            {{/if}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="NewPasswordConfirm" class="col-sm-3 control-label">Nueva contraseña
-                                        (Confirmar)</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="password" class="form-control" id="NewPasswordConfirm"
-                                                    name="password_confirm" placeholder="Nueva contraseña (Confirmar)"
-                                                    required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-3 col-sm-9">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-danger">GUARDAR</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 {{#section 'scripts'}}
 <script type="text/javascript">
@@ -227,23 +200,24 @@
         });
 
         $('#guardar_img').click(function () {
-            var formulario = $('#form_foto');
-            var url = formulario.prop('action');
+            var url = '{{urlbase}}/users/update_foto/{{user.id}}'
+            console.log(url);
+            let formulario = $("#formfoto");
             var str = new FormData(formulario[0]);
             $.ajax({
                 cache: false,
                 processData: false,
                 contentType: false,
                 url: url,
-                headers: { 'X-CSRF-TOKEN': $('#token').val() },
                 type: 'POST',
                 dataType: 'json',
                 data: str
             })
                 .done(function (resp) {
-                    console.log("success | " + resp.msg);
                     $('#cancelar').hide();
                     $('#guardar_img').hide();
+                    mensajeNotificacion('Actualización correcta', 'Correcto');
+
                     setTimeout(function () {
                         location.reload();
                     }, 2000)

@@ -44,7 +44,7 @@
                         {{#each productos}}
                         <tr class="odd gradeX">
                             <td width="1%" class="fw-bold">{{this.codigo_producto}}</td>
-                            <td width="1%"><img src="{{urlbase}}/imgs/productos/{{checkPhoto this.imagen}}" class="rounded h-30px my-n1 mx-n1" /></td>
+                            <td width="1%"><img src="{{../urlbase}}/imgs/productos/{{checkPhoto this.imagen}}" class="rounded h-30px my-n1 mx-n1" /></td>
                             <td>{{this.nombre}}</td>
                             <td>{{this.descripcion}}</td>
                             <td>{{this.nombre_marca}}</td>
@@ -53,8 +53,8 @@
                             <td>{{this.stock_actual}}</td>
                             <td>{{this.fecha_registro}}</td>
                             <td class="btns-opciones">
-                                <a href="{{urlbase}}/productos/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
-                                <a href="#" data-url="{{urlbase}}/productos/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
+                                <a href="{{../urlbase}}/productos/edit/{{this.id}}" class="modificar"><i class="fa fa-edit" data-toggle="tooltip" data-placement="left" title="Modificar"></i></a>
+                                <a href="#" data-url="{{../urlbase}}/productos/destroy/{{this.id}}" class="eliminar"><i class="fa fa-trash" data-toggle="tooltip" data-placement="left" title="Eliminar"></i></a>
                         </tr>
                         {{/each}}
                     </tbody>

@@ -15,18 +15,22 @@ style="background-image:url('{{urlbase}}/imgs/fondo.jpg')"
 
 
 <div class="row">
-        {{#if_equal user.tipo "ADMINISTRADOR"}}
-        {{> includes/home/home_admin}}
-        {{/if_equal}}
-        {{#if_equal user.tipo "AUXILIAR"}}
-        {{> includes/home/home_auxiliar}}
-        {{/if_equal}}
-        {{#if_equal user.tipo "DOCTOR"}}
-        {{> includes/home/home_doctor}}
-        {{/if_equal}}
-        {{#if_equal user.tipo "PACIENTE"}}
-        {{> includes/home/home_paciente}}
-        {{/if_equal}}	
+    {{#if_equal user.tipo "ADMINISTRADOR"}}
+    {{> includes/home/home_admin}}
+    {{/if_equal}}
+    {{#if_equal user.tipo "SUPERVISOR"}}
+    {{> includes/home/home_supervisor}}
+    {{/if_equal}}
+    {{#if_equal user.tipo "VENDEDOR"}}
+    {{> includes/home/home_vendedor}}
+    {{/if_equal}}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>Bienvenid@ {{nombreUsuario}}</h3>
+            </div>
+        </div>
+    </div>
 </div>
 
 {{#section 'scripts'}}

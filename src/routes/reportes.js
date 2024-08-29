@@ -31,7 +31,7 @@ const generaPDF = async function (archivo, datos, nomFile, tamanio, orientacion,
         await page.emulateMediaType('screen');
         filename = `src/public/files/${nomFile}`;
 
-        txt_html = `<div style="font-size: 8px; padding-top: 8px; padding-right:13px; text-align:right; width: 100%;">
+        txt_html = `<div style="font-size: 8px; padding-top: 0px; padding-right:13px; text-align:right; width: 100%;">
         <span>pág.</span> <span class="pageNumber"></span>
         </div>
     `;
@@ -91,6 +91,21 @@ router.get('/kardex_productos', async (req, res) => {
     });
 });
 
+router.get('/ventas', async (req, res) => {
+    pagina = {};
+    pagina.actual = 'reportes';
+    let fecha = fechaActual();
+
+    const productos = await pool.query("SELECT id, nombre FROM productos WHERE estado = 1");
+    const marcas = await pool.query("SELECT id, nombre FROM marcas WHERE estado = 1");
+
+    res.render('reportes/ventas', {
+        pagina,
+        fecha,
+        productos,
+        marcas
+    });
+});
 
 
 // rutas pdf
@@ -146,7 +161,7 @@ router.get('/pdf/stock_productos', async (req, res) => {
     datos.urlbase = urlbase;
     datos.fecha = fechaActual();
 
-    let url_file = await generaPDF('stock_productos', datos, 'Usuarios.pdf', 'A4', false);
+    let url_file = await generaPDF('stock_productos', datos, 'StockProductos.pdf', 'A4', false);
 
     fs.readFile(url_file, function (err, data) {
         res.contentType("application/pdf");
@@ -171,8 +186,11 @@ router.get('/pdf/kardex_productos', async (req, res) => {
     var productos = await pool.query("SELECT *, DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM productos WHERE estado = 1");
 
     if(filtro != 'todos'){
-        if(producto != 'todos'){
+        if(filtro == 'producto' && producto != 'todos'){
             productos = await pool.query("SELECT *, DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM productos WHERE estado = 1 AND id = ?",[producto]);
+        }
+        if(filtro == 'marca' && marca != 'todos'){
+            productos = await pool.query("SELECT *, DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM productos WHERE estado = 1 AND marca_id = ?",[marca]);
         }
     }
 
@@ -245,8 +263,6 @@ router.get('/pdf/kardex_productos', async (req, res) => {
         html += `</tbody>`;
         html += `</table>`;
     }
-    console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-    console.log(html);
 
     let datos = {};
     datos.html = html;
@@ -254,7 +270,112 @@ router.get('/pdf/kardex_productos', async (req, res) => {
     datos.urlbase = urlbase;
     datos.fecha = fechaActual();
 
-    let url_file = await generaPDF('kardex_productos', datos, 'Usuarios.pdf', 'A4', false);
+    let url_file = await generaPDF('kardex_productos', datos, 'kardexProductos.pdf', 'A4', false);
+
+    fs.readFile(url_file, function (err, data) {
+        res.contentType("application/pdf");
+        res.send(data);
+    });
+});
+
+router.get('/pdf/ventas', async (req, res) => {
+    pagina = {};
+    pagina.actual = 'reportes';
+    var hostname = req.headers.host; // hostname = 'localhost'
+    const urlbase = 'http://' + hostname;
+    const configuracions = await pool.query("SELECT * FROM configuracions");
+    const configuracion = configuracions[0];
+
+    let filtro = req.query.filtro;
+    let producto = req.query.producto;
+    let marca = req.query.marca;
+    let fecha_ini = req.query.fecha_ini;
+    let fecha_fin = req.query.fecha_fin;
+
+
+    var ventas = await pool.query("SELECT *, DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM ventas WHERE estado = 1 AND fecha_registro BETWEEN ? AND ?",[fecha_ini,fecha_fin]);
+    if(filtro !='todos'){
+        if(filtro == 'producto' && producto != 'todos'){
+            ventas = await pool.query("SELECT v.*, DATE_FORMAT(v.fecha_registro, '%Y-%m-%d') as fecha_registro FROM ventas v INNER JOIN detalle_ventas dv ON dv.venta_id = v.id WHERE v.estado = 1 AND dv.producto_id = ? AND v.fecha_registro BETWEEN ? AND ?",[producto, fecha_ini, fecha_fin]);
+        }
+
+        if(filtro == 'marca' && marca != 'todos'){
+            ventas = await pool.query("SELECT v.*, DATE_FORMAT(v.fecha_registro, '%Y-%m-%d') as fecha_registro FROM ventas v INNER JOIN detalle_ventas dv ON dv.venta_id = v.id INNER JOIN productos p ON p.id = dv.producto_id WHERE v.estado = 1 AND p.marca_id = ? AND v.fecha_registro BETWEEN ? AND ?",[marca, fecha_ini, fecha_fin]);
+        }
+    }
+
+    let html = ``;
+    for(item of ventas){
+        const users = await pool.query("SELECT usuario FROM users WHERE id = ?",[item.cliente_id])
+        const user = users[0];
+        const clientes = await pool.query("SELECT nombre FROM clientes WHERE id = ?",[item.cliente_id])
+        const cliente = clientes[0];
+        html += `<table border="1">`;
+        html += `<thead>
+                    <tr>
+                        <th style="text-align:left;" width="15%">Fecha y hora:</th>
+                        <th style="text-align:left;" colspan="3">${item.fecha_registro} ${item.hora}</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left;">Cliente:</th>
+                        <th style="text-align:left;" colspan="3">${cliente.nombre}</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left;">Nit:</th>
+                        <th style="text-align:left;" colspan="3">${item.nit}</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left;">
+                            Usuario:
+                        </th>
+                        <th style="text-align:left;" colspan="3">${user.usuario}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">DETALLE DE ORDEN</th>
+                    </tr>
+                </thead>`;
+        html += `<tbody>
+                    <tr>
+                        <td class="bold centreado">Producto</td>
+                        <td class="bold centreado">Cantidad</td>
+                        <td class="bold centreado">P/U</td>
+                        <td class="bold centreado">Subtotal</td>
+                    </tr>`;
+        
+        const detalle_ventas = await pool.query("SELECT dv.*, p.nombre FROM detalle_ventas dv INNER JOIN productos p ON p.id = dv.producto_id WHERE venta_id = ?",[item.id]);
+
+        for (dv of detalle_ventas){
+            html += `<tr>
+                        <td>${dv.nombre }</td>
+                        <td class="centreado">${dv.cantidad}</td>
+                        <td class="centreado">${dv.precio}</td>
+                        <td class="centreado">${dv.subtotal}</td>
+                    </tr>`;
+        }
+        html += `
+                <tr>
+                    <td style="text-align:right; font-weight:bold;" colspan="3">TOTAL</td>
+                    <td style="font-weight:bold;text-align:center;">${item.total}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right; font-weight:bold;" colspan="3">DESCUENTO</td>
+                    <td style="font-weight:bold;text-align:center;">${item.descuento}%</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right; font-weight:bold;" colspan="3">TOTAL FINAL</td>
+                    <td style="font-weight:bold;text-align:center;">${item.total_final}</td>
+                </tr>
+            </tbody>
+        </table>`;
+    }
+
+    let datos = {};
+    datos.html = html;
+    datos.configuracion = configuracion;
+    datos.urlbase = urlbase;
+    datos.fecha = fechaActual();
+
+    let url_file = await generaPDF('kardex_productos', datos, 'Ventas.pdf', 'A4', false);
 
     fs.readFile(url_file, function (err, data) {
         res.contentType("application/pdf");
