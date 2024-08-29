@@ -3,9 +3,10 @@ const path = require('path');
 const router = express.Router();
 const pool = require('../database');
 const helpers = require('../lib/helpers');
-const historialAccion = require('../lib/historialAccion');
 const multer = require('multer');
 const fs = require('fs');
+// exportar modulo y funciones de prediccion
+const {entrenamiento,prediccionDatos} = require('../lib/MLPredicciones');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -205,46 +206,112 @@ router.get('/stock_productos3', async (req, res) => {
         if (req.xhr) {
             // Responder con JSON            
             let datos = [];
-            let fecha_armada = new Date(anio + '-' + mes + '-01');
-            // Obtener los meses anteriores
-            let mes_anterior1 = new Date(fecha_armada);
-            mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
-            let mes_anterior2 = new Date(fecha_armada);
-            mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
-            let mes_anterior3 = new Date(fecha_armada);
-            mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+            if(req.body.prediccion){
+                // REALIZAR PREDICCIÓN
+                for(item of productos){
+                    // preparar los datos de entrenamiento
+                    let prom = 0;
+                    // obtener el promedio total de ventas
+                    const total_ventas = await pool.query("SELECT dv.*,DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM detalle_ventas INNER JOIN ventas v ON v.id = dv.venta_id WHERE dv.producto_id = ?",[item.id])
+                    const total_ventas_cantidad = await pool.query("SELECT SUM(cantidad) as cantidad FROM detalle_ventas WHERE producto_id = ? AND",[item.id])
+                    if(total_ventas.length > 0){
+                        prom = total_ventas_cantidad[0].cantidad / total_ventas.length;
+                        prom = prom.toFixed(2);
+                    }
 
-            for(item of productos){
-                let prom = 0;
-                let fecha_aux = mes_anterior1.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals1 = await pool.query("SELECT * FROM kardex_productos WHERE producto_id = ? AND fecha LIKE ?",[item.id,fecha_aux])
-                let val1 = vals1[0];
-                if(val1){
-                    prom += parseFloat(val1.cantidad_saldo);
+                    let data_pred = [];
+                    // preparar los datos de entrenamiento
+                    // armar los datos de todas las ventas realizads de determinado producto
+                    for(dv of total_ventas){
+                        let stock_fechas = await pool.query("SELECT * FROM stock_fechas WHERE fecha = ? AND producto_id = ?",[dv.fecha_registro,item.id])
+                        if(stock_fechas.legnth > 0){
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: dv.cantidad,
+                                currentValue:item.stock_actual
+                            });
+                        }else{
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: dv.cantidad,
+                                currentValue:0
+                            });
+                        }
+                    }
+                    // agregar un ultimo datos del promedio y el stock actual
+                    data_pred.push({
+                        registroId:item.id,
+                        historicalValue:parseFloat(prom),
+                        currentValue:item.stock_actual
+                    });
+
+                    try{
+                        const model = entrenamiento(data_pred,[item.id]);
+                        // enviar el modelo y la informacion actual
+                        let stock_fechas = await pool.query("SELECT * FROM stock_fechas WHERE producto_id = ? ORDER BY id DESC",[item.id])
+                        let inputData = [{
+                            historicalValue:total_ventas_cantidad,
+                            currentValue: item.stock_actual
+                        }];
+                        if(stock_fechas.length > 0){
+                            inputData = [{
+                                historicalValue:stock_fechas[0].stock,
+                                currentValue:item.stock_actual
+                            }];
+                        }
+
+                        // ejecutar la funcion de prediccion
+                        const predictedStock = await prediccionDatos(model,inputData);
+                        // obtener la cantidad obtenida en la prediccion y agregarla para mostrarlo en el gráfico
+                        let nueva_data = [item.nombre,parseFloat(predictedStock)];
+                        datos.push(nueva_data);
+                    }
+                    catch(err){
+                        console.log(err);
+                    }
                 }
 
-                fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals2 = await pool.query("SELECT * FROM kardex_productos WHERE producto_id = ? AND fecha LIKE ?",[item.id,fecha_aux])
-                let val2 = vals2[0];
-                if(val2){
-                    prom += parseFloat(val2.cantidad_saldo);
+            }else{
+                let fecha_armada = new Date(anio + '-' + mes + '-01');
+                // Obtener los meses anteriores
+                let mes_anterior1 = new Date(fecha_armada);
+                mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
+                let mes_anterior2 = new Date(fecha_armada);
+                mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
+                let mes_anterior3 = new Date(fecha_armada);
+                mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+    
+                for(item of productos){
+                    let prom = 0;
+                    let fecha_aux = mes_anterior1.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals1 = await pool.query("SELECT * FROM kardex_productos WHERE producto_id = ? AND fecha LIKE ?",[item.id,fecha_aux])
+                    let val1 = vals1[0];
+                    if(val1){
+                        prom += parseFloat(val1.cantidad_saldo);
+                    }
+    
+                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals2 = await pool.query("SELECT * FROM kardex_productos WHERE producto_id = ? AND fecha LIKE ?",[item.id,fecha_aux])
+                    let val2 = vals2[0];
+                    if(val2){
+                        prom += parseFloat(val2.cantidad_saldo);
+                    }
+                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals3 = await pool.query("SELECT * FROM kardex_productos WHERE producto_id = ? AND fecha LIKE ?",[item.id,fecha_aux])
+                    let val3 = vals3[0];
+                    if(val3){
+                        prom += parseFloat(val3.cantidad_saldo);
+                    }   
+    
+                    prom = prom / 3;
+                    prom = ""+prom.toFixed(2);
+                    let nuevo_dato = [item.nombre,parseFloat(prom)];
+                    datos.push(nuevo_dato);
                 }
-                fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals3 = await pool.query("SELECT * FROM kardex_productos WHERE producto_id = ? AND fecha LIKE ?",[item.id,fecha_aux])
-                let val3 = vals3[0];
-                if(val3){
-                    prom += parseFloat(val3.cantidad_saldo);
-                }   
-
-                prom = prom / 3;
-                prom = ""+prom.toFixed(2);
-                let nuevo_dato = [item.nombre,parseFloat(prom)];
-                datos.push(nuevo_dato);
             }
-
             const mes_anio = mes + " de " + anio; 
 
             return res.json({ datos,mes_anio });
@@ -364,48 +431,114 @@ router.get('/proveedors2', async (req, res) => {
         if (req.xhr) {
             // Responder con JSON            
             let datos = [];
-            let fecha_armada = new Date(anio + '-' + mes + '-01');
-            // Obtener los meses anteriores
-            let mes_anterior1 = new Date(fecha_armada);
-            mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
-            let mes_anterior2 = new Date(fecha_armada);
-            mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
-            let mes_anterior3 = new Date(fecha_armada);
-            mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+            if(req.body.prediccion){
+                // REALIZAR PREDICCIÓN
+                for(item of proveedors){
+                    // preparar los datos de entrenamiento
+                    let prom = 0;
+                    // obtener el promedio total de ingresos por proveedor
+                    const total_ingresos = await pool.query("SELECT ip.*,DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM ingreso_productos ip INNER JOIN proveedors p ON p.id = ip.proveedor_id WHERE ip.proveedor_id = ?",[item.proveedor_id])
+                    const total_ingresos_cantidad = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND",[item.id])
+                    if(total_ingresos.length > 0){
+                        prom = total_ingresos_cantidad[0].cantidad / total_ingresos.length;
+                        prom = prom.toFixed(2);
+                    }
+                    let data_pred = [];
+                    // preparar los datos de entrenamiento
+                    // armar los datos de todas las ingresos realizados de determinado registro
+                    for(item_value of total_ingresos){
+                        let total_cantidad = await pool.query("SELECT SUM(cantidad)as cantidad FROM ingreso_productos WHERE fecha = ? AND proveedor_id = ?",[item_value.fecha_registro,item.id])
+                        if(total_cantidad.legnth > 0){
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: total_cantidad[0].cantidad,
+                                currentValue:item.cantidad
+                            });
+                        }else{
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: item_value.cantidad,
+                                currentValue:0
+                            });
+                        }
+                    }
+                    // agregar un ultimo datos del promedio y cantidad
+                    data_pred.push({
+                        registroId:item.id,
+                        historicalValue:parseFloat(prom),
+                        currentValue:item.cantidad
+                    });
 
-            for(item of proveedors){
-                let prom = 0;
-                let fecha_aux = mes_anterior1.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals1 = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val1 = vals1[0];
-                let t1 = 0;
-                if(val1){
-                    t1 = val1.cantidad;
+                    try{
+                        const model = entrenamiento(data_pred,[item.id]);
+
+                        // enviar el modelo y la informacion actual
+                        let ingreso_productos = await pool.query("SELECT * FROM ingreso_productos WHERE proveedor_id = ? ORDER BY id DESC",[item.id])
+                        let inputData = [{
+                            historicalValue:total_ingresos_cantidad,
+                            currentValue: item.cantidad
+                        }];
+                        if(ingreso_productos.length > 0){
+                            inputData = [{
+                                historicalValue:ingreso_productos[0].cantidad,
+                                currentValue:item.cantidad
+                            }];
+                        }
+
+                        // ejecutar la funcion de prediccion
+                        const predictedStock = await prediccionDatos(model,inputData);
+                        // obtener la cantidad obtenida en la prediccion y agregarla para mostrarlo en el gráfico
+                        let nueva_data = [item.nombre,parseFloat(predictedStock)];
+                        datos.push(nueva_data);
+                    }
+                    catch(err){
+                        console.log(err);
+                    }
                 }
+            }else{
+                let fecha_armada = new Date(anio + '-' + mes + '-01');
+                // Obtener los meses anteriores
+                let mes_anterior1 = new Date(fecha_armada);
+                mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
+                let mes_anterior2 = new Date(fecha_armada);
+                mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
+                let mes_anterior3 = new Date(fecha_armada);
+                mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
 
-                fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals2 = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val2 = vals2[0];
-                let t2 = 0;
-                if(val2){
-                    t2 = val2.cantidad;
+                for(item of proveedors){
+                    let prom = 0;
+                    let fecha_aux = mes_anterior1.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals1 = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val1 = vals1[0];
+                    let t1 = 0;
+                    if(val1){
+                        t1 = val1.cantidad;
+                    }
+
+                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals2 = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val2 = vals2[0];
+                    let t2 = 0;
+                    if(val2){
+                        t2 = val2.cantidad;
+                    }
+                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals3 = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val3 = vals3[0];
+                    let t3 = 0;
+                    if(val3){
+                        t3 = val3.cantidad;
+                    }   
+
+                    prom = (t1 + t2 + t3) / 3;
+                    prom = ""+prom.toFixed(2);
+                    let nuevo_dato = [item.razon_social,parseFloat(prom)];
+                    datos.push(nuevo_dato);
                 }
-                fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals3 = await pool.query("SELECT SUM(cantidad) as cantidad FROM ingreso_productos WHERE proveedor_id = ? AND fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val3 = vals3[0];
-                let t3 = 0;
-                if(val3){
-                    t3 = val3.cantidad;
-                }   
-
-                prom = (t1 + t2 + t3) / 3;
-                prom = ""+prom.toFixed(2);
-                let nuevo_dato = [item.razon_social,parseFloat(prom)];
-                datos.push(nuevo_dato);
-            }
+            }            
 
             const mes_anio = mes + " de " + anio; 
 
@@ -668,45 +801,111 @@ router.get('/ventas5', async (req, res) => {
         if (req.xhr) {
             // Responder con JSON            
             let datos = [];
-            let fecha_armada = new Date(anio + '-' + mes + '-01');
-            // Obtener los meses anteriores
-            let mes_anterior1 = new Date(fecha_armada);
-            mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
-            let mes_anterior2 = new Date(fecha_armada);
-            mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
-            let mes_anterior3 = new Date(fecha_armada);
-            mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+            if(req.body.prediccion){
+                // REALIZAR PREDICCIÓN
+                for(item of productos){
+                    // preparar los datos de entrenamiento
+                    let prom = 0;
+                    // obtener el promedio total de cantidad vendida por producto
+                    const total_ingresos = await pool.query("SELECT dv.*,DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE dv.producto_id = ?",[item.producto_id])
+                    const total_ingresos_cantidad = await pool.query("SELECT SUM(cantidad) as cantidad FROM detalle_ventas WHERE producto_id = ? AND",[item.id])
+                    if(total_ingresos.length > 0){
+                        prom = total_ingresos_cantidad[0].cantidad / total_ingresos.length;
+                        prom = prom.toFixed(2);
+                    }
+                    let data_pred = [];
+                    // preparar los datos de entrenamiento
+                    // armar los datos de todas las ingresos realizados de determinado registro
+                    for(item_value of total_ingresos){
+                        let total_cantidad = await pool.query("SELECT SUM(cantidad)as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id=dv.venta_id  WHERE fecha_registro = ? AND producto_id = ?",[item_value.fecha_registro,item.id])
+                        if(total_cantidad.legnth > 0){
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: total_cantidad[0].cantidad,
+                                currentValue:item.cantidad
+                            });
+                        }else{
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: item_value.cantidad,
+                                currentValue:0
+                            });
+                        }
+                    }
+                    // agregar un ultimo datos del promedio y cantidad
+                    data_pred.push({
+                        registroId:item.id,
+                        historicalValue:parseFloat(prom),
+                        currentValue:item.cantidad
+                    });
 
-            for(item of productos){
-                let prom = 0;
-                let fecha_aux = mes_anterior1.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals1 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val1 = vals1[0];
-                if(val1){
-                    prom += parseFloat(val1.cantidad?val1.cantidad:0);
+                    try{
+                        const model = entrenamiento(data_pred,[item.id]);
+
+                        // enviar el modelo y la informacion actual
+                        let detalle_ventas = await pool.query("SELECT * FROM detalle_ventas WHERE producto_id = ? ORDER BY id DESC",[item.id])
+                        let inputData = [{
+                            historicalValue:total_ingresos_cantidad,
+                            currentValue: item.cantidad
+                        }];
+                        if(detalle_ventas.length > 0){
+                            inputData = [{
+                                historicalValue:detalle_ventas[0].cantidad,
+                                currentValue:item.cantidad
+                            }];
+                        }
+
+                        // ejecutar la funcion de prediccion
+                        const predictedStock = await prediccionDatos(model,inputData);
+                        // obtener la cantidad obtenida en la prediccion y agregarla para mostrarlo en el gráfico
+                        let nueva_data = [item.nombre,parseFloat(predictedStock)];
+                        datos.push(nueva_data);
+                    }
+                    catch(err){
+                        console.log(err);
+                    }
                 }
+            }else{
+                let fecha_armada = new Date(anio + '-' + mes + '-01');
+                // Obtener los meses anteriores
+                let mes_anterior1 = new Date(fecha_armada);
+                mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
+                let mes_anterior2 = new Date(fecha_armada);
+                mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
+                let mes_anterior3 = new Date(fecha_armada);
+                mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
 
-                fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals2 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val2 = vals2[0];
-                if(val2){
-                    prom += parseFloat(val2.cantidad?val2.cantidad:0);
+                for(item of productos){
+                    let prom = 0;
+                    let fecha_aux = mes_anterior1.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals1 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val1 = vals1[0];
+                    if(val1){
+                        prom += parseFloat(val1.cantidad?val1.cantidad:0);
+                    }
+
+                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals2 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val2 = vals2[0];
+                    if(val2){
+                        prom += parseFloat(val2.cantidad?val2.cantidad:0);
+                    }
+                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals3 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val3 = vals3[0];
+                    if(val3){
+                        prom += parseFloat(val3.cantidad?val3.cantidad:0);
+                    }   
+
+                    prom = prom / 3;
+                    prom = ""+prom.toFixed(2);
+                    let nuevo_dato = [item.nombre,parseFloat(prom)];
+                    datos.push(nuevo_dato);
                 }
-                fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals3 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val3 = vals3[0];
-                if(val3){
-                    prom += parseFloat(val3.cantidad?val3.cantidad:0);
-                }   
-
-                prom = prom / 3;
-                prom = ""+prom.toFixed(2);
-                let nuevo_dato = [item.nombre,parseFloat(prom)];
-                datos.push(nuevo_dato);
-            }
+            }            
             const mes_anio = mes + " de " + anio; 
             return res.json({ datos,mes_anio });
         } else{
@@ -734,45 +933,111 @@ router.get('/ventas6', async (req, res) => {
         if (req.xhr) {
             // Responder con JSON            
             let datos = [];
-            let fecha_armada = new Date(anio + '-' + mes + '-01');
-            // Obtener los meses anteriores
-            let mes_anterior1 = new Date(fecha_armada);
-            mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
-            let mes_anterior2 = new Date(fecha_armada);
-            mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
-            let mes_anterior3 = new Date(fecha_armada);
-            mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+            if(req.body.prediccion){
+                // REALIZAR PREDICCIÓN
+                for(item of productos){
+                    // preparar los datos de entrenamiento
+                    let prom = 0;
+                    // obtener el promedio total de subtotal vendida por producto
+                    const total_ingresos = await pool.query("SELECT dv.*,DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE dv.producto_id = ?",[item.producto_id])
+                    const total_ingresos_subtotal = await pool.query("SELECT SUM(subtotal) as subtotal FROM detalle_ventas WHERE producto_id = ? AND",[item.id])
+                    if(total_ingresos.length > 0){
+                        prom = total_ingresos_subtotal[0].subtotal / total_ingresos.length;
+                        prom = prom.toFixed(2);
+                    }
+                    let data_pred = [];
+                    // preparar los datos de entrenamiento
+                    // armar los datos de todas las ingresos realizados de determinado registro
+                    for(item_value of total_ingresos){
+                        let total_subtotal = await pool.query("SELECT SUM(subtotal)as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id=dv.venta_id  WHERE fecha_registro = ? AND producto_id = ?",[item_value.fecha_registro,item.id])
+                        if(total_subtotal.legnth > 0){
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: total_subtotal[0].subtotal,
+                                currentValue:item.subtotal
+                            });
+                        }else{
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: item_value.subtotal,
+                                currentValue:0
+                            });
+                        }
+                    }
+                    // agregar un ultimo datos del promedio y subtotal
+                    data_pred.push({
+                        registroId:item.id,
+                        historicalValue:parseFloat(prom),
+                        currentValue:item.subtotal
+                    });
 
-            for(item of productos){
-                let prom = 0;
-                let fecha_aux = mes_anterior1.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals1 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val1 = vals1[0];
-                if(val1){
-                    prom += parseFloat(val1.subtotal?val1.subtotal:0);
+                    try{
+                        const model = entrenamiento(data_pred,[item.id]);
+
+                        // enviar el modelo y la informacion actual
+                        let detalle_ventas = await pool.query("SELECT * FROM detalle_ventas WHERE producto_id = ? ORDER BY id DESC",[item.id])
+                        let inputData = [{
+                            historicalValue:total_ingresos_subtotal,
+                            currentValue: item.subtotal
+                        }];
+                        if(detalle_ventas.length > 0){
+                            inputData = [{
+                                historicalValue:detalle_ventas[0].subtotal,
+                                currentValue:item.subtotal
+                            }];
+                        }
+
+                        // ejecutar la funcion de prediccion
+                        const predictedStock = await prediccionDatos(model,inputData);
+                        // obtener la subtotal obtenido en la prediccion y agregarla para mostrarlo en el gráfico
+                        let nueva_data = [item.nombre,parseFloat(predictedStock)];
+                        datos.push(nueva_data);
+                    }
+                    catch(err){
+                        console.log(err);
+                    }
                 }
+            }else{
+                let fecha_armada = new Date(anio + '-' + mes + '-01');
+                // Obtener los meses anteriores
+                let mes_anterior1 = new Date(fecha_armada);
+                mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
+                let mes_anterior2 = new Date(fecha_armada);
+                mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
+                let mes_anterior3 = new Date(fecha_armada);
+                mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
 
-                fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals2 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val2 = vals2[0];
-                if(val2){
-                    prom += parseFloat(val2.subtotal?val2.subtotal:0);
+                for(item of productos){
+                    let prom = 0;
+                    let fecha_aux = mes_anterior1.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals1 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val1 = vals1[0];
+                    if(val1){
+                        prom += parseFloat(val1.subtotal?val1.subtotal:0);
+                    }
+
+                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals2 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val2 = vals2[0];
+                    if(val2){
+                        prom += parseFloat(val2.subtotal?val2.subtotal:0);
+                    }
+                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+                    let vals3 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                    let val3 = vals3[0];
+                    if(val3){
+                        prom += parseFloat(val3.subtotal?val3.subtotal:0);
+                    }   
+
+                    prom = prom / 3;
+                    prom = ""+prom.toFixed(2);
+                    let nuevo_dato = [item.nombre,parseFloat(prom)];
+                    datos.push(nuevo_dato);
                 }
-                fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
-                let vals3 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE producto_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                let val3 = vals3[0];
-                if(val3){
-                    prom += parseFloat(val3.subtotal?val3.subtotal:0);
-                }   
-
-                prom = prom / 3;
-                prom = ""+prom.toFixed(2);
-                let nuevo_dato = [item.nombre,parseFloat(prom)];
-                datos.push(nuevo_dato);
-            }
+            }            
             const mes_anio = mes + " de " + anio; 
             return res.json({ datos,mes_anio });
         } else{
@@ -998,69 +1263,135 @@ router.get('/clientes5', async (req, res) => {
         if (req.xhr) {
             // Responder con JSON            
             let datos = [];
-            let fecha_armada = new Date(anio + '-' + mes + '-01');
-            // Obtener los meses anteriores
-            let mes_anterior1 = new Date(fecha_armada);
-            mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
-            let mes_anterior2 = new Date(fecha_armada);
-            mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
-            let mes_anterior3 = new Date(fecha_armada);
-            mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+            if(req.body.prediccion){
+                // REALIZAR PREDICCIÓN
+                for(item of clientes){
+                    // preparar los datos de entrenamiento
+                    let prom = 0;
+                    // obtener el promedio total de cantidad vendida por producto
+                    const total_cliente = await pool.query("SELECT dv.*,DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id  WHERE v.cliente_id = ?",[item.id])
+                    const total_cliente_cantidad = await pool.query("SELECT SUM(cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE cliente_id = ? AND",[item.id])
+                    if(total_cliente.length > 0){
+                        prom = total_cliente_cantidad[0].cantidad / total_cliente.length;
+                        prom = prom.toFixed(2);
+                    }
+                    let data_pred = [];
+                    // preparar los datos de entrenamiento
+                    // armar los datos del total de productos comprados por cliente realizados de determinado registro
+                    for(item_value of total_cliente){
+                        let total_cantidad = await pool.query("SELECT SUM(cantidad)as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id=dv.venta_id  WHERE fecha_registro = ? AND cliente_id = ?",[item_value.fecha_registro,item.id])
+                        if(total_cantidad.legnth > 0){
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: total_cantidad[0].cantidad,
+                                currentValue:item.cantidad
+                            });
+                        }else{
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: item_value.cantidad,
+                                currentValue:0
+                            });
+                        }
+                    }
+                    // agregar un ultimo datos del promedio y cantidad
+                    data_pred.push({
+                        registroId:item.id,
+                        historicalValue:parseFloat(prom),
+                        currentValue:item.cantidad
+                    });
 
-            for(item of clientes){
-                let prom = 0;
-                let fecha_aux = mes_anterior1.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
+                    try{
+                        const model = entrenamiento(data_pred,[item.id]);
 
-                if(filtro != 'TODOS' && producto != 'TODOS'){
-                    let vals1 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
-                    let val1 = vals1[0];
-                    if(val1){
-                        prom += parseFloat(val1.cantidad?val1.cantidad:0);
+                        // enviar el modelo y la informacion actual
+                        let detalle_ventas = await pool.query("SELECT * FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE cliente_id = ? ORDER BY id DESC",[item.id])
+                        let inputData = [{
+                            historicalValue:total_cliente_cantidad,
+                            currentValue: item.cantidad
+                        }];
+                        if(detalle_ventas.length > 0){
+                            inputData = [{
+                                historicalValue:detalle_ventas[0].cantidad,
+                                currentValue:item.cantidad
+                            }];
+                        }
+
+                        // ejecutar la funcion de prediccion
+                        const predictedStock = await prediccionDatos(model,inputData);
+                        // obtener la cantidad obtenida en la prediccion y agregarla para mostrarlo en el gráfico
+                        let nueva_data = [item.nombre,parseFloat(predictedStock)];
+                        datos.push(nueva_data);
                     }
-    
-                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals2 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
-                    let val2 = vals2[0];
-                    if(val2){
-                        prom += parseFloat(val2.cantidad?val2.cantidad:0);
+                    catch(err){
+                        console.log(err);
                     }
-                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals3 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
-                    let val3 = vals3[0];
-                    if(val3){
-                        prom += parseFloat(val3.cantidad?val3.cantidad:0);
-                    }   
-                }else{
-                    let vals1 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                    let val1 = vals1[0];
-                    if(val1){
-                        prom += parseFloat(val1.cantidad?val1.cantidad:0);
-                    }
-    
-                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals2 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                    let val2 = vals2[0];
-                    if(val2){
-                        prom += parseFloat(val2.cantidad?val2.cantidad:0);
-                    }
-                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals3 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                    let val3 = vals3[0];
-                    if(val3){
-                        prom += parseFloat(val3.cantidad?val3.cantidad:0);
-                    }   
                 }
-    
-                prom = prom / 3;
-                prom = ""+prom.toFixed(2);
-                let nuevo_dato = [item.nombre,parseFloat(prom)];
-                datos.push(nuevo_dato);
-            }
+            }else{
+                let fecha_armada = new Date(anio + '-' + mes + '-01');
+                // Obtener los meses anteriores
+                let mes_anterior1 = new Date(fecha_armada);
+                mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
+                let mes_anterior2 = new Date(fecha_armada);
+                mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
+                let mes_anterior3 = new Date(fecha_armada);
+                mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+
+                for(item of clientes){
+                    let prom = 0;
+                    let fecha_aux = mes_anterior1.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+
+                    if(filtro != 'TODOS' && producto != 'TODOS'){
+                        let vals1 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
+                        let val1 = vals1[0];
+                        if(val1){
+                            prom += parseFloat(val1.cantidad?val1.cantidad:0);
+                        }
+        
+                        fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals2 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
+                        let val2 = vals2[0];
+                        if(val2){
+                            prom += parseFloat(val2.cantidad?val2.cantidad:0);
+                        }
+                        fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals3 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
+                        let val3 = vals3[0];
+                        if(val3){
+                            prom += parseFloat(val3.cantidad?val3.cantidad:0);
+                        }   
+                    }else{
+                        let vals1 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                        let val1 = vals1[0];
+                        if(val1){
+                            prom += parseFloat(val1.cantidad?val1.cantidad:0);
+                        }
+        
+                        fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals2 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                        let val2 = vals2[0];
+                        if(val2){
+                            prom += parseFloat(val2.cantidad?val2.cantidad:0);
+                        }
+                        fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals3 = await pool.query("SELECT SUM(dv.cantidad) as cantidad FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                        let val3 = vals3[0];
+                        if(val3){
+                            prom += parseFloat(val3.cantidad?val3.cantidad:0);
+                        }   
+                    }
+        
+                    prom = prom / 3;
+                    prom = ""+prom.toFixed(2);
+                    let nuevo_dato = [item.nombre,parseFloat(prom)];
+                    datos.push(nuevo_dato);
+                }
+            }            
             const mes_anio = mes + " de " + anio; 
             return res.json({ datos,mes_anio });
         } else{
@@ -1083,69 +1414,136 @@ router.get('/clientes6', async (req, res) => {
         if (req.xhr) {
             // Responder con JSON            
             let datos = [];
-            let fecha_armada = new Date(anio + '-' + mes + '-01');
-            // Obtener los meses anteriores
-            let mes_anterior1 = new Date(fecha_armada);
-            mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
-            let mes_anterior2 = new Date(fecha_armada);
-            mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
-            let mes_anterior3 = new Date(fecha_armada);
-            mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+            
+            if(req.body.prediccion){
+                // REALIZAR PREDICCIÓN
+                for(item of clientes){
+                    // preparar los datos de entrenamiento
+                    let prom = 0;
+                    // obtener el promedio total de ingresos vendida por producto
+                    const total_cliente = await pool.query("SELECT dv.*,DATE_FORMAT(fecha_registro, '%Y-%m-%d') as fecha_registro FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id  WHERE v.cliente_id = ?",[item.id])
+                    const subtotal = await pool.query("SELECT SUM(subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE cliente_id = ? AND",[item.id])
+                    if(total_cliente.length > 0){
+                        prom = subtotal[0].subtotal / total_cliente.length;
+                        prom = prom.toFixed(2);
+                    }
+                    let data_pred = [];
+                    // preparar los datos de entrenamiento
+                    // armar los datos del total de productos comprados por cliente realizados de determinado registro
+                    for(item_value of total_cliente){
+                        let subtotal = await pool.query("SELECT SUM(subtotal)as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id=dv.venta_id  WHERE fecha_registro = ? AND cliente_id = ?",[item_value.fecha_registro,item.id])
+                        if(subtotal.legnth > 0){
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: subtotal[0].subtotal,
+                                currentValue:item.subtotal
+                            });
+                        }else{
+                            data_pred.push({
+                                registroId:item.id,
+                                historicalValue: item_value.subtotal,
+                                currentValue:0
+                            });
+                        }
+                    }
+                    // agregar un ultimo datos del promedio y subtotal
+                    data_pred.push({
+                        registroId:item.id,
+                        historicalValue:parseFloat(prom),
+                        currentValue:item.subtotal
+                    });
 
-            for(item of clientes){
-                let prom = 0;
-                let fecha_aux = mes_anterior1.toISOString().split('T')[0];
-                fecha_aux = fecha_aux.substring(0,7)+"%";
+                    try{
+                        const model = entrenamiento(data_pred,[item.id]);
 
-                if(filtro != 'TODOS' && producto != 'TODOS'){
-                    let vals1 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
-                    let val1 = vals1[0];
-                    if(val1){
-                        prom += parseFloat(val1.subtotal?val1.subtotal:0);
+                        // enviar el modelo y la informacion actual
+                        let detalle_ventas = await pool.query("SELECT * FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE cliente_id = ? ORDER BY id DESC",[item.id])
+                        let inputData = [{
+                            historicalValue:subtotal,
+                            currentValue: item.subtotal
+                        }];
+                        if(detalle_ventas.length > 0){
+                            inputData = [{
+                                historicalValue:detalle_ventas[0].subtotal,
+                                currentValue:item.subtotal
+                            }];
+                        }
+
+                        // ejecutar la funcion de prediccion
+                        const predictedStock = await prediccionDatos(model,inputData);
+                        // obtener el ingreso total obtenido en la prediccion y agregarla para mostrarlo en el gráfico
+                        let nueva_data = [item.nombre,parseFloat(predictedStock)];
+                        datos.push(nueva_data);
                     }
-    
-                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals2 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
-                    let val2 = vals2[0];
-                    if(val2){
-                        prom += parseFloat(val2.subtotal?val2.subtotal:0);
+                    catch(err){
+                        console.log(err);
                     }
-                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals3 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
-                    let val3 = vals3[0];
-                    if(val3){
-                        prom += parseFloat(val3.subtotal?val3.subtotal:0);
-                    }   
-                }else{
-                    let vals1 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                    let val1 = vals1[0];
-                    if(val1){
-                        prom += parseFloat(val1.subtotal?val1.subtotal:0);
-                    }
-    
-                    fecha_aux = mes_anterior2.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals2 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                    let val2 = vals2[0];
-                    if(val2){
-                        prom += parseFloat(val2.subtotal?val2.subtotal:0);
-                    }
-                    fecha_aux = mes_anterior3.toISOString().split('T')[0];
-                    fecha_aux = fecha_aux.substring(0,7)+"%";
-                    let vals3 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
-                    let val3 = vals3[0];
-                    if(val3){
-                        prom += parseFloat(val3.subtotal?val3.subtotal:0);
-                    }   
                 }
-    
-                prom = prom / 3;
-                prom = ""+prom.toFixed(2);
-                let nuevo_dato = [item.nombre,parseFloat(prom)];
-                datos.push(nuevo_dato);
-            }
+            }else{
+                let fecha_armada = new Date(anio + '-' + mes + '-01');
+                // Obtener los meses anteriores
+                let mes_anterior1 = new Date(fecha_armada);
+                mes_anterior1.setMonth(fecha_armada.getMonth() - 1);
+                let mes_anterior2 = new Date(fecha_armada);
+                mes_anterior2.setMonth(fecha_armada.getMonth() - 2);
+                let mes_anterior3 = new Date(fecha_armada);
+                mes_anterior3.setMonth(fecha_armada.getMonth() - 3);
+
+                for(item of clientes){
+                    let prom = 0;
+                    let fecha_aux = mes_anterior1.toISOString().split('T')[0];
+                    fecha_aux = fecha_aux.substring(0,7)+"%";
+
+                    if(filtro != 'TODOS' && producto != 'TODOS'){
+                        let vals1 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
+                        let val1 = vals1[0];
+                        if(val1){
+                            prom += parseFloat(val1.subtotal?val1.subtotal:0);
+                        }
+        
+                        fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals2 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
+                        let val2 = vals2[0];
+                        if(val2){
+                            prom += parseFloat(val2.subtotal?val2.subtotal:0);
+                        }
+                        fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals3 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND dv.producto_id = ? AND v.fecha_registro LIKE ?",[item.id,producto,fecha_aux])
+                        let val3 = vals3[0];
+                        if(val3){
+                            prom += parseFloat(val3.subtotal?val3.subtotal:0);
+                        }   
+                    }else{
+                        let vals1 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                        let val1 = vals1[0];
+                        if(val1){
+                            prom += parseFloat(val1.subtotal?val1.subtotal:0);
+                        }
+        
+                        fecha_aux = mes_anterior2.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals2 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                        let val2 = vals2[0];
+                        if(val2){
+                            prom += parseFloat(val2.subtotal?val2.subtotal:0);
+                        }
+                        fecha_aux = mes_anterior3.toISOString().split('T')[0];
+                        fecha_aux = fecha_aux.substring(0,7)+"%";
+                        let vals3 = await pool.query("SELECT SUM(dv.subtotal) as subtotal FROM detalle_ventas dv INNER JOIN ventas v ON v.id = dv.venta_id WHERE v.cliente_id = ? AND v.fecha_registro LIKE ?",[item.id,fecha_aux])
+                        let val3 = vals3[0];
+                        if(val3){
+                            prom += parseFloat(val3.subtotal?val3.subtotal:0);
+                        }   
+                    }
+        
+                    prom = prom / 3;
+                    prom = ""+prom.toFixed(2);
+                    let nuevo_dato = [item.nombre,parseFloat(prom)];
+                    datos.push(nuevo_dato);
+                }
+            }            
             const mes_anio = mes + " de " + anio; 
             return res.json({ datos,mes_anio });
         } else{
