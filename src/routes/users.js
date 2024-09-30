@@ -266,8 +266,6 @@ router.post('/update_foto/:id', upload.single('foto'), async (req, res, next) =>
                 // Verificar si es una petición AJAX
                 if (req.xhr) {
                     // Responder con JSON
-                    console.log("CCCCCCCCC")
-
                     let user_update = {
                         foto: nom_imagen,
                     };
